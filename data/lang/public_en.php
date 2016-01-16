@@ -1109,5 +1109,6 @@ Label class does not exist',
 'REGISTER_ACTIVE'=>'[{site}] Congratulations,you have successfully registered, please activate your account',
 'REGISTER_ACTIVE_CONTENT'=>'Hi, {name}, Welcome to {site}, please click the button to activate your account.<br />
 <a href="{activeurl}" target="_blank">Click here to activate your account</a>',
-'PUBLIC_APPNAME_SQUARE'=>'Square'
+'PUBLIC_APPNAME_SQUARE'=>'Square',
+'PUBLIC_APPNAME_HOMEWORK'=>'Homework'
 );
