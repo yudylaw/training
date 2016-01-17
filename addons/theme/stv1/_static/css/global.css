@@ -169,7 +169,9 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 .st-grid{/*overflow:hidden;*/zoom:1}
 /*.st-grid:after, .st-section:after{visibility: hidden;display: block;font-size: 0;content: ".";clear: both;height: 0}*/
 .st-index-right{float:right;/*background:url(../image/right-bg.png) repeat;*/_height:1000px;_overflow:visible;}
+.weiba-index-left{float:left;/*background:url(../image/right-bg.png) repeat;*/_height:1000px;_overflow:visible;}
 .st-index-main{float:left;*zoom:1;_height:1000px;_overflow:visible;}
+.weiba-index-main{float:right;*zoom:1;_height:1000px;_overflow:visible;}
 .st-index-left{float:left;width:118px;padding:0 0 40px;display:none;}
 .st-section{/*overflow:hidden;*/*zoom:1;_margin:0}
 .st-search-grid{border-bottom:#ebebeb solid 1px;padding:0}

@@ -21,6 +21,10 @@ tsconfig(include CONF_PATH.'/config.inc.php');
 tsconfig(include CONF_PATH.'/access.inc.php');
 tsconfig(include CONF_PATH.'/html.inc.php');
 tsconfig(include CONF_PATH.'/router.inc.php');
+tsconfig(include CONF_PATH.'/subject.conf.php');
+
+//简化学科配置
+$ts['_subjects'] = $ts['_config']['subjects'];
 
 if(!isset($_REQUEST['app']) && !isset($_REQUEST['mod']) && !isset($_REQUEST['act'])){
 	$ts['_app'] = 'public';

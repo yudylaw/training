@@ -30,6 +30,8 @@ class IndexAction extends Action {
     }
     
     public function page() {
+        global $ts;
+        dump($ts['_subjects']);
         //参数 p=currentPage
         $pageSize = 3;
         $result = M("homework")->where(array('is_del'=>0))->order('id desc')->findPage($pageSize);
