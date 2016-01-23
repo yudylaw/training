@@ -15,4 +15,6 @@ return array_merge(array(
 	'DB_CHARSET'    => 'utf8',      // 数据库编码
 	'SECURE_CODE'   => '1703856907ed149547',  // 数据加密密钥
 	'COOKIE_PREFIX' => 'TS4_',      // # cookie
+	'LOG_RECORD'    => true,
+    'LOG_RECORD_LEVEL' => array('INFO')
 ), $conf);
