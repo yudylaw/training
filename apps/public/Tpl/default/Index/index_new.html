@@ -13,7 +13,7 @@
         <div id="main-body" class="mt20">
         	<div class="content_hq clearfix">
         		<include file="__THEME__/public_right_hq" />    
-        	
+        <div class="fr id-section"><!-- begin -->
         <div id="col5" class="st-index-main" style="float:right;">
           {:Addons::hook('home_index_left_top')}
           <div> 
@@ -40,6 +40,7 @@
                 <div class="title">
                   <i class="ico-sharing"></i>
                   <span>发布分享</span>
+                  <!-- 
                   <a href="javascript:void(0);" class="cancel-share btn-cancel right" title="取消">取消</a>
                   <if condition="$GLOBALS['ts']['mid'] != 0">
                     <eq name="user.is_fixed" value="1">
@@ -48,6 +49,7 @@
                     <a href="javascript:;" class="right font12 mr10 f9" title="锁定" onclick="fixed({$user['is_fixed']},this)">锁定</a>
                     </eq>
                   </if>
+                   -->
                 </div>
                 {:W('SendWeibo',array('title'=>$title, 'topicHtml'=>$initHtml))} 
               </div>
@@ -176,6 +178,7 @@
               </div>
           </div>
         </div>
+        </div><!-- end -->
       </div>
       </div>
     </div>
