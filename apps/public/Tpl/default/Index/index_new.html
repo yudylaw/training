@@ -1,5 +1,5 @@
-<include file="__THEME__/public_header" />
-<!-- <link href="{:APP_PUBLIC_URL}/css/main.css" rel="stylesheet" type="text/css"/> -->
+<include file="__THEME__/public_header_hq" />
+<link href="{:APP_PUBLIC_URL}/css/main.css" rel="stylesheet" type="text/css"/>
 <div id="page-wrap">
   <div id="feedback" class="feedback-fixed">
     <a href="{:U('public/Index/feedback')}" target="_blank">{:L('PUBLIC_FEEDBACK')}</a>
@@ -10,7 +10,10 @@
       <include file="__THEME__/public_left" />
       <div id="col8" class="st-section">
         <!--右边-->
-        <include file="__THEME__/public_right" />
+        <div id="main-body" class="mt20">
+        	<div class="content_hq clearfix">
+        		<include file="__THEME__/public_right_hq" />    
+        	
         <div id="col5" class="st-index-main" style="float:right;">
           {:Addons::hook('home_index_left_top')}
           <div> 
@@ -174,6 +177,8 @@
           </div>
         </div>
       </div>
+      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -270,4 +275,4 @@ $(function() {
   $('#medz-share-box').find('li').css('width', (700 - 1 - $('#medz-share-box').find('li').size()) / $('#medz-share-box').find('li').size());
 });
 </script>
-<include file="__THEME__/public_footer" />
+<include file="__THEME__/public_footer_hq" />
