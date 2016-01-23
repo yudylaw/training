@@ -167,7 +167,7 @@ class IndexAction extends Action {
 		$map ['status'] = 1;
 		$wcategory = D ( 'Weiba' )->where ( $map )->field ( 'weiba_id,weiba_name' )->findAll ();
 		$this->assign ( 'weiba_category', $wcategory );
-		$this->display ();
+		$this->display ("index_new");
 	}
 	public function loginWithoutInit() {
 		$this->index ();
