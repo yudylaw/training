@@ -33,13 +33,13 @@ class IndexAction extends Action {
         dump($result);
     }
     
-    public function page() {
-        global $ts;
-        dump($ts['_subjects']);
+    public function hlist() {
         //参数 p=currentPage
-        $pageSize = 3;
-        $result = M("homework")->where(array('is_del'=>0))->order('id desc')->findPage($pageSize);
-        dump($result);
+        $pageSize = 4;
+        $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
+        $this->assign("homeworks", $result['data']);
+        $this->assign("page", $result['html']);
+        $this->display("homework_list");
     }
     
     public function delete() {

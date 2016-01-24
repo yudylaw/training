@@ -604,6 +604,7 @@ body{
     vertical-align: middle;
 }
 .comment-page a:hover,
+.comment-page .current,
 .comment-page a.active{
     background-color: #2eb398;
     border-color: #25927c;
