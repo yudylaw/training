@@ -65,7 +65,7 @@ a{
 a:hover{
     text-decoration: none;
 }
-.content{
+.content_hq{/* edit by sjzhao 2016.1.22 */
     margin: 0 auto;
     width: 1000px;
 }

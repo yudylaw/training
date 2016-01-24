@@ -1,0 +1,60 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="javascript:;">考试中心</a>&gt;<span class="color-gre">xxx模拟考试</span></div>
+                <div class="paper-name tc">{$homework['name']}</div>
+                <div class="question-types">
+                	<volist name="questions" id="question">
+                		<php>if($question['type'] == 1 || $question['type'] == 2){</php>
+	                    <h3 class="test-title color-gre mt20">
+	                    <php>if($question['type'] == 1){ echo '单选题';} else {echo '多选题';}</php>
+	                    </h3>
+	                    <div class="choose">
+	                        <dl>
+	                            <dt class="clearfix">{$question['num']}、{$question['name']}（　）</dt>
+	                            <dd>
+	                                <p><span>A</span>.{$question['a_option']}</p>
+	                                <p><span>B</span>.{$question['b_option']}</p>
+	                                <p><span>C</span>.{$question['c_option']}</p>
+	                                <p><span>D</span>.{$question['d_option']}</p>
+	                            </dd>
+	                            <dd>
+	                                <ul class="clearfix">
+	                                    <li class="fl active"><a href="javascript:;">A</a></li>
+	                                    <li class="fl"><a href="javascript:;">B</a></li>
+	                                    <li class="fl"><a href="javascript:;">C</a></li>
+	                                    <li class="fl"><a href="javascript:;">D</a></li>
+	                                </ul>
+	                            </dd>
+	                        </dl>
+	                    </div>
+	                    <php>} else if ($question['type'] == 3){</php>
+		                    <h3 class="test-title color-gre mt20">简答题</h3>
+		                    <div class="simple">
+		                        <dl>
+		                            <dt>{$question['num']}、{$question['name']}</dt>
+		                            <dd class="clearfix">
+		                                <textarea rows="" cols="" class="fr"></textarea>
+		                                <label>请在此处输入答案</label>
+		                            </dd>
+		                        </dl>
+		                    </div>
+	                    <php>}</php>
+                    </volist>
+                </div>
+                <div class="comment-page tr">
+                    <a href="javascript:;" class="clearfix">首页</a>
+                    <a href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+                    <a href="javascript:;" class="clearfix active">1</a>
+                    <a href="javascript:;" class="clearfix">2</a>
+                    <a href="javascript:;" class="clearfix">3</a>
+                    <a href="javascript:;" class="clearfix"><span>下一页</span><em class="arr-rt"></em></a>
+                    <a href="javascript:;" class="clearfix">末页</a>
+                </div>
+                <div class="clearfix"><a href="javascript:;" class="sub-btn">提交试卷</a></div>
+            </div>
+        </div>
+    </div>
+<include file="__THEME__/public_footer_new" />

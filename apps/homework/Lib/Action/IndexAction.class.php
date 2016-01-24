@@ -14,13 +14,17 @@ class IndexAction extends Action {
         dump($result);
     }
     
-    public function query() {
-        $query = array("type"=>1, "is_del"=>0);//type=1,作业; type=0, 考试
-        $results = M('homework')->where($query)->findAll();
+    public function detail() {
+        $query = array("type"=>0, 'id'=>20, "is_del"=>0);//type=1,作业; type=0, 考试
+        $homework = M('homework')->where($query)->find();
         
-        foreach ($results as $row) {
-            dump($row);
-        }
+        $hid = $homework['id'];
+        $query = array('hw_id'=>$hid, 'is_del'=>0);
+        $questions = M('homework_question')->where($query)->findAll();
+        
+        $this->assign('homework', $homework);
+        $this->assign('questions', $questions);
+        $this->display();
     }
     
     public function save() {
