@@ -1,113 +1,60 @@
-<include file="__THEME__/public_header" />
-<div id="page-wrap">
-  <div id="feedback" class="feedback-fixed">
-    <a href="{:U('public/Index/feedback')}" target="_blank">{:L('PUBLIC_FEEDBACK')}</a>
-  </div>
-  <div id="main-wrap">
-    <div id="st-index-grid">
-      <!--左边 -->
-      <include file="__THEME__/public_left" />
-      <div id="col8" class="st-section">
-        <!--右边-->
-        <include file="__THEME__/public_right" />
-        <div id="col5" class="st-index-main" style="float:right;">
-        	这是课程学习...
-        </div>
-      </div>
-    </div>
-  </div>
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a
+					href="javascript:;">课程学习</a>&gt;<span class="color-gre">课程列表</span>
+			</div>
+			<div class="id-table les">
+				<table>
+					<tr>
+						<th width="40%">名称</th>
+						<th width="30%">时间</th>
+						<th width="10%">学时/学分</th>
+						<th width="10%">进度</th>
+						<th width="10%">操作</th>
+					</tr>
+					<tr>
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～简单美观风格(八年级数学)</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-roseo">开始</span></td>
+					</tr>
+					<tr class="special">
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-gre">继续</span></td>
+					</tr>
+					<tr>
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-red">已完成</span></td>
+					</tr>
+					<tr class="special">
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>100%</span></td>
+						<td><span>未完成</span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="comment-page tc">
+				<a href="javascript:;" class="clearfix">首页</a> <a
+					href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+				<a href="javascript:;" class="clearfix">1</a> <a href="javascript:;"
+					class="clearfix">2</a> <a href="javascript:;" class="clearfix">3</a>
+				<a href="javascript:;" class="clearfix"><span>下一页</span><em
+					class="arr-rt"></em></a> <a href="javascript:;" class="clearfix">末页</a>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="layer-channel-group-list" style="display:none" model-node="layer_channel_group_list">
-  <div class="inner">
-    <ul>
-      <li><a href="{:U('public/Index/index',array('type'=>'channel'))}">我关注的频道</a></li>
-      <volist name='channelGroup' id ='f'>
-      <li>
-        <a href="{:U('public/Index/index',array('type'=>'channel','fgid'=>$f['channel_category_id']))}" class="group_title" gid="{$f['channel_category_id']}">{$f.title}</a>
-      </li>
-      </volist>
-    </ul>
-  </div>
-</div>
-
-<script type="text/javascript">
-//分享页面自动收缩
-$(".diy-share-cont li").each(function(){
-$(this).click(function(){
-	$(".diy-share-cont").slideUp("fast");
-	var ids = $(this).find("a").attr("class");
-	$("."+ids+"-cont").show();
-})
-
-//取消当前
-$(".cancel-share").click(function(){
-  $(this).parents().find(".post").hide();
-  $(".kind-list").hide();//关闭当前下拉选项
-  $(".diy-share-cont").slideDown("fast");
-  })
-})
-	
-function getcid (cid){
-	var sdata = $('#blog_id_'+cid).text()+"<i class='ico-arrow-down right mt15'></i>";
-	$('#blog_fid').val(cid);
-	$('#blog_fname').html(sdata);
-	$(".kind-1").hide();
-	$('#contribute').val(cid);
-};
-
-function setcid (cid){
-	var sdata = $('#blog_'+cid).text()+"<i class='ico-arrow-down right mt15'></i>";
-	$('#blog_id').val(cid);
-	$(".kind-2").hide();//当前级别隐藏
-	$('#blog_name').html(sdata);
-};
-
-function weibaName(weiba_id){
-	var data = $('#weiba_id_'+weiba_id).text()+"<i class='ico-arrow-down right mt15'></i>";
-	$('#weiba_id').val(weiba_id);
-	$(".kind-1").hide();//当前级别隐藏
-	$('#weiba_name').html(data);
-};
-
-//如果没有可选择微吧，添加提示
-function nocircleTip(obj,tips){
-	var tipContent = ''+'<p class="f8 p20">您没有可选择的微吧，<a href="{:U('weiba/Index/weibaList',array('type'=>$_GET['type']))}"class="f-red">赶紧去加入吧！</a></p>'
-	if($(obj).length<1){
-		$(tips).html(tipContent);
-	}
-}
-//锁定，取消锁定
-function fixed(fixed,_this){
-  var url = "{:U('public/Index/fixed')}";
-  var text = fixed == 1 ? "锁定" : "取消锁定";
-  var _fixed = fixed == 1 ? 0 : 1;
-  $.post(url,{fixed:fixed},function(res){
-    if(res.status){
-      $(_this).text(text);
-      $(_this).attr("onclick","fixed("+_fixed+",this)");
-    }else{
-      $(_this).text(text);
-      $(_this).attr("onclick","fixed("+_fixed+",this)");
-    }
-  },'json');
-}
-nocircleTip("#kind-1 li","#kind-1");
-//分类标签选择		
-$(".share-kind li a").each(function(){
-	var index = $(this).attr("name");
-    var currentKind = $(".kind-" + index);
-	$(this).click(function(){
-		currentKind.siblings(".kind-list").hide();
-		currentKind.toggle();
-	});
-})
-</script> 
-<script type="text/javascript" src="__THEME__/js/home/module.home.js"></script>
-<script type="text/javascript" src="__THEME__/js/module.weibo.js"></script>
-<script type="text/javascript">
-$(function() {
-  $('#medz-share-box').find('li').last().css('border-right', 'none');
-  $('#medz-share-box').find('li').css('width', (700 - 1 - $('#medz-share-box').find('li').size()) / $('#medz-share-box').find('li').size());
-});
-</script>
-<include file="__THEME__/public_footer" />
+<include file="__THEME__/public_footer_new" />
