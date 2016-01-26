@@ -215,6 +215,7 @@ body{
     padding-left: 33px;
     height: 32px;
     line-height: 32px;
+    cursor: pointer;
 }
 .space-app li a span{
     margin-right: 15px;
@@ -604,7 +605,6 @@ body{
     vertical-align: middle;
 }
 .comment-page a:hover,
-.comment-page .current,
 .comment-page a.active{
     background-color: #2eb398;
     border-color: #25927c;
@@ -709,17 +709,21 @@ a.color-aa:hover,
     text-align: center;
 }
 .location{
-    padding: 0 0 0 15px;
+    padding: 0 0 0 35px;
     height: 34px;
-    background-color: #f3f3f3;
+    background: #f3f3f3 url("../images/crumbs_icon.png") no-repeat 10px center;
     line-height: 34px;
     color: #999;
+    font-size: 14px;
 }
 .location *{
     margin: 0 2px;
 }
 .location a:hover{
     text-decoration: underline;
+}
+.location span.color-gre{
+    color: #269981;
 }
 .id-section .location{
     margin: -25px -20px 0;
@@ -915,4 +919,14 @@ a.color-aa:hover,
     top: 3px;
     color: #999;
     z-index: 2;
+}
+/*add*/
+.comment-page .current{
+    background-color: #2eb398;
+    border-color: #25927c;
+    color: #fff;
+}
+.video-box{
+    border: 1px solid #ccc;
+    height: 400px;
 }
