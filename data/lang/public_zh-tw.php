@@ -1107,5 +1107,6 @@ return array(
 'REGISTER_ACTIVE_CONTENT'=>'Hi，{name}，歡迎加入{site}，請立即點擊下列按鈕激活您的帳號。<br />
 <a href="{activeurl}" target="_blank">點此激活帳號</a> 。',
 'PUBLIC_APPNAME_SQUARE'=>'',
-'PUBLIC_APPNAME_HOMEWORK'=>''
+'PUBLIC_APPNAME_HOMEWORK'=>'',
+'PUBLIC_APPNAME_COURSE'=>''
 );

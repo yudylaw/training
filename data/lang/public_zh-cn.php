@@ -1109,5 +1109,6 @@ return array(
 'REGISTER_ACTIVE_CONTENT'=>'Hi，{name}，欢迎加入 <a href="{site_url}"  style="text-decoration:none;color:#3366cc">{site}</a>，请立即点击下列按钮激活您的帐号。<br /><br />
 <a href="{activeurl}" target="_blank" style="text-decoration:none;" class="email_btn">激活帐号</a> ',
 'PUBLIC_APPNAME_SQUARE'=>'广场',
-'PUBLIC_APPNAME_HOMEWORK'=>'作业'
+'PUBLIC_APPNAME_HOMEWORK'=>'作业',
+'PUBLIC_APPNAME_COURSE'=>'课程'
 );

@@ -19,9 +19,10 @@ class CourseModel extends Model {
         if (!empty($param['title'])){
             $map['title'] = array('like','%'.$param['title'].'%');
         }
-        $page = !empty($param['page']) ? $param['page'] : 1;
-        $limit = !empty($param['limit']) ? $param['limit'] : 10;
-        $result = $this->where($map)->page($page,$limit)->select();
+        if(!empty($param['id'])){
+            $map['id'] = $param['id'];
+        }
+        $result = $this->where($map)->findAll();
         return $result;
     }
     /**
