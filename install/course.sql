@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50027
 File Encoding         : 65001
 
-Date: 2016-01-17 22:20:33
+Date: 2016-01-30 21:54:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,7 @@ CREATE TABLE `ts_course` (
   `required` tinyint(1) NOT NULL COMMENT '必修：1，选修：0',
   `description` varchar(200) default NULL COMMENT '课程描述',
   `ctime` int(10) NOT NULL COMMENT '创建时间',
-  `is_del` tinyint(1) NOT NULL COMMENT '课程状态，1：正常，0：删除',
+  `is_del` tinyint(1) NOT NULL default '0' COMMENT '课程状态，1：正常，0：删除',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课程';
 
@@ -54,11 +54,12 @@ CREATE TABLE `ts_course_learning` (
   `id` int(11) NOT NULL auto_increment,
   `class_id` int(10) NOT NULL COMMENT '班级id',
   `uid` int(10) NOT NULL COMMENT '学习者id',
+  `course_id` int(11) default NULL COMMENT '课程id',
   `ctime` int(10) NOT NULL COMMENT '创建时间',
-  `start_date` datetime default NULL COMMENT '课程开始学习时间',
-  `end_date` datetime default NULL COMMENT '课程结束学习时间',
-  `percent` int(11) default NULL COMMENT '课程学习进度',
-  `status` tinyint(1) NOT NULL COMMENT '课程状态，待定',
+  `start_date` int(11) default NULL COMMENT '课程开始学习时间',
+  `end_date` int(11) default NULL COMMENT '课程结束学习时间',
+  `percent` int(11) default '0' COMMENT '课程学习进度',
+  `status` tinyint(1) NOT NULL default '0' COMMENT '课程状态，待定',
   `is_del` tinyint(1) NOT NULL COMMENT '1：正常，0：删除',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -73,11 +74,13 @@ CREATE TABLE `ts_course_resource` (
   `utime` int(11) default NULL COMMENT '上传时间',
   `ext` char(10) default NULL COMMENT '资源扩展名',
   `description` text COMMENT '资源描述',
-  `courseid` int(11) default NULL COMMENT '资源属于哪个课程',
+  `course_id` int(11) default NULL COMMENT '资源属于哪个课程',
   `save_path` varchar(255) default NULL COMMENT '资源地址',
+  `save_name` varchar(255) default NULL COMMENT '文件名',
   `is_del` tinyint(1) NOT NULL default '0' COMMENT '是否删除',
+  `size` int(11) default NULL COMMENT '资源大小',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3165 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ts_course_resource_learning
