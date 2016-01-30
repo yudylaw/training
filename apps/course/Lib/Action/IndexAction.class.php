@@ -22,7 +22,7 @@ class IndexAction extends Action {
             }
         } */
         $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
-        $result = model("CourseLearning")->getCourseLearningByCondition($con);
+        $result = model("Course")->getCourseList($con);
         $data = $result['data'];
         $totalRows = $result['totalRows'];
         $p = new Page($totalRows,$con['limit']);
@@ -36,8 +36,14 @@ class IndexAction extends Action {
      */
     public function detail() {
         $id = $_REQUEST['id'];//课程id
-        $courseresource = model('Course')->getCourseByCondition(array('id'=>$id));
-        $this->courseresource = $courseresource;
+        $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id));
+        $data = $courseresource['data'];
+        $this->courseresource = $data;
+        $totalRows = $courseresource['totalRows'];
+        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
+        $p = new Page($totalRows,$con['limit']);
+        $page = $p->show();
+        $this->page = $page;
         $this->display();
     }
     
@@ -60,5 +66,29 @@ class IndexAction extends Action {
         }else{
             return "100".$rand;
         }
+    }
+    
+    public function create(){
+        $this->display();
+    }
+    /**
+     * 学习页面
+     */
+    public function video() {
+        $resid = $_REQUEST['id'];//资源id
+        if(empty($resid)){
+            $this->error("资源id不能为空!");
+        }
+        $data = array();
+        $data['classid'] = $this->classid;
+        $data['uid'] = $this->uid;
+        $data['resourceid'] = $resid;
+        $data['percent'] = 50;
+        $data['start_date'] = time();
+        model('CourseResourceLearning')->add($data);
+        $resource = model('CourseResource')->getResourceById($resid);
+        $resource = $resource[0];
+        $this->previewurl = C('UPLOAD_ADD').$resource['save_path'].$resource['save_name'];
+        $this->display();
     }
 }

@@ -1,0 +1,122 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__APP__/js/create.js"></script>
+<style>
+.ct_line {
+    width: 300px;
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.style3 {
+    float: left;
+    display: inline;
+    margin-left: 7px;
+}
+.ct_line select {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+<script>
+jQuery(document).ready(function(){
+	//初始化课程
+	Course.init();
+	$('#file_upload').uploadify({
+		//auto:false,
+    	fileTypeExts: "flv",
+		swf: '__THEME__/js/uploadify/uploadify.swf',
+		uploader: "{:U('course/Admin/upload')}",
+		width: 135,
+		height: 46,
+		buttonImage: '__APP__/images/local_btn.png',
+		queueSizeLimit: 5,
+		queueID: 'fileQueue',
+		overrideEvents: ['onSelectError', 'onDialogClose'],
+		onUploadSuccess : function(file, data, response) {
+			// 解析JSON数据
+			var jsondata = $.parseJSON(data);
+			if (jsondata.status === 1) {
+				//data返回服务端各个参数
+				//alert("上传成功");
+				var ids = $("#resource_ids").val();
+				if(ids == "0"){
+					$("#resource_ids").val(jsondata.resource_id);
+				}else{
+					$("#resource_ids").val(ids+","+jsondata.resource_id);
+				}
+			}
+		},
+		onSelectError: function (file, errorCode, errorMsg) {
+			switch (errorCode) {
+				case -100:
+					alert('选择的上传数目超过，您还能上传'+errorMsg+'个视频');
+					break;
+				case -110:
+					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小", 4);
+					break;
+				case -120:
+					alert("文件 [" + file.name + "] 大小异常");
+					break;
+				case -130:
+					alert("文件 [" + file.name + "] 类型不正确");
+					break;
+			}
+		},
+		onFallback: function () {
+			alert('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
+		},
+		onUploadStart: function (file) {
+			
+		}
+	});
+});
+</script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a
+					href="javascript:;">课程学习</a>&gt;<span class="color-gre">创建课程</span>
+			</div>
+			<div class="id-table les">
+					<div class="ct_line">
+	                    <p class="fl">课程名称:</p>
+	                    <p class="style3"><input id="course_name" type="text" value=""></p>
+	                </div>
+		            <div class="ct_line">学科:
+		                	<select id="course_subject">
+						  		<option value="0">请选择</option>
+						  		<volist name = "subject" id="sub">
+									<option value="{$sub['code']}">{$sub['name']}</option>
+								</volist>
+						  </select>
+		            </div>
+		            <div class="ct_line" id="subject_required">类型：
+		                  	<input type="radio" name="radiobutton" value="1" checked>必修 
+							<input type="radio" name="radiobutton" value="0">选修
+		            </div>
+		            <div class="ct_line">课程描述：
+		                  	<input id="course_des" type="text" value="">
+		            </div>
+	           		<div class="ct_line">
+	           			上传资源:
+	           			<input id="file_upload" name="file_upload" type="file" multiple="true">
+	           		</div>
+	           		<div class="ct_line">
+	           			<div id="fileQueue"></div>
+	           			<input type="button" value="创建" id="create">
+	           			<input type="hidden" id="resource_ids" value="0">
+	           		</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />

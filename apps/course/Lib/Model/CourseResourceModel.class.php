@@ -36,7 +36,30 @@ class CourseResourceModel extends Model {
         }
         $page = !empty($param['page']) ? $param['page'] : 1;
         $limit = !empty($param['limit']) ? $param['limit'] : 10;
-        $result = $this->where($map)->page($page,$limit)->select();
+        $result = $this->where($map)->findPage($limit);
+        $resdata = $result['data'];
+        $coursemodel = model('Course');
+        $courselearningmodel = model('CourseResourceLearning');
+        foreach ($resdata as $key=>$val){
+            $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
+            $course = $course[0];
+            $result['data'][$key]['title'] = $course['title'];
+            $result['data'][$key]['creator'] = $course['creator'];
+            $result['data'][$key]['subject'] = $course['subject'];
+            $result['data'][$key]['required'] = $course['required'];
+            $learning = $courselearningmodel->getCourseLearningByCondition(array('resourceid'=>$val['id']));
+            $result['data'][$key]['percent'] = $learning['percent'];
+        }
         return $result;
+    }
+    /**
+     * 根据资源id获取资源信息
+     * @param int $id
+     */
+    public function getResourceById($id){
+        $map = array();
+        $map['is_del'] = 0;//默认查询未删除的课程
+        $map['id'] = $id;
+        return $this->where($map)->select();
     }
 }

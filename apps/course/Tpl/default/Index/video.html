@@ -6,9 +6,25 @@
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>-<span class="color-gre">视频</span></div>
                 <div class="paper-name tc">视频播放</div>
                 <div class="video-box mt20">
-                    <img src="__THEME__/images/temp-vdo.jpg"/>
+                    <div id="player" style="height:400px;"></div>
                 </div>
         </div>
 	</div>
 </div>
+<script type="text/javascript" src="__THEME__/js/flowplayer/flowplayer-3.2.11.min.js"></script>
+<script type="text/javascript">
+var previewurl = '{$previewurl}';
+jQuery(document).ready(function(){
+	flowplayer(
+		    "player",  
+		    "__THEME__/js/flowplayer/flowplayer-3.2.16.swf",{ 
+		      clip: { 
+		        url: previewurl, 
+		        autoPlay: false,  
+		        autoBuffering: true  
+		      } 
+		    } 
+   ); 
+});
+</script>
 <include file="__THEME__/public_footer_new" />

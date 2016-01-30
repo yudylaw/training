@@ -64,4 +64,22 @@ class CourseModel extends Model {
         }
         return $this->where($map)->save($data);
     }
+    
+    public function getCourseList($param){
+        $map = array();
+        $map['is_del'] = 0;//默认查询未删除的课程
+        $page = !empty($param['page']) ? $param['page'] : 1;
+        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $result = $this->where($map)->order('ctime desc')->findPage($limit);
+        $resdata = $result['data'];
+        $courselearningmodel = model('CourseLearning');
+        foreach ($resdata as $key=>$val){
+            $courselearning = $courselearningmodel->getCourseLearningByCondition(array('course_id'=>$val['id']));
+            !empty($courselearning) && $courselearning = $courselearning[0];
+            $result['data'][$key]['start_date'] = $courselearning['start_date'];
+            $result['data'][$key]['end_date'] = $courselearning['end_date'];
+            $result['data'][$key]['percent'] = $courselearning['percent'];
+        }
+        return $result;
+    }
 }
