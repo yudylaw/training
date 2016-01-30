@@ -15,7 +15,9 @@ class IndexAction extends Action {
     }
     
     public function detail() {
-        $query = array("type"=>0, 'id'=>20, "is_del"=>0);//type=1,作业; type=0, 考试
+        $id = intval($_REQUEST['id']);
+        
+        $query = array("type"=>0, 'id'=>$id, "is_del"=>0);//type=1,作业; type=0, 考试
         $homework = M('homework')->where($query)->find();
         
         $hid = $homework['id'];
@@ -40,6 +42,35 @@ class IndexAction extends Action {
         $this->assign("homeworks", $result['data']);
         $this->assign("page", $result['html']);
         $this->display("homework_list");
+    }
+    
+    /**
+     * 答题
+     */
+    public function answer() {
+        $qid = intval($_REQUEST['qid']);
+        $hw_id = intval($_REQUEST['hw_id']);
+        $answer = $_REQUEST['answer'];
+        $result = M('homework_answer')->where(array("uid"=>$this->mid, "qid"=>$qid))->find();
+        $data = array('uid'=>$this->mid, 'qid'=>$qid, 'hw_id'=>$hw_id, 'content'=>$answer, 'score'=>0);
+        if(empty($result)) {
+            //保存回答
+            M('homework_answer')->add($data);
+        } else {
+            //更新回答
+            $data['id'] = $result['id'];
+            M('homework_answer')->save($data);
+        }
+        
+    }
+    
+    /**
+     * 提交试卷
+     */
+    public function submit() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'score'=>0);
+        M('homework_record')->add($data);
     }
     
     public function delete() {

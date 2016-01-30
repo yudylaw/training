@@ -3,7 +3,7 @@
         <div class="content clearfix">
 			<include file="__THEME__/public_left_new" />
             <div class="fr id-section">
-                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="javascript:;">考试中心</a>&gt;<span class="color-gre">xxx模拟考试</span></div>
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Index/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
                 <div class="paper-name tc">{$homework['name']}</div>
                 <div class="question-types">
                 	<volist name="questions" id="question">
@@ -21,7 +21,7 @@
 	                                <p><span>D</span>.{$question['d_option']}</p>
 	                            </dd>
 	                            <dd>
-	                                <ul class="clearfix">
+	                                <ul class="answer clearfix" tag="{$question['id']}">
 	                                    <li class="fl active"><a href="javascript:;">A</a></li>
 	                                    <li class="fl"><a href="javascript:;">B</a></li>
 	                                    <li class="fl"><a href="javascript:;">C</a></li>
@@ -36,14 +36,14 @@
 		                        <dl>
 		                            <dt>{$question['num']}、{$question['name']}</dt>
 		                            <dd class="clearfix">
-		                                <textarea rows="" cols="" class="fr"></textarea>
-		                                <label>请在此处输入答案</label>
+		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr"></textarea>
 		                            </dd>
 		                        </dl>
 		                    </div>
 	                    <php>}</php>
                     </volist>
                 </div>
+                <!-- 
                 <div class="comment-page tr">
                     <a href="javascript:;" class="clearfix">首页</a>
                     <a href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
@@ -53,8 +53,31 @@
                     <a href="javascript:;" class="clearfix"><span>下一页</span><em class="arr-rt"></em></a>
                     <a href="javascript:;" class="clearfix">末页</a>
                 </div>
-                <div class="clearfix"><a href="javascript:;" class="sub-btn">提交试卷</a></div>
+                 -->
+                <div class="clearfix" style="padding-top: 50px;"><a href="javascript:;" class="sub-btn">提交试卷</a></div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    //TODO
+    $(document).ready(function(){
+    	
+      //选择题
+	  $(".answer li").click(function(){
+		  $(this).toggleClass("active");
+	  });
+       
+	  //提交试卷
+	  $(".sub-btn").click(function(){
+		  $(".answer").each(function(){
+			  var answer = "";
+			  $(this).find(".active").each(function(){
+				  answer +=$(this).text();
+			  });
+		      //console.log("answer=" + answer);
+		  });
+	  });
+	  
+	});
+	</script>
 <include file="__THEME__/public_footer_new" />

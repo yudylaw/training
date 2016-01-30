@@ -8,17 +8,17 @@
                     <table>
                         <tbody>
                         <tr>
-                            <th width="30%">时间</th>
-                            <th width="40%">标题</th>
+                            <th width="60%">标题</th>
                             <th width="10%">总分</th>
+                            <th width="10%">及格分</th>
                             <th width="10%">状态</th>
                             <th width="10%">得分</th>
                         </tr>
                         <volist name='homeworks' id='homework'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
-                            <td><span>2015.01.20-2015.01.23</span></td>
-                            <td><span class="tab-ell w-l">{$homework['name']}</span></td>
-                            <td><span>{$homework['score']}</span></td>
+                            <td><span class="tab-ell w-l"><a href="{:U('homework/Index/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
+                            <td><span>{$homework['total_score']}</span></td>
+                            <td><span>{$homework['pass_score']}</span></td>
                             <td><span class="color-red">已结束</span></td>
                             <td><span>98</span></td>
                         </tr>
