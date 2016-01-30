@@ -15,7 +15,9 @@ class IndexAction extends Action {
     }
     
     public function detail() {
-        $query = array("type"=>0, 'id'=>20, "is_del"=>0);//type=1,作业; type=0, 考试
+        $id = intval($_REQUEST['id']);
+        
+        $query = array("type"=>0, 'id'=>$id, "is_del"=>0);//type=1,作业; type=0, 考试
         $homework = M('homework')->where($query)->find();
         
         $hid = $homework['id'];
