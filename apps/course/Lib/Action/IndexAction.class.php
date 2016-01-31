@@ -9,18 +9,6 @@ class IndexAction extends Action {
      * 课程学习首页
      */
     public function index() {
-        /* $courseresourcemodel = Model('CourseResource');
-        for($i=1;$i<=5;$i++){
-            for ($j=1;$j<=10;$j++){
-                $data['course_id'] = $j;
-                $data['title'] = "完全平方公式与平方差公式--视频讲解".$i.$j;
-                $data['utime'] = time();
-                $data['ext'] = $i % 2 == 1 ? "flv" : "doc";
-                $data['description'] = "this is a very good resourse";
-                $data['save_path'] = "/data/upload".$i.$j.'.'.$data['ext'];
-                echo $courseresourcemodel->addCourseResource($data);
-            }
-        } */
         $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
         $result = model("Course")->getCourseList($con);
         $data = $result['data'];
@@ -47,27 +35,6 @@ class IndexAction extends Action {
         $this->display();
     }
     
-    public function add(){
-        $data = array();
-        $data['title'] = "完全平方公式与平方差公式";
-        $data['creator'] = $this->uid;
-        $data['subject'] = $this->getSubject();
-        $data['required'] = 1;
-        $data['description'] = "这个课程不错";
-        $data['ctime'] = time();
-        $result = Model('Course')->addCourse($data);
-        echo $result;
-    }
-    
-    public function getSubject() {
-        $rand = rand(0, 10);
-        if($rand > 9){
-            return "10".$rand;
-        }else{
-            return "100".$rand;
-        }
-    }
-    
     public function create(){
         $this->display();
     }
@@ -89,6 +56,7 @@ class IndexAction extends Action {
         $resource = model('CourseResource')->getResourceById($resid);
         $resource = $resource[0];
         $this->previewurl = C('UPLOAD_ADD').$resource['save_path'].$resource['save_name'];
+        $this->resource = $resource;
         $this->display();
     }
 }
