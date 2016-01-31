@@ -118,4 +118,27 @@ class AdminAction extends Action {
         }
     }
     
+    /**
+     * 打分
+     */
+    public function grade() {
+        $id = intval($_REQUEST['id']);
+        $score = intval($_REQUEST['score']);
+        if ($score < 0) {
+            $this->error("得分不能小于0");
+        }
+        $answer = M("homework_answer")->where(array('id'=>$id))->find();
+        if (empty($answer)) {
+            $this->error("回答不存在");
+        }
+        $question = M('homework_question')->where(array('id'=>$answer['qid']))->find();
+        if (empty($question)) {
+            $this->error("题目不存在");
+        }
+        if ($score > $question['score']) {
+            $this->error("得分不能大于本题总分");
+        }
+        M("homework_answer")->where(array('id'=>$id))->save(array('score'=>$score));
+    }
+    
 }
