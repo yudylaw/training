@@ -35,7 +35,7 @@ class CourseResourceModel extends Model {
             $map['description'] = array('like','%'.$param['description'].'%');
         }
         $page = !empty($param['page']) ? $param['page'] : 1;
-        $limit = !empty($param['limit']) ? $param['limit'] : 10;
+        $limit = !empty($param['limit']) ? $param['limit'] : 5;
         $result = $this->where($map)->findPage($limit);
         $resdata = $result['data'];
         $coursemodel = model('Course');
@@ -47,7 +47,7 @@ class CourseResourceModel extends Model {
             $result['data'][$key]['creator'] = $course['creator'];
             $result['data'][$key]['subject'] = $course['subject'];
             $result['data'][$key]['required'] = $course['required'];
-            $learning = $courselearningmodel->getCourseLearningByCondition(array('resourceid'=>$val['id']));
+            $learning = $courselearningmodel->getCourseLearningByCondition(array('resourceid'=>$val['id'],'uid'=>$param['uid']));
             $result['data'][$key]['percent'] = $learning['percent'];
         }
         return $result;

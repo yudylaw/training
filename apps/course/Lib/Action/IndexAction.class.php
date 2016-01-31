@@ -24,7 +24,10 @@ class IndexAction extends Action {
      */
     public function detail() {
         $id = $_REQUEST['id'];//课程id
-        $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id));
+        if(empty($id)){
+            $this->error("课程id不能为空");
+        }
+        $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
         $data = $courseresource['data'];
         $this->courseresource = $data;
         $totalRows = $courseresource['totalRows'];
@@ -46,17 +49,19 @@ class IndexAction extends Action {
         if(empty($resid)){
             $this->error("资源id不能为空!");
         }
-        $data = array();
-        $data['classid'] = $this->classid;
-        $data['uid'] = $this->uid;
-        $data['resourceid'] = $resid;
-        $data['percent'] = 50;
-        $data['start_date'] = time();
-        model('CourseResourceLearning')->add($data);
         $resource = model('CourseResource')->getResourceById($resid);
         $resource = $resource[0];
-        $this->previewurl = C('UPLOAD_ADD').$resource['save_path'].$resource['save_name'];
-        $this->resource = $resource;
-        $this->display();
+        $ext = $resource['ext'];
+        if(in_array(strtolower($ext), array("xlsx","xls","pptx","ppt"))){//excel和ppt直接下载,表示已完成学习
+            $courseresourcelearning = model('CourseResourceLearning');
+            $uid = $this->uid;
+            $result = $courseresourcelearning->addResLearning(array('uid'=>$uid,'resourceid'=>$resid,'percent'=>100));
+            Http::download('/'.$resource['save_path'].$resource['save_name']);
+        }else{//视频进入播放页面
+            $this->previewurl = C('UPLOAD_ADD').$resource['save_path'].$resource['save_name'];
+            $this->resource = $resource;
+            //视频部分播放进度在前段js部分控制
+            $this->display();
+        }
     }
 }

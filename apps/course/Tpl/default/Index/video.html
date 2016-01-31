@@ -1,31 +1,46 @@
 <include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/flowplayer-6.0.5/skin/minimalist.css">
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
 		<include file="__THEME__/public_left_new" />
 		<div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>-<span class="color-gre">视频</span></div>
                 <div class="paper-name tc">视频播放</div>
-                <div class="video-box mt20">
-                    <div id="player" style="height:400px;"></div>
+                <div class="video-box mt20 flowplayer" data-ratio="0.6">
+                   <video>
+      					<source type="video/flash" src="{$previewurl}">
+   					</video>
                 </div>
         </div>
 	</div>
 </div>
-<script type="text/javascript" src="__THEME__/js/flowplayer/flowplayer-3.2.11.min.js"></script>
+<script type="text/javascript" src="__THEME__/js/flowplayer-6.0.5/flowplayer.min.js"></script>
 <script type="text/javascript">
 var previewurl = '{$previewurl}';
 var ext = '{$resource["ext"]}';
+var timer = null;
 jQuery(document).ready(function(){
-	flowplayer(
-		    "player",  
-		    "__THEME__/js/flowplayer/flowplayer-3.2.16.swf",{ 
-		      clip: { 
-		        url: previewurl, 
-		        autoPlay: false,  
-		        autoBuffering: true  
-		      } 
-		    } 
-   ); 
+   var api = flowplayer();//获取
+   //timer = setInterval(function(){
+	 // alert(api.video.time);
+   //},2000);
+   //获取播放进度api.video.time;
+   //视频总长度alert(api.video.duration);
+   //调用函数停止播放flowplayer(0).pause();代表停止第一个播放器
+   api.on("pause", function(e, api) {
+	   //暂停
+	   //播放进度写入数据库
+   }).on("resume",function(e,api){
+	   timer = setInterval(function(){
+			  api.pause();//暂停播放
+			  clearInterval(timer);//清除计时器
+			  alert("请输入正确的验证码");//验证码输入正确继续播放
+	   },3000);
+	   //重新播放
+   }).on("finish",function(e,api){
+	   //结束
+	   //播放进度写入数据库，播放进度为100,表示已完成学习
+   });
 });
 </script>
 <include file="__THEME__/public_footer_new" />
