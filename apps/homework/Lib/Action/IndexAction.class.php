@@ -52,7 +52,21 @@ class IndexAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $answer = $_REQUEST['answer'];
         $result = M('homework_answer')->where(array("uid"=>$this->mid, "qid"=>$qid))->find();
-        $data = array('uid'=>$this->mid, 'qid'=>$qid, 'hw_id'=>$hw_id, 'content'=>$answer, 'score'=>0);
+        $question = M('homework_question')->where(array('id'=>$qid))->find();
+        if (empty($question)) {
+            $this->error("题目不存在!");
+        }
+        $q_type = $question['type'];
+        $data = array('uid'=>$this->mid, 'qid'=>$qid, 'hw_id'=>$hw_id, 'content'=>$answer);
+        
+        //选择题自动记分
+        if (in_array($q_type, array(1, 2))) {
+            if ($answer == $question['answer']) {
+                $data['score'] = $question['score'];
+            } else {
+                $data['score'] = 0;
+            }
+        }
         if(empty($result)) {
             //保存回答
             M('homework_answer')->add($data);
