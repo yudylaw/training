@@ -1,5 +1,6 @@
 <php>if($isAdmin != '1'){</php>
-<include file="public_header" />
+<include file="public_header_new" />
+<link href="__THEME__/css/training.css" rel="stylesheet" type="text/css" />
 <php>}else {</php>
 <body>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -47,7 +48,7 @@ document.onload = setTimeout("Jump()" , {$waitSecond}* 1000);
     </div>
 </eq>
 <php>if($isAdmin != '1'){</php>
-    <include file="public_footer" />
+    <include file="public_footer_new" />
 <php>}else {</php>
     </body>
 <php>}</php>

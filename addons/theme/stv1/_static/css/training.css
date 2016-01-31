@@ -2,3 +2,12 @@
 /*这里仅放开发独立出来的样式，例如：抽取出来的 ts 样式*/
 /*注意：不要直接引用 ts 的 css 文件*/
 /*base.css, main.css 由UI负责*/
+/*提示窗口*/
+.Prompt{width:1000px;margin:0 auto;_padding:20px 0 0;}
+.Prompt .Prompt_con dt{color: #555;font-family: Microsoft YaHei;font-size: 22px;font-weight: 300;padding: 5px 0 10px;}
+.Prompt .Prompt_con dd{background:#FAFAFA;padding:50px 20px;text-align:center;line-height:22px;font-size:14px}
+.Prompt-inner{ background:#f1f2f3; padding:40px; text-align:center; height:100px;}
+.Prompt-inner p{color: #555;font-family: Microsoft YaHei;font-size: 30px; font-weight: 300; padding: 5px 0 10px;}
+.Prompt-inner .box-ver{color:#555;font-size: 30px;font-family: Microsoft YaHei;font-weight: 300; padding: 5px 0 10px;}
+.ico-error-big{background:url(../image/ico-tips.png) no-repeat 0 0;display:inline-block;background:url(../image/ico-tips.gif) no-repeat 0 0\0;}
+.ico-error-big{background-position:-80px -48px;width:38px;height:38px;vertical-align:middle;margin:0 10px 0 0;}
