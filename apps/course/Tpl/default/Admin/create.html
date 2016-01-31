@@ -29,13 +29,14 @@ jQuery(document).ready(function(){
 	Course.init();
 	$('#file_upload').uploadify({
 		//auto:false,
-    	fileTypeExts: "flv",
+    	fileTypeExts: "*.flv;*.xls;*.xlsx;*.ppt;*.pptx",
 		swf: '__THEME__/js/uploadify/uploadify.swf',
 		uploader: "{:U('course/Admin/upload')}",
 		width: 135,
 		height: 46,
 		buttonImage: '__APP__/images/local_btn.png',
 		queueSizeLimit: 5,
+		fileSizeLimit : '100MB',
 		queueID: 'fileQueue',
 		overrideEvents: ['onSelectError', 'onDialogClose'],
 		onUploadSuccess : function(file, data, response) {
@@ -58,7 +59,7 @@ jQuery(document).ready(function(){
 					alert('选择的上传数目超过，您还能上传'+errorMsg+'个视频');
 					break;
 				case -110:
-					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小", 4);
+					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小100MB");
 					break;
 				case -120:
 					alert("文件 [" + file.name + "] 大小异常");
