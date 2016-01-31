@@ -54,7 +54,7 @@ class IndexAction extends Action {
         $result = M('homework_answer')->where(array("uid"=>$this->mid, "qid"=>$qid))->find();
         $question = M('homework_question')->where(array('id'=>$qid))->find();
         if (empty($question)) {
-            $this->error("题目不存在!");
+            $this->ajaxReturn(null, "题目不存在!");
         }
         $q_type = $question['type'];
         $data = array('uid'=>$this->mid, 'qid'=>$qid, 'hw_id'=>$hw_id, 'content'=>$answer);
@@ -75,7 +75,7 @@ class IndexAction extends Action {
             $data['id'] = $result['id'];
             M('homework_answer')->save($data);
         }
-        
+        $this->ajaxReturn(null, "nop");
     }
     
     /**
@@ -85,6 +85,7 @@ class IndexAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'score'=>0);
         M('homework_record')->add($data);
+        $this->ajaxReturn(null, "交卷成功，等待批阅！");
     }
     
     public function delete() {

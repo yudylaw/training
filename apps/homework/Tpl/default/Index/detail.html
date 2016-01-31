@@ -21,12 +21,15 @@
 	                                <p><span>D</span>.{$question['d_option']}</p>
 	                            </dd>
 	                            <dd>
-	                                <ul class="answer clearfix" tag="{$question['id']}">
-	                                    <li class="fl active"><a href="javascript:;">A</a></li>
+	                                <ul class="answer clearfix">
+	                                    <li class="fl"><a href="javascript:;">A</a></li>
 	                                    <li class="fl"><a href="javascript:;">B</a></li>
 	                                    <li class="fl"><a href="javascript:;">C</a></li>
 	                                    <li class="fl"><a href="javascript:;">D</a></li>
 	                                </ul>
+	                            </dd>
+	                            <dd>
+	                            <input type="button" class="answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}" value="确认" />
 	                            </dd>
 	                        </dl>
 	                    </div>
@@ -37,6 +40,9 @@
 		                            <dt>{$question['num']}、{$question['name']}</dt>
 		                            <dd class="clearfix">
 		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr"></textarea>
+		                            </dd>
+		                            <dd>
+		                            <input type="button" class="answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}" value="确认" />
 		                            </dd>
 		                        </dl>
 		                    </div>
@@ -66,16 +72,39 @@
 	  $(".answer li").click(function(){
 		  $(this).toggleClass("active");
 	  });
-       
+      
+      $(".answer-btn-1").click(function(){
+    	  var answer = "";
+    	  var qid = $(this).attr('qid');
+    	  var qtype = $(this).attr('qtype');
+    	  if (qtype != 3) {
+    		  //选择题
+    		  $(this).parent().prev().find(".answer .active").each(function(){
+    			  answer +=$(this).text() + ",";
+    		  });
+    		  if (answer.length > 0) {
+    			  answer = answer.substring(0, answer.length - 1);//删除尾部逗号
+    		  }
+    	  } else {
+    		  //简答题
+    		  answer = $(this).parent().prev().children(".jd_answer").val();
+    	  }
+		  $.post("{:U('homework/Index/answer', array('hw_id'=>$homework['id']))}", {'qid':qid, 'answer':answer}, function(data){
+			  //var obj = $.parseJSON(data);
+			  //console.log(data);
+		  });
+      });
+      
 	  //提交试卷
 	  $(".sub-btn").click(function(){
-		  $(".answer").each(function(){
-			  var answer = "";
-			  $(this).find(".active").each(function(){
-				  answer +=$(this).text();
+		  if(confirm("是否确认交卷")){
+			  $.get("{:U('homework/Index/submit', array('hw_id'=>$homework['id']))}", function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+				  }
 			  });
-		      //console.log("answer=" + answer);
-		  });
+		  }
 	  });
 	  
 	});
