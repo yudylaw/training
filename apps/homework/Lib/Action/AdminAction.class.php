@@ -141,4 +141,25 @@ class AdminAction extends Action {
         M("homework_answer")->where(array('id'=>$id))->save(array('score'=>$score));
     }
     
+    /**
+     * 完成打分
+     */
+    public function submit() {
+        $uid = intval($_REQUEST['uid']);
+        $hw_id = intval($_REQUEST['hw_id']);
+        $homework = M('homework')->find(array('id'=>$hw_id));
+        if (empty($homework)) {
+            $this->error("作业或考试不存在");
+        }
+        $sql = "select sum(score) as total from __TABLE__ where uid=".$uid." and hw_id=".$hw_id;
+        $data = M("homework_answer")->query($sql);
+        $total = $data[0]['total'];
+        $record = M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->find();
+        
+        if (empty($record)) {
+            $this->error("没找到该考试记录");
+        }
+        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total));
+    }
+    
 }
