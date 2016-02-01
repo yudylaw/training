@@ -58,7 +58,7 @@ class IndexAction extends Action {
             $result = $courseresourcelearning->addResLearning(array('uid'=>$uid,'resourceid'=>$resid,'percent'=>100));
             Http::download('/'.$resource['save_path'].$resource['save_name']);
         }else{//视频进入播放页面
-            $this->previewurl = C('UPLOAD_ADD').$resource['save_path'].$resource['save_name'];
+            $this->previewurl = SITE_URL.'/data/upload/'.$resource['save_path'].$resource['save_name'];
             $this->resource = $resource;
             //视频部分播放进度在前段js部分控制
             $this->display();
