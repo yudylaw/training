@@ -16,8 +16,9 @@
 </div>
 <script type="text/javascript" src="__THEME__/js/flowplayer-6.0.5/flowplayer.min.js"></script>
 <script type="text/javascript">
-var previewurl = '{$previewurl}';
-var ext = '{$resource["ext"]}';
+var previewurl = '{$previewurl}';//播放地址
+var ext = '{$resource["ext"]}';//扩展名
+var resid = '{$resource["id"]}';//资源id
 var timer = null;
 jQuery(document).ready(function(){
    var api = flowplayer();//获取
@@ -29,18 +30,56 @@ jQuery(document).ready(function(){
    //调用函数停止播放flowplayer(0).pause();代表停止第一个播放器
    api.on("pause", function(e, api) {
 	   //暂停
+	   clearInterval(timer);//清除计时器
+	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
+  			
+  		});
 	   //播放进度写入数据库
    }).on("resume",function(e,api){
 	   timer = setInterval(function(){
 			  api.pause();//暂停播放
 			  clearInterval(timer);//清除计时器
-			  alert("请输入正确的验证码");//验证码输入正确继续播放
-	   },3000);
+			  $("#login_popup_new").css("display","block");//验证码输入正确继续播放
+			  $("#cover_id").css("display","block");
+	   },5000);
 	   //重新播放
    }).on("finish",function(e,api){
 	   //结束
+	   clearInterval(timer);//清除计时器
 	   //播放进度写入数据库，播放进度为100,表示已完成学习
+   });
+   //刷新验证码
+   function changeverify(){
+       var date = new Date();
+       var ttime = date.getTime();
+       var url = "__ROOT__/public/captcha.php";
+       $('#verifyimg').attr('src',url+'?'+ttime);
+   }
+   //关闭弹出框
+   function close_this(){
+   	$("#login_popup_new").css("display","none");
+   	$("#cover_id").css("display","none");
+   }
+   //提交验证码
+   $("#submit_login_new").click(function(){
+   		var verify = $.trim($('#val_verify').val());
+	   	if(verify != '') {
+	           //提交到后台验证
+	   		$.post('index.php?app=course&mod=Admin&act=verify',{verify:verify},function(txt){
+	   			txt = eval( '(' + txt + ')' );
+	   		    if(txt.status == 1){
+	   		    	$("#login_popup_new").css("display","none");//验证码输入正确继续播放
+	   				$("#cover_id").css("display","none");
+	   				api.resume();
+	   		    }else{
+	   		    	alert("验证码错误");
+	   		    }
+	   		    $("#val_verify").val("");
+	   		 	changeverify();
+	   		});
+	     }
    });
 });
 </script>
+<include file="pop" />
 <include file="__THEME__/public_footer_new" />

@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="__APP__/css/pop.css">
+<!-- 弹出验证码框 -->
+<div class="black_overlay" style="display: none;" id="cover_id"></div>
+<div id="login_popup_new" href="#login_pop_new" class="login-app product" style="display: none;">
+    <div class="app-con">
+        <!-- <a href="javascript:close_this();" class="app-close"></a> -->
+        <dl>
+            <dd class="mt10"><h3 class="clearfix"><span class="fl">请输入正确验证码</span></h3></dd>
+            <dd class="clearfix mt10">
+                <span class="login-border user fl">
+                    <input type="text" id="val_verify"/>
+                    <!-- <label id="input_name">输入验证码</label> -->
+                </span>
+                <span class="fl">
+                    <img src="__ROOT__/public/captcha.php" id="verifyimg" alt="{:L('PUBLIC_CHANGE_ONE')}"  style="float:right;vertical-align:middle;border:none" onclick="changeverify2()"/>
+                </span>
+                <a href="javascript:void(0);" id="submit_login_new" class="login-button fl">确&nbsp;认</a>
+            </dd>
+        </dl>
+    </div>
+</div>
+<!-- 弹出验证码框 -->
+<script type="text/javascript">
+//刷新验证码
+function changeverify2(){
+    var date = new Date();
+    var ttime = date.getTime();
+    var url = "__ROOT__/public/captcha.php";
+    $('#verifyimg').attr('src',url+'?'+ttime);
+}
+</script>

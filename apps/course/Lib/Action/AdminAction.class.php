@@ -26,7 +26,7 @@ class AdminAction extends Action {
         $this->localUpload(array());
     }
     /**
-     * 上次方法
+     * 上传方法
      * @param array $options
      */
     private function localUpload($options,$input_options=null){
@@ -83,7 +83,11 @@ class AdminAction extends Action {
             return $return;
         }
     }
-    
+    /**
+     * 保存上传信息
+     * @param array $upload_info
+     * @param array $options
+     */
     private function saveInfo($upload_info,$options){
         if($options['save_to_db']) {
             foreach($upload_info as $u) {
@@ -116,7 +120,9 @@ class AdminAction extends Action {
         }
         echo json_encode($data);
     }
-    
+    /**
+     * 创建课程
+     */
     public function ajaxCreate(){
         $data = array();
         $data['title'] = t($_REQUEST['title']);
@@ -137,5 +143,35 @@ class AdminAction extends Action {
         }else{
             echo '{"status":0,"msg":"创建失败"}';
         }
+    }
+    /**
+     * 验证验证码
+     */
+    public function verify() {
+        //检查验证码
+        if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
+            $data['status'] = 0;
+            $data['msg'] = '验证码错误';
+        }else {
+            $data['status'] = 1;
+            $data['msg'] = '通过验证';
+            unset($_SESSION['verify']);
+            session_destroy($_SESSION['verify']);
+        }
+        echo json_encode($data);
+    }
+    /**
+     * 保存视频进度,同时更新课程学习进度
+     */
+    public function saveProgress(){
+        $resid = $_REQUEST['resource_id'];//资源id
+        $duration = $_REQUEST['duration'];//视频总进度
+        $time = $_REQUEST['time'];//播放进度
+        $data['class_id'] = $this->class_id;
+        $data['uid'] = $this->uid;
+        $data['percent'] =  round(($time / $duration) * 100);
+        $data['resourceid'] = $resid;
+        $res = model('CourseResourceLearning')->addResLearning($data);
+        echo json_encode($data);
     }
 }

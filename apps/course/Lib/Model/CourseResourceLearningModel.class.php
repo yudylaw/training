@@ -47,10 +47,32 @@ class CourseResourceLearningModel extends Model {
             $data['start_date'] = time();
             $res = $this->add($data);
         }else{
-            if($result['percent'] < 100){//如果存在学习进度直接更新学习进度
+            if($result['percent'] < $percent){//如果存在学习进度并且当前进度大于之前进度直接更新学习进度
                 $res = $this->where($map)->save(array('percent'=>$percent));
             }
-            $res = 0;//已完成学习无需更新学习进度
+            $res = 0;//已完成学习或者当前进度小于原来进度无需更新学习进度
+        }
+        if($res && $percent == 100){//完成该资源学习更新课程总体学习进度
+            $map['id'] = $param['resourceid'];
+            $courseresource = model('CourseResource');
+            //根据资源获得所属的课程id
+            $course_id = $courseresource->where($map)->getField("course_id");
+            //根据课程id获得该课程所属的全部资源数
+            $totalresources = $courseresource->where(array('course_id'=>$course_id))->findAll();
+            $totalnum = count($totalresources);
+            $resids = array();
+            foreach ($totalresources as $val){
+                array_push($resids, $val['id']);
+            }
+            //该课程中已完成的资源数量
+            $maps['uid'] = $map['uid'];
+            $maps['percent'] = 100;
+            $maps['class_id'] = $map['class_id'];
+            $maps['resourceid'] = array("IN",$resids);
+            $finishednum = model('CourseResourceLearning')->where($maps)->count();
+            $percent = round($finishednum / $totalnum);
+            $data['percent'] = $percent; 
+            model('CourseLearning')->addCourseLearning($data);//保存课程学习进度
         }
         return $res;
     }

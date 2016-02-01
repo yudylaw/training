@@ -27,7 +27,16 @@ class CourseLearningModel extends Model {
         if(!empty($param['percent'])){
             $data['percent'] = $param['percent'];
         }
-        return $this->add($data);
+        $is_exist = $this->where(array('class_id'=>$data['class_id'],'uid'=>$data['uid'],'course_id'=>$data['course_id']))->find();
+        if(empty($is_exist)){
+            return $this->add($data);
+        }else{
+            if($param['percent'] == 100){
+                $toupdate['end_date'] = time();//学习完成记录完成时间
+            }
+            $toupdate['percent'] = $param['percent'];
+            return $this->where((array('class_id'=>$data['class_id'],'uid'=>$data['uid'],'course_id'=>$data['course_id'])))->save($toupdate);
+        }
     }
     /**
      * 更新课程学习记录
@@ -49,7 +58,7 @@ class CourseLearningModel extends Model {
     }
     
     /**
-     * 根据条件查询课程
+     * 根据条件查询课程学习记录
      * @param array $param
      */
     public function getCourseLearningByCondition($param) {
