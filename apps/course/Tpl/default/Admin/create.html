@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
 <script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="__APP__/js/create.js"></script>
+<script type="text/javascript" src="__APP__/js/select.js"></script>
 <style>
 .ct_line {
     width: 300px;
@@ -86,36 +87,50 @@ jQuery(document).ready(function(){
 				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a
 					href="javascript:;">课程学习</a>&gt;<span class="color-gre">创建课程</span>
 			</div>
-			<div class="id-table les">
-					<div class="ct_line">
-	                    <p class="fl">课程名称:</p>
-	                    <p class="style3"><input id="course_name" type="text" value=""></p>
-	                </div>
-		            <div class="ct_line">学科:
-		                	<select id="course_subject">
-						  		<option value="0">请选择</option>
-						  		<volist name = "subject" id="sub">
-									<option value="{$sub['code']}">{$sub['name']}</option>
-								</volist>
-						  </select>
-		            </div>
-		            <div class="ct_line" id="subject_required">类型：
-		                  	<input type="radio" name="radiobutton" value="1" checked>必修 
-							<input type="radio" name="radiobutton" value="0">选修
-		            </div>
-		            <div class="ct_line">课程描述：
-		                  	<input id="course_des" type="text" value="">
-		            </div>
-	           		<div class="ct_line">
-	           			上传资源:
-	           			<input id="file_upload" name="file_upload" type="file" multiple="true">
-	           		</div>
-	           		<div class="ct_line">
-	           			<div id="fileQueue"></div>
-	           			<input type="button" value="创建" id="create">
-	           			<input type="hidden" id="resource_ids" value="0">
-	           		</div>
-			</div>
+			<div class="clearfix lesson-add">
+                    <ul class="ul-form">
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">课程名称：</span>
+                            <input type="text" id="course_name" value="" class="fl input-text"/>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">学</em><em class="fr">科：</em></span>
+                            <div class="select_box fl">
+                                <span class="first_select" id="course_subject" code="0">请选择学科</span>
+                                <ul class="sub_select" style="display: none;">
+                                    <li code="0">全部</li>
+                                    <volist name = "subject" id="sub">
+										<li code="{$sub['code']}">{$sub['name']}</li>
+									</volist>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">类</em><em class="fr">型：</em></span>
+                            <span class="fl radio-box clearfix" id="type">
+                                <input type="radio" id="type_yes" checked="checked" name="type" value="1">
+                                <label name="type_xx" class="checked" for="type_yes">必修</label>
+                                <input type="radio" id="type_no" name="type" value="0">
+                                <label name="type_bx" for="type_no">选修</label>
+                            </span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">学</em><em class="fr">时：</em></span>
+                            <input type="text" value="" id="course_hour" class="fl input-text width-m"/>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">课程描述：</span>
+                            <div class="margin-name">
+                                <textarea rows="" cols="" placeholder="此处添加课程描述的内容" class="fl" id="course_des" onfocus="this.placeholder=''"></textarea>
+                                <!-- <a href="javascript:;"><img src="__THEME__/images/local_up.jpg"/></a> -->
+                            </div>
+                        </li>
+                    </ul>
+                    <div id="fileQueue"></div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">创建</span></a><input type="hidden" id="resource_ids" value="0"></div>
+                </div>
 			</div>
 		</div>
 	</div>

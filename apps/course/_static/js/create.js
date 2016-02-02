@@ -4,11 +4,12 @@ var Course = {};
  */
 function _getData(){
 	var data = {};
-	data.title = $("#course_name").val();
-	data.subject = $("#course_subject").val();
-	data.required = $('#subject_required input[name="radiobutton"]:checked ').val();
+	data.title = $("#course_name").val();//课程名
+	data.subject = $("#course_subject").attr("code");
+	data.required = $('#type input[name="type"]:checked ').val();
 	data.description = $("#course_des").val();
 	data.resourceids = $("#resource_ids").val();
+	data.course_hour = $("#course_hour").val();//学时
 	return data;
 }
 Course.init = function(){
