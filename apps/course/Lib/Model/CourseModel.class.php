@@ -74,11 +74,12 @@ class CourseModel extends Model {
         $resdata = $result['data'];
         $courselearningmodel = model('CourseLearning');
         foreach ($resdata as $key=>$val){
-            $courselearning = $courselearningmodel->getCourseLearningByCondition(array('course_id'=>$val['id']));
-            !empty($courselearning) && $courselearning = $courselearning[0];
-            $result['data'][$key]['start_date'] = $courselearning['start_date'];
-            $result['data'][$key]['end_date'] = $courselearning['end_date'];
-            $result['data'][$key]['percent'] = $courselearning['percent'];
+            $courselearning = $courselearningmodel->getCourseLearningByCondition(array('course_id'=>$val['id'],'uid'=>$this->uid));
+            if(!empty($courselearning)){
+                $result['data'][$key]['start_date'] = $courselearning['start_date'];
+                $result['data'][$key]['end_date'] = $courselearning['end_date'];
+                $result['data'][$key]['percent'] = $courselearning['percent'];
+            }
         }
         return $result;
     }

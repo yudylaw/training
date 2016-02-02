@@ -41,11 +41,14 @@ jQuery(document).ready(function(){
 			  clearInterval(timer);//清除计时器
 			  $("#login_popup_new").css("display","block");//验证码输入正确继续播放
 			  $("#cover_id").css("display","block");
-	   },5000);
+	   },600000);
 	   //重新播放
    }).on("finish",function(e,api){
 	   //结束
 	   clearInterval(timer);//清除计时器
+	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.duration},function(txt){
+ 			
+ 		});
 	   //播放进度写入数据库，播放进度为100,表示已完成学习
    });
    //刷新验证码

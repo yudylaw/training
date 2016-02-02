@@ -44,6 +44,7 @@ class CourseResourceLearningModel extends Model {
             $data['uid'] = $param['uid'];
             $data['resourceid'] = $param['resourceid'];
             $data['percent'] = $percent;
+            $data['ctime'] = time();
             $data['start_date'] = time();
             $res = $this->add($data);
         }else{
@@ -53,10 +54,11 @@ class CourseResourceLearningModel extends Model {
             $res = 0;//已完成学习或者当前进度小于原来进度无需更新学习进度
         }
         if($res && $percent == 100){//完成该资源学习更新课程总体学习进度
-            $map['id'] = $param['resourceid'];
+            $map2['id'] = $param['resourceid'];
             $courseresource = model('CourseResource');
             //根据资源获得所属的课程id
-            $course_id = $courseresource->where($map)->getField("course_id");
+            $course_id = $courseresource->where($map2)->getField("course_id");
+            $course_id = intval($course_id);
             //根据课程id获得该课程所属的全部资源数
             $totalresources = $courseresource->where(array('course_id'=>$course_id))->findAll();
             $totalnum = count($totalresources);
@@ -67,12 +69,18 @@ class CourseResourceLearningModel extends Model {
             //该课程中已完成的资源数量
             $maps['uid'] = $map['uid'];
             $maps['percent'] = 100;
-            $maps['class_id'] = $map['class_id'];
+            !empty($param['class_id']) && $maps['classid'] = $param['class_id'];
             $maps['resourceid'] = array("IN",$resids);
             $finishednum = model('CourseResourceLearning')->where($maps)->count();
-            $percent = round($finishednum / $totalnum);
-            $data['percent'] = $percent; 
-            model('CourseLearning')->addCourseLearning($data);//保存课程学习进度
+            $percent = round(($finishednum / $totalnum) * 100);
+            $data2['uid'] = $map['uid'];
+            !empty($param['class_id']) && $data2['class_id'] = $param['class_id'];
+            $data2['course_id']  = $course_id;
+            $data2['percent'] = $percent;
+            if($percent == 100){//完成学习记录结束时间
+                $data2['end_date'] = time(); 
+            }
+            model('CourseLearning')->addCourseLearning($data2);//保存课程学习进度
         }
         return $res;
     }

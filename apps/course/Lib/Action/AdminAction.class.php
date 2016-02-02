@@ -172,6 +172,6 @@ class AdminAction extends Action {
         $data['percent'] =  round(($time / $duration) * 100);
         $data['resourceid'] = $resid;
         $res = model('CourseResourceLearning')->addResLearning($data);
-        echo json_encode($data);
+        echo json_encode($res);
     }
 }
