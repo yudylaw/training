@@ -27,6 +27,9 @@
 	                                    <li class="fl"><a href="javascript:;">C</a></li>
 	                                    <li class="fl"><a href="javascript:;">D</a></li>
 	                                </ul>
+	                                <div class="grade-box clearfix mt10">
+                                    	<span class="score">得分：<em>4</em></span>
+                                	</div>
 	                            </dd>
 	                            <dd>
 	                            <input type="button" class="answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}" value="确认" />
@@ -34,6 +37,20 @@
 	                        </dl>
 	                    </div>
 	                    <php>} else if ($question['type'] == 3){</php>
+	                    	<h3 class="test-title color-gre mt20">判断题</h3>
+		                    <div class="judge">
+		                        <ul>
+		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>1、“现实是此岸，理想是彼岸。中间隔着湍流的河流，行动则是架在川上的桥梁。</span></li>
+		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>2、主观上是否有美好的愿望和想象</span></li>
+		                            <li class="clearfix mt10"><em class="fl">x</em><span>3、是否承认理想与现实之间的矛盾</span></li>
+		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>4、是否在实际行动上为追求理想而奋斗</span></li>
+		                            <li class="clearfix mt10"><em class="fl"></em><span>5、是否承认理想实现过程具有长期性、曲折性和艰巨性 </span></li>
+		                        </ul>
+		                        <div class="grade-box clearfix mt10">
+		                            <span class="score">得分：<em>10</em></span>
+		                        </div>
+		                    </div>
+	                    <php>} else if ($question['type'] == 4){</php>
 		                    <h3 class="test-title color-gre mt20">简答题</h3>
 		                    <div class="simple">
 		                        <dl>
