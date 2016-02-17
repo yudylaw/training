@@ -19,6 +19,7 @@
 var previewurl = '{$previewurl}';//播放地址
 var ext = '{$resource["ext"]}';//扩展名
 var resid = '{$resource["id"]}';//资源id
+var percent = '{$percent}';//视频播放进度
 var timer = null;
 jQuery(document).ready(function(){
    var api = flowplayer();//获取
@@ -36,6 +37,12 @@ jQuery(document).ready(function(){
   		});
 	   //播放进度写入数据库
    }).on("resume",function(e,api){
+	   //如果视频有播放进度设置为上次播放进度,记忆播放
+	   if(parseInt(percent)){
+		   api.seekTo(percent/10,function(){
+			   //直接跳到上次播放位置
+		   });
+	   }
 	   timer = setInterval(function(){
 			  api.pause();//暂停播放
 			  clearInterval(timer);//清除计时器

@@ -53,14 +53,17 @@ class IndexAction extends Action {
         $resource = model('CourseResource')->getResourceById($resid);
         $resource = $resource[0];
         $ext = $resource['ext'];
+        $courseresourcelearning = model('CourseResourceLearning');
         if(in_array(strtolower($ext), array("xlsx","xls","pptx","ppt"))){//excel和ppt直接下载,表示已完成学习
-            $courseresourcelearning = model('CourseResourceLearning');
             $uid = $this->uid;
             $result = $courseresourcelearning->addResLearning(array('uid'=>$uid,'resourceid'=>$resid,'percent'=>100));
             Http::download('/'.$resource['save_path'].$resource['save_name']);
         }else{//视频进入播放页面
             $this->previewurl = SITE_URL.'/data/upload/'.$resource['save_path'].$resource['save_name'];
             $this->resource = $resource;
+            //获取视频学习进度，实现记忆播放
+            $percent = $courseresourcelearning->where(array('resourceid'=>$resid))->getField('percent');
+            $this->percent = $percent;
             //视频部分播放进度在前段js部分控制
             $this->display();
         }
