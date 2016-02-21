@@ -38,8 +38,8 @@ jQuery(document).ready(function(){
 	   //播放进度写入数据库
    }).on("resume",function(e,api){
 	   //如果视频有播放进度设置为上次播放进度,记忆播放
-	   if(parseInt(percent)){
-		   api.seekTo(percent/10,function(){
+	   if(parseInt(percent) && parseInt(percent) < 100){
+		   api.seekTo(parseInt(percent)/10,function(){
 			   //直接跳到上次播放位置
 		   });
 	   }
