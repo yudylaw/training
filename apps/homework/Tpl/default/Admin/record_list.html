@@ -12,23 +12,23 @@
                     <table>
                         <tbody>
                         <tr>
-                            <th width="40%">标题</th>
+                            <th width="30%">标题</th>
                             <th width="10%">总分</th>
                             <th width="10%">及格分</th>
-                            <th width="10%">状态</th>
-                            <th width="10%">阅卷</th>
-                            <th width="10%">学员成绩</th>
+                            <th width="10%">姓名</th>
+                            <th width="10%">操作</th>
+                            <th width="20%">交卷时间</th>
                             <th width="10%">得分</th>
                         </tr>
-                        <volist name='homeworks' id='homework'>
+                        <volist name='records' id='record'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
-                            <td><span class="tab-ell w-l"><a href="{:U('homework/Index/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
+                            <td><span class="tab-ell w-l">{$homework['name']}</span></td>
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
-                            <td><span class="color-red">已结束</span></td>
-                            <td><span>阅卷</span></td>
-                            <td><span>查看成绩</span></td>
-                            <td><span>98</span></td>
+                            <td><span>{$record['uname']}</span></td>
+                            <td><span><a href="{:U('homework/Admin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">阅卷</a></span></td>
+                            <td><span><php>echo date("Y-m-d H:i", $record['ctime']);</php></span></td>
+                            <td><span>{$record['score']}</span></td>
                         </tr>
                         </volist>
                         <!-- 
