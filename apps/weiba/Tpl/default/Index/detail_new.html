@@ -1,0 +1,64 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>-<a href="javascript:;">主题交流</a></div>
+                <div class="clearfix notice-list">
+                    <div class="clearfix subject-info mt10">
+                        <dl class="clearfix">
+                            <dt class="clearfix">
+                                <img src="{$weiba_detail['avatar_middle']}" class="fl"/>
+                                <strong>{$weiba_detail['weiba_name']}</strong>
+                                <span>粉丝数：{$weiba_detail['follower_count']|default=0}<em>|</em>主题：{$weiba_detail['thread_count']|default=0}<em>|</em>帖子数：{$weiba_detail['tiezi_count']|default=0}</span>
+                                <span>吧主：jack</span>
+                            </dt>
+                            <dd class="mt10">简介：{$weiba_detail['intro']|getShort=100}</dd>
+                        </dl>
+                        <!-- <a href="javascript:;" class="btn-org fl"><span class="fl">+加入</span></a> -->
+                        {:W('FollowWeiba',array('weiba_id'=>$weiba_detail['weiba_id'],'follow_state'=>array('following'=>$follow_state[$weiba_detail['weiba_id']]['following']),'isrefresh'=>1))}
+                    </div>
+                    <div class="subject-tab clearfix mt20">
+                        <ul class="fl clearfix">
+                            <li <php>if($type=='all'){</php>class="fl current"<php>}else{</php>class="fl"<php>}</php>><a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_detail['weiba_id']))}">全部</a></li>
+                            <li <php>if($type=='digest'){</php>class="fl current"<php>}else{</php>class="fl"<php>}</php>><a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_detail['weiba_id'],'type'=>'digest'))}">精华</a></li>
+                        </ul>
+                        <span class="fr"><a href="{:U('weiba/Index/post',array('weiba_id'=>$weiba_detail['weiba_id']))}" class="fl btn-green"><span class="fl">发帖</span></a></span>
+                    </div>
+
+                    <div class="clearfix mt20 notice-info">
+                        <span class="fl">共有{$post_count|default=0}个帖子</span>
+                        <span class="fr">排序方式：<a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_detail['weiba_id'],'type'=>$type,'order'=>'reply_time'))}" <php>if($order=='reply_time'){</php>
+              class="current"
+              <php>}</php>>回复时间</a>|&nbsp;&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_detail['weiba_id'],'type'=>$type,'order'=>'post_time'))}" <php>if($order=='post_time'){</php>
+              class="current"
+              <php>}</php>>发帖时间</a></span>
+                    </div>
+                    <div class="list-con">
+                        <volist name="list['data']" id="vo">
+	                        <dl class="list-item clearfix">
+	                            <dt class="fl clearfix">
+	                                <a href="javascript:void(0);" class="notice-head fl">
+	                                    <img src="{$vo.image}"/>
+	                                    <span></span>
+	                                </a>
+	                                <p class="fl notice-content">
+	                                    <span class="txt-ell"><a href="{:U('weiba/Index/postDetail',array('post_id'=>$vo['post_id']))}">{$vo.title|getShort=20}</a></span>
+	                                    <span class="mt10">
+	                                        <em>{$user_info[$vo['post_uid']]['space_link']}/{$vo.post_time|friendlyDate}发布</em>
+	                                        <em>最后回复{$vo.last_reply_time|friendlyDate}</em>
+	                                    </span>
+	                                </p>
+	                            </dt>
+	                            <dd class="fr clearfix"><span class="color-gre fl">浏览（{$vo.read_count|default=0}）</span><span class="color-red fl">回复（{$vo.reply_count|default=0}）</span></dd>
+	                        </dl>
+                        </volist>
+                    </div>
+                    <div class="comment-page tr">
+                        {$list.html}
+                    </div>
+                </div>
+            </div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />
