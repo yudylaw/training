@@ -26,7 +26,7 @@
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span class="color-red">已结束</span></td>
-                            <td><span>阅卷</span></td>
+                            <td><span><a href="{:U('homework/Admin/recordList', array('hw_id'=>$homework['id']))}">试卷列表</a></span></td>
                             <td><span>查看成绩</span></td>
                             <td><span>98</span></td>
                         </tr>
