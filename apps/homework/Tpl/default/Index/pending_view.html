@@ -5,6 +5,9 @@
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Index/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
                 <div class="paper-name tc">{$homework['name']}</div>
+                <php>if(!isset($can_submit)) {</php>
+                <div><h2>试卷已经提交, 等待批改</h2></div>
+                <php>}</php>
                 <div class="question-types">
                 	<volist name="questions" id="question">
                 		<php>if($question['type'] == 1 || $question['type'] == 2){</php>
@@ -28,38 +31,18 @@
 	                                    <li class="fl"><a href="javascript:;">D</a></li>
 	                                </ul>
 	                                <div class="grade-box clearfix mt10">
-                                    	<span class="score">得分：<em>4</em></span>
+	                                	<span class="score">回答：<em>{$question['y_answer']}</em></span>
                                 	</div>
-	                            </dd>
-	                            <dd>
-	                            <input type="button" class="answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}" value="确认" />
 	                            </dd>
 	                        </dl>
 	                    </div>
 	                    <php>} else if ($question['type'] == 3){</php>
-	                    	<h3 class="test-title color-gre mt20">判断题</h3>
-		                    <div class="judge">
-		                        <ul>
-		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>1、“现实是此岸，理想是彼岸。中间隔着湍流的河流，行动则是架在川上的桥梁。</span></li>
-		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>2、主观上是否有美好的愿望和想象</span></li>
-		                            <li class="clearfix mt10"><em class="fl">x</em><span>3、是否承认理想与现实之间的矛盾</span></li>
-		                            <li class="clearfix mt10"><em class="fl">&radic;</em><span>4、是否在实际行动上为追求理想而奋斗</span></li>
-		                            <li class="clearfix mt10"><em class="fl"></em><span>5、是否承认理想实现过程具有长期性、曲折性和艰巨性 </span></li>
-		                        </ul>
-		                        <div class="grade-box clearfix mt10">
-		                            <span class="score">得分：<em>10</em></span>
-		                        </div>
-		                    </div>
-	                    <php>} else if ($question['type'] == 4){</php>
 		                    <h3 class="test-title color-gre mt20">简答题</h3>
 		                    <div class="simple">
 		                        <dl>
 		                            <dt>{$question['num']}、{$question['name']}</dt>
 		                            <dd class="clearfix">
-		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr"></textarea>
-		                            </dd>
-		                            <dd>
-		                            <input type="button" class="answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}" value="确认" />
+		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
 		                            </dd>
 		                        </dl>
 		                    </div>
@@ -77,7 +60,6 @@
                     <a href="javascript:;" class="clearfix">末页</a>
                 </div>
                  -->
-                <div class="clearfix" style="padding-top: 50px;"><a href="javascript:;" class="sub-btn">提交试卷</a></div>
             </div>
         </div>
     </div>

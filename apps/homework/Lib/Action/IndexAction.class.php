@@ -24,9 +24,36 @@ class IndexAction extends Action {
         $query = array('hw_id'=>$hid, 'is_del'=>0);
         $questions = M('homework_question')->where($query)->findAll();
         
+        $query = array('hw_id'=>$hid, 'uid'=>$this->mid);
+        $record = M('homework_record')->where($query)->find();
+        
+        $query = array('hw_id'=>$hid, 'uid'=>$this->mid);
+        $answers = M('homework_answer')->where($query)->findAll();
+        
+        foreach ($questions as &$question) {
+            $qid = $question['id'];
+            foreach ($answers as $answer) {
+                if ($answer['qid'] == $qid) {
+                    $question['y_answer'] = $answer['content'];
+                    $question['y_score'] = $answer['score'];
+                }
+            }
+        }
+        
         $this->assign('homework', $homework);
         $this->assign('questions', $questions);
-        $this->display();
+        
+        if (empty($record)) {
+            $this->display("answer_view");//答题页面
+        } else {
+            $this->assign('answers', $answers);
+            if ($record['is_grade'] == 1) {
+                $this->assign('score', $record['score']);//得分
+                $this->display("result_view");//打分完成后的页面
+            } else {
+                $this->display("pending_view");//待打分页面
+            }
+        }
     }
     
     public function save() {
@@ -75,7 +102,7 @@ class IndexAction extends Action {
             $data['id'] = $result['id'];
             M('homework_answer')->save($data);
         }
-        $this->ajaxReturn(null, "nop");
+        $this->ajaxReturn(null, "答题成功");
     }
     
     /**

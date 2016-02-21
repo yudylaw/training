@@ -1,0 +1,130 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Index/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
+                <div class="paper-name tc">{$homework['name']}</div>
+                <php>if(!isset($can_submit)) {</php>
+                <div><h2>试卷已经提交, 不能继续修改</h2></div>
+                <php>}</php>
+                <!-- 得分 -->
+                <php>if(isset($is_grade) && $is_grade == 1) {</php>
+                <div><h2>得分：{$score}</h2></div>
+                <php>}</php>
+                <div class="question-types">
+                	<volist name="questions" id="question">
+                		<php>if($question['type'] == 1 || $question['type'] == 2){</php>
+	                    <h3 class="test-title color-gre mt20">
+	                    <php>if($question['type'] == 1){ echo '单选题';} else {echo '多选题';}</php>
+	                    </h3>
+	                    <div class="choose">
+	                        <dl>
+	                            <dt class="clearfix">{$question['num']}、{$question['name']}（　）</dt>
+	                            <dd>
+	                                <p><span>A</span>.{$question['a_option']}</p>
+	                                <p><span>B</span>.{$question['b_option']}</p>
+	                                <p><span>C</span>.{$question['c_option']}</p>
+	                                <p><span>D</span>.{$question['d_option']}</p>
+	                            </dd>
+	                            <dd>
+	                                <ul class="answer clearfix">
+	                                    <li class="fl"><a href="javascript:;">A</a></li>
+	                                    <li class="fl"><a href="javascript:;">B</a></li>
+	                                    <li class="fl"><a href="javascript:;">C</a></li>
+	                                    <li class="fl"><a href="javascript:;">D</a></li>
+	                                </ul>
+	                                <php>if(isset($is_grade) && $is_grade == 1) {</php>
+	                                <div class="grade-box clearfix mt10">
+	                                	<span class="score">回答：<em>{$question['y_answer']}</em></span>
+                                    	<span class="score">得分：<em>4</em></span>
+                                	</div>
+                                	<php>}</php>
+	                            </dd>
+	                        </dl>
+	                    </div>
+	                    <php>} else if ($question['type'] == 3){</php>
+		                    <h3 class="test-title color-gre mt20">简答题</h3>
+		                    <div class="simple">
+		                        <dl>
+		                            <dt>{$question['num']}、{$question['name']}</dt>
+		                            <dd class="clearfix">
+		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
+		                            </dd>
+		                        </dl>
+                                <php>if(isset($is_grade) && $is_grade == 1) {</php>
+                                <div class="grade-box clearfix mt10">
+                                   	<span class="score">得分：<em>4</em></span>
+                               	</div>
+                               	<php>}</php>
+		                        <div class="grade-box clearfix mt10">
+		                            <span class="fl grade"><input type="text"/></span>
+		                            <span class="fl sure ml10"><input type="submit" value="确认"/></span>
+		                        </div>
+		                    </div>
+	                    <php>}</php>
+                    </volist>
+                </div>
+                <!-- 
+                <div class="comment-page tr">
+                    <a href="javascript:;" class="clearfix">首页</a>
+                    <a href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+                    <a href="javascript:;" class="clearfix active">1</a>
+                    <a href="javascript:;" class="clearfix">2</a>
+                    <a href="javascript:;" class="clearfix">3</a>
+                    <a href="javascript:;" class="clearfix"><span>下一页</span><em class="arr-rt"></em></a>
+                    <a href="javascript:;" class="clearfix">末页</a>
+                </div>
+                 -->
+                 <php>if(isset($can_submit)) {</php>
+                <div class="clearfix" style="padding-top: 50px;"><a href="javascript:;" class="sub-btn">提交试卷</a></div>
+                <php>}</php>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    //TODO
+    $(document).ready(function(){
+    	
+      //选择题
+	  $(".answer li").click(function(){
+		  $(this).toggleClass("active");
+	  });
+      
+      $(".answer-btn-1").click(function(){
+    	  var answer = "";
+    	  var qid = $(this).attr('qid');
+    	  var qtype = $(this).attr('qtype');
+    	  if (qtype != 3) {
+    		  //选择题
+    		  $(this).parent().prev().find(".answer .active").each(function(){
+    			  answer +=$(this).text() + ",";
+    		  });
+    		  if (answer.length > 0) {
+    			  answer = answer.substring(0, answer.length - 1);//删除尾部逗号
+    		  }
+    	  } else {
+    		  //简答题
+    		  answer = $(this).parent().prev().children(".jd_answer").val();
+    	  }
+		  $.post("{:U('homework/Index/answer', array('hw_id'=>$homework['id']))}", {'qid':qid, 'answer':answer}, function(data){
+			  //var obj = $.parseJSON(data);
+			  //console.log(data);
+		  });
+      });
+      
+	  //提交试卷
+	  $(".sub-btn").click(function(){
+		  if(confirm("是否确认交卷")){
+			  $.get("{:U('homework/Index/submit', array('hw_id'=>$homework['id']))}", function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+				  }
+			  });
+		  }
+	  });
+	  
+	});
+	</script>
+<include file="__THEME__/public_footer_new" />

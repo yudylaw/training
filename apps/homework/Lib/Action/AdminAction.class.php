@@ -159,7 +159,7 @@ class AdminAction extends Action {
         if (empty($record)) {
             $this->error("没找到该考试记录");
         }
-        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total));
+        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total, 'is_grade'=>1));
     }
     
 }
