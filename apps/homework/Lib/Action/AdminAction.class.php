@@ -118,27 +118,90 @@ class AdminAction extends Action {
         }
     }
     
+    public function detail() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        $uid = intval($_REQUEST['uid']);
+        
+        $query = array("type"=>0, 'id'=>$hw_id, "is_del"=>0);//type=1,作业; type=0, 考试
+        $homework = M('homework')->where($query)->find();
+        
+        $hid = $homework['id'];
+        $query = array('hw_id'=>$hid, 'is_del'=>0);
+        $questions = M('homework_question')->where($query)->findAll();
+        
+        $query = array('hw_id'=>$hid, 'uid'=>$uid);
+        $record = M('homework_record')->where($query)->find();
+        
+        $query = array('hw_id'=>$hid, 'uid'=>$uid);
+        $answers = M('homework_answer')->where($query)->findAll();
+        
+        foreach ($questions as &$question) {
+            $qid = $question['id'];
+            foreach ($answers as $answer) {
+                if ($answer['qid'] == $qid) {
+                    $question['y_answer'] = $answer['content'];
+                    $question['y_score'] = $answer['score'];
+                    $question['answer_id'] = $answer['id'];
+                }
+            }
+        }
+        
+        $this->assign('uid', $uid);
+        $this->assign('homework', $homework);
+        $this->assign('questions', $questions);
+        $this->assign('answers', $answers);
+        
+        if ($record['is_grade'] == 1) {
+            $this->assign('score', $record['score']);//得分
+            $this->display("result_view");//打分完成后的页面
+        } else {
+            $this->display("pending_view");//待打分页面
+        }
+    }
+    
+    public function recordList() {
+        $id = intval($_REQUEST['hw_id']);
+        
+        $homework = M('homework')->where(array('id'=>$id))->find();
+        
+        $query = array('hw_id'=>$id);
+        
+        $sql = "SELECT hr.uid, u.uname, hr.ctime, hr.score, hr.is_grade FROM ts_homework_record hr LEFT JOIN ts_user u ON hr.uid = u.uid";
+        $sql .=" WHERE hr.hw_id=" . $id;
+        
+        $records = M('')->query($sql);
+        //TODO 无分页
+        $this->assign('homework', $homework);
+        $this->assign('records', $records);
+        $this->display("record_list");
+    }
+    
     /**
      * 打分
      */
     public function grade() {
-        $id = intval($_REQUEST['id']);
+        $id = intval($_REQUEST['aid']);
+        
+        if(!is_numeric($_REQUEST['score'])) {
+            $this->ajaxReturn(null, '得分必须是数字', 0);
+        }
         $score = intval($_REQUEST['score']);
         if ($score < 0) {
-            $this->error("得分不能小于0");
+            $this->ajaxReturn(null, '得分必须 >=0', 0);
         }
         $answer = M("homework_answer")->where(array('id'=>$id))->find();
         if (empty($answer)) {
-            $this->error("回答不存在");
+            $this->ajaxReturn(null, '回答不存在', 0);
         }
         $question = M('homework_question')->where(array('id'=>$answer['qid']))->find();
         if (empty($question)) {
-            $this->error("题目不存在");
+            $this->ajaxReturn(null, '题目不存在', 0);
         }
         if ($score > $question['score']) {
-            $this->error("得分不能大于本题总分");
+            $this->ajaxReturn(null, '得分不能大于本题总分', 0);
         }
         M("homework_answer")->where(array('id'=>$id))->save(array('score'=>$score));
+        $this->ajaxReturn(null, '打分成功');
     }
     
     /**
@@ -149,7 +212,7 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $homework = M('homework')->find(array('id'=>$hw_id));
         if (empty($homework)) {
-            $this->error("作业或考试不存在");
+            $this->ajaxReturn(null, '作业或考试不存在');
         }
         $sql = "select sum(score) as total from __TABLE__ where uid=".$uid." and hw_id=".$hw_id;
         $data = M("homework_answer")->query($sql);
@@ -157,9 +220,12 @@ class AdminAction extends Action {
         $record = M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->find();
         
         if (empty($record)) {
-            $this->error("没找到该考试记录");
+            $this->ajaxReturn(null, '没找到该考试记录');
         }
+        
         M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total, 'is_grade'=>1));
+        
+        $this->ajaxReturn(null, '阅卷成功');
     }
     
 }
