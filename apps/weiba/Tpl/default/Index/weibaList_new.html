@@ -18,12 +18,13 @@
 		                                <p class="fl notice-content">
 		                                    <span class="txt-ell"><a href="{:U('weiba/Index/detail','weiba_id='.$k['weiba_id'])}">{$k.weiba_name}</a></span>
 		                                    <span class="mt10">
-		                                        <em>XXXX/1月31日发布&nbsp;21:55</em>
-		                                        <em>最后回复1月31日发布&nbsp;21:55</em>
+		                                    	<em>{$k.intro|getShort=20}</em>
+		                                        <!-- <em>XXXX/1月31日发布&nbsp;21:55</em>
+		                                        <em>最后回复1月31日发布&nbsp;21:55</em> -->
 		                                    </span>
 		                                </p>
 		                            </dt>
-		                            <dd class="fr clearfix"><span class="color-gre fl">浏览（3）</span><span class="color-red fl">回复（17222）</span></dd>
+		                            <dd class="fr clearfix"><span class="color-gre fl">成员数（{$k.follower_count}）</span><span class="color-red fl">今日新帖（{$k.new_count}）</span></dd>
 		                        </dl>
 	                        </volist>
 	                      <php>}</php>
