@@ -1,4 +1,7 @@
 <include file="__THEME__/public_header_new" />
+<link href="__THEME__/css/training.css" type="text/css" rel="stylesheet" />
+<link href="__APP__/weiba.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__APP__/weiba.js?v=3"></script>
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
 		<include file="__THEME__/public_left_new" />
@@ -9,6 +12,7 @@
                         <dl class="clearfix">
                             <dt class="clearfix">
                                 <img src="{$weiba_detail['avatar_middle']}" class="fl"/>
+                                <div class="fr">{:W('FollowWeiba',array('weiba_id'=>$weiba_detail['weiba_id'],'follow_state'=>array('following'=>$follow_state[$weiba_detail['weiba_id']]['following']),'isrefresh'=>1))}</div>
                                 <strong>{$weiba_detail['weiba_name']}</strong>
                                 <span>粉丝数：{$weiba_detail['follower_count']|default=0}<em>|</em>主题：{$weiba_detail['thread_count']|default=0}<em>|</em>帖子数：{$weiba_detail['tiezi_count']|default=0}</span>
                                 <span>吧主：jack</span>
@@ -16,7 +20,6 @@
                             <dd class="mt10">简介：{$weiba_detail['intro']|getShort=100}</dd>
                         </dl>
                         <!-- <a href="javascript:;" class="btn-org fl"><span class="fl">+加入</span></a> -->
-                        {:W('FollowWeiba',array('weiba_id'=>$weiba_detail['weiba_id'],'follow_state'=>array('following'=>$follow_state[$weiba_detail['weiba_id']]['following']),'isrefresh'=>1))}
                     </div>
                     <div class="subject-tab clearfix mt20">
                         <ul class="fl clearfix">
