@@ -26,7 +26,7 @@
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span>{$record['uname']}</span></td>
-                            <td><span><a href="{:U('homework/Admin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">阅卷</a></span></td>
+                            <td><span><a class="color-gre" href="{:U('homework/Admin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">阅卷</a></span></td>
                             <td><span><php>echo date("Y-m-d H:i", $record['ctime']);</php></span></td>
                             <td><span>{$record['score']}</span></td>
                         </tr>

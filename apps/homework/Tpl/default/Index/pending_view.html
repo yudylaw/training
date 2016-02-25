@@ -6,7 +6,12 @@
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Index/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
                 <div class="paper-name tc">{$homework['name']}</div>
                 <php>if(!isset($can_submit)) {</php>
-                <div><h2>试卷已经提交, 等待批改</h2></div>
+                <div class="paper-info tc">
+                    <span>考生姓名：<em class="color-78">{$user['uname']}</em></span>
+                    <span>所属学校：<em class="color-78">{$user['location']}</em></span>
+                    <span>得分：<em class="color-red">0</em></span>
+                    <span>试卷状态：<em class="color-org">等待批改</em></span>
+                </div>
                 <php>}</php>
                 <div class="question-types">
                 	<volist name="questions" id="question">

@@ -1519,3 +1519,16 @@ a.color-aa:hover,
 .id-list dl dd li a:hover{
     color: #269881;
 }
+
+/*add*/
+.color-org{
+    color: #fd7e02;
+}
+.paper-info{
+    padding-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+.paper-info span{
+    margin: 0 10px;
+}
