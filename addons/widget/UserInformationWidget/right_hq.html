@@ -6,18 +6,12 @@
 </div>
 <div class="user-option clearfix">
 	<a href="{$userInfo.space_url}" class="fl clearfix home"><span class="fl">我的主页</span></a> <a
-		href="http://localhost:8888/index.php?app=public&mod=Account&act=index" class="fl clearfix set"><span class="fl">设置</span></a>
+		href="{:U('public/Account/index')}" class="fl clearfix set"><span class="fl">设置</span></a>
 </div>
 <div class="user-info">
 	<ul class="clearfix">
-		<li class="fl"><a href="{:U('public/Profile/following', array('tab'=>'following','uid'=>$userInfo[uid]))}"> <strong>{$userData.following_count|default=0}</strong> <span>关注</span>
-		</a></li>
-		<li class="fl"><a href="{:U('public/Profile/follower', array('tab'=>'follow','uid'=>$userInfo[uid]))}"> <strong>{$userData.follower_count|default=0}</strong> <span>粉丝</span>
-		</a></li>
-		<volist name='userCredit.credit' id='vo' offset="1">
-			<li class="fl"><a href="javascript:void(0);"> <strong>{:intval($vo['value'])}</strong> <span>{$vo.alias}</span>
-			</a></li>
-		</volist>
+		<li class="fl"><strong>{$post_count|default=0}</strong> <span>发帖数</span></li>
+		<li class="fl"><strong>{$reply_count|default=0}</strong> <span>回帖数</span></li>
 	</ul>
 </div>
 <script type="text/javascript">

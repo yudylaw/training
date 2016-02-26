@@ -40,6 +40,8 @@ class IndexAction extends Action {
             }
         }
         
+        $user = M('user')->where(array('uid'=>$this->mid))->find();
+        
         $this->assign('homework', $homework);
         $this->assign('questions', $questions);
         

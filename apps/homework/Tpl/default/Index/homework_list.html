@@ -22,12 +22,12 @@
                         </tr>
                         <volist name='homeworks' id='homework'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
-                            <td><span class="tab-ell w-l"><a href="{:U('homework/Index/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
+                            <td><span class="tab-ell w-l"><a class="color-gre" href="{:U('homework/Index/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span class="color-red">已结束</span></td>
-                            <td><span><a href="{:U('homework/Admin/recordList', array('hw_id'=>$homework['id']))}">试卷列表</a></span></td>
-                            <td><span>查看成绩</span></td>
+                            <td><span><a class="color-gre" href="{:U('homework/Admin/recordList', array('hw_id'=>$homework['id']))}">试卷列表</a></span></td>
+                            <td><span><a class="color-gre" href="javascript:void(0);">查看成绩</a></span></td>
                             <td><span>98</span></td>
                         </tr>
                         </volist>

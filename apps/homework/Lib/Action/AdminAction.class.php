@@ -146,7 +146,10 @@ class AdminAction extends Action {
             }
         }
         
+        $user = M('user')->where(array('uid'=>$uid))->find();
+        
         $this->assign('uid', $uid);
+        $this->assign('user', $user);
         $this->assign('homework', $homework);
         $this->assign('questions', $questions);
         $this->assign('answers', $answers);
