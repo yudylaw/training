@@ -4,8 +4,8 @@
 <script type="text/javascript" src="__APP__/weiba.js"></script>
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
-		<include file="__THEME__/public_left_new" />
-		<div class="fr id-section">
+		<!-- <include file="__THEME__/public_left_new" /> -->
+		<div class="fl id-section">
 			<div class="location">
 				<span>当前位置：</span><a href="javascript:;">首页</a>-<a
 					href="{:U('weiba/Index/weibaList')}">主题交流</a>-<span class="color-gre">{$weiba_name}</span>
@@ -50,6 +50,12 @@
 				</div>
 			</div>
 		</div>
+		<div class="fr id-list">
+				<!--该作者其他帖子-->
+    			{:W('OtherPost',array('uid'=>$mid,'title'=>'该作者其它帖子','post_id'=>$_GET['post_id'],'max'=>4))} 
+    			<!--最新帖子--> 
+    			{:W('LatestPost',array('uid'=>$mid,'title'=>'最新帖子','weiba_id'=>$weiba_id,'max'=>4))}
+            </div>
 	</div>
 </div>
 <script>
