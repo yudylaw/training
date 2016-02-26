@@ -1,0 +1,108 @@
+<include file="__THEME__/public_header_new" />
+<link href="__APP__/weiba.css" rel="stylesheet" type="text/css" />
+<link href="__THEME__/training.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__APP__/weiba.js"></script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>-<a
+					href="{:U('weiba/Index/weibaList')}">主题交流</a>-<span class="color-gre">{$weiba_name}</span>
+			</div>
+			<div class="notice-detail">
+				<h2 class="mt20">{$post_detail.title}</h2>
+				<p class="clearfix detail-op">
+					<span class="fl">{$user_info[$post_detail['post_uid']]['uname']} {$post_detail.post_time|friendlyDate} 发布</span> <a
+						href="javascript:void(0)" event-node='denounce' event-args='aid={$post_detail.post_id}&type=weiba_post&uid={$post_detail.post_uid}' class="fr">举报</a> <span class="fr fav-btn" title="赞">(18)</span>
+					<span class="fr msg-btn" title="评论">({$post_detail.reply_count})</span> <span class="fr look-btn" title="浏览">({$post_detail.read_count})</span>
+				</p>
+				<!-- <div class="detail-img">
+					<img src="images/temp_notice.jpg" />
+				</div> -->
+				<p class="detail-content">{$post_detail.content}</p>
+				<php>if($post_detail['attachInfo']){</php>
+				<ul class="feed_file_list mt20">
+					<volist name="post_detail.attachInfo" id="vo">
+					<li><a
+						href="{:U('widget/Upload/down',array('attach_id'=>$vo['attach_id']))}"
+						class="current right" target="_blank" title="下载"><i
+							class="ico-down"></i></a><i class="ico-{$vo.extension}-small"></i><a
+						href="{:U('widget/Upload/down',array('attach_id'=>$vo['attach_id']))}">{$vo.attach_name}</a>
+						<span class="tips">({$vo.size|byte_format})</span></li>
+					</volist>
+				</ul>
+				<php>}</php>
+				<div class="clearfix">
+					<!-- <php>if($post_detail['favorite']==1){</php>
+					<a class="fr collect-btn"
+						event-args="post_id={$post_detail['post_id']}&weiba_id={$post_detail['weiba_id']}&post_uid={$post_detail['post_uid']}"
+						href="javascript:void(0)" event-node="post_unfavorite"
+						id="favorite">取消收藏</a>
+					<php>}else{</php>
+					<a class="fr collect-btn"
+						event-args="post_id={$post_detail['post_id']}&weiba_id={$post_detail['weiba_id']}&post_uid={$post_detail['post_uid']}"
+						href="javascript:void(0)" event-node="post_favorite" id="favorite">收藏</a>
+					<php>}</php> -->
+					<eq name="post_detail['digg']" value="undigg"> <a class="fr zan-btn" title="赞" event-args="blog_id={$post_detail['post_id']}" href="javascript:void(0)" event-node="post_love"  >赞&nbsp;<span>{$post_detail.praise}</span></a> </eq>
+            		<eq name="post_detail['digg']" value="digg"> <a class="fr zan-btn" title="已赞" event-args="blog_id={$post_detail['post_id']}" href="javascript:void(0)" event-node="post_unlove"  >已赞&nbsp;<span>{$post_detail.praise}</span></a> </eq> 
+					<!-- <a event-args="sid={$post_detail['post_id']}&stable=weiba_post&curtable=feed&curid={$post_detail['feed_id']}&initHTML=&appname=weiba&cancomment=1&feedtype=weiba_post" href="javascript:void(0)" event-node="share" class="fr relay-btn">转发</a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var setype = function(post_id, type, curvalue) {
+
+	};
+	function new_refresh() {
+		$.post(U('weiba/Index/catelist'), {
+			fid : 1
+		}, function(data) {
+			$('#catelist').html(data);
+		}, 'json');
+		return false;
+	}
+	function follow_user(args) {
+		$.post(U('weiba/Index/doFollow'),
+						{
+							fid : args
+						},
+						function(data) {
+							$('#' + args)
+									.html(
+											'<a onclick="unfollow_user('
+													+ args
+													+ ')" class="btns-red mt10"><i class="ico-add"></i>已关注</a>');
+						}, 'json');
+		return false;
+	}
+
+	function unfollow_user(args) {
+		$.post(U('weiba/Index/unFollow'),
+						{
+							fid : args
+						},
+						function(data) {
+							$('#' + args)
+									.html(
+											'<a onclick="follow_user('
+													+ args
+													+ ')" class="btns-red mt10"><i class="ico-add"></i>关注</a>');
+						}, 'json');
+		return false;
+	}
+	$("#comment_inputor").focus(function() {
+		$('body').keypress(function(e) {
+			if (e.ctrlKey && e.which == 13 || e.which == 10) {
+				$("[event-node='do_weiba_reply']").click();
+			}
+		});
+	});
+	$("#comment_inputor").blur(function() {
+		$('body').unbind("keypress");
+	});
+</script> 
+<script src="__THEME__/js/module.weibo.js"></script> 
+<include file="__THEME__/public_footer_new" /> 

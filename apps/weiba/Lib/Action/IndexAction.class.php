@@ -772,7 +772,7 @@ class IndexAction extends Action {
 		$this->setDescription( $post_detail['title'].','.t(getShort($post_detail['content'],100)) );
 
 		$this->assign( 'page', $_REQUEST['p']);
-		$this->display();
+		$this->display("postDetail_new");
 	}
 
 	/**
