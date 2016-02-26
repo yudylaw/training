@@ -186,9 +186,11 @@ document.onkeydown=inactiveF5;
 				    	<volist name="channel" id="vo">
 				    		<a id="channel_{$key}" <eq name="key" value="index">class="on"</eq> href="javascript:void(0)" onclick="switchChannel('{$key}');" hidefocus="true" style="outline:none;">{$vo}</a>
 				    	</volist>
+				    	<!-- 
 				    	<volist name='nav' id ='vo'>
 				    		<a href="#" onclick="gotoApp(this,'{$vo[url]}')" appname="{$vo.appname}">{$vo.name}</a>
-				    	</volist>	
+				    	</volist>
+				    	 -->	
 			    	</div>
 				    <div class="nav-sub">
 				    	<a style="padding:0px;" href="{:U('public/Account/index')}"><img src="{$user.avatar_tiny}"/></a><a href="{:U('public/Index/index')}">{:L('SYSTEM_BACK_TO_FRONT')}</a><a href="javascript:void(0);" onClick="refresh();">{:L('SYSTEM_REFRESH')}</a><a href="{:U('admin/Public/logout')}">{:L('PUBLIC_LOGOUT')}</a><br/>

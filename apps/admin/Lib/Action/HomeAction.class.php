@@ -103,10 +103,10 @@ class HomeAction extends AdministratorAction {
         $statistics[L('PUBLIC_SERVER_INFORMATION')] = $serverInfo;
         unset($serverInfo);
 
-        // 开发团队
-        $statistics[L('PUBLIC_DEV_TEAM')] = array(
-        	L('PUBLIC_COPYRIGHT') => '<a href="http://www.zhishisoft.com" target="_blank">'.L('PUBLIC_COMPANY').'</a>',
-        );
+//         // 开发团队
+//         $statistics[L('PUBLIC_DEV_TEAM')] = array(
+//         	L('PUBLIC_COPYRIGHT') => '<a href="http://www.zhishisoft.com" target="_blank">'.L('PUBLIC_COMPANY').'</a>',
+//         );
 
         $this->assign('statistics', $statistics);
        	$this->display();
