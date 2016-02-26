@@ -549,7 +549,7 @@ class IndexAction extends Action {
 		$this->setTitle( '发表帖子 '.$weiba['weiba_name'] );
 		$this->setKeywords( '发表帖子 '.$weiba['weiba_name'] );
 		$this->setDescription( $weiba['weiba_name'].','.$weiba['intro'] );
-		$this->display();
+		$this->display("post_new");
 	}
 
 	/**
