@@ -240,7 +240,7 @@ class AdminAction extends Action {
      */
     public function delete() {
         $hw_id = intval($_REQUEST['hw_id']);
-        $homework = M('homework')->find(array('id'=>$hw_id));
+        $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
         if (empty($homework)) {
             $this->ajaxReturn(null, '作业或考试不存在');
         }
@@ -260,7 +260,7 @@ class AdminAction extends Action {
     public function submit() {
         $uid = intval($_REQUEST['uid']);
         $hw_id = intval($_REQUEST['hw_id']);
-        $homework = M('homework')->find(array('id'=>$hw_id));
+        $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
         if (empty($homework)) {
             $this->ajaxReturn(null, '作业或考试不存在');
         }
