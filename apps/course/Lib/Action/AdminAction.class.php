@@ -189,7 +189,9 @@ class AdminAction extends Action {
             echo '{"status":0,"msg":"资源保存失败"}';
         }
     }
-    
+    /**
+     * 查看学习记录
+     */
     public function learnlist(){
         $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
         $con['page'] = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
@@ -212,5 +214,25 @@ class AdminAction extends Action {
         $this->courselearning = $data;
         $this->page = $page;
         $this->display(); 
+    }
+    /**
+     * 开始或者结束课程
+     * @param unknown $param
+     */
+    public function startandend() {
+        $type = $_POST['type'];
+        $id = $_POST['course_id'];
+        if($type == 'start'){
+            $start_date = time();
+            $res = model('Course')->updateCourse(array('id'=>$id,'start_date'=>$start_date));
+        }else{
+            $end_date = time();
+            $res = model('Course')->updateCourse(array('id'=>$id,'end_date'=>$end_date));
+        }
+        if($res){
+            echo '{"status":1,"msg":"操作成功"}';
+        }else{
+            echo '{"status":0,"msg":"操作失败"}';
+        }
     }
 }

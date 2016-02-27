@@ -59,6 +59,12 @@ class CourseModel extends Model {
         if(!empty($param['is_del'])){
             $data['is_del'] = $param['is_del'];
         }
+        if(!empty($param['start_date'])){
+            $data['start_date'] = $param['start_date'];
+        }
+        if(!empty($param['end_date'])){
+            $data['end_date'] = $param['end_date'];
+        }
         //删除课程资源
         if(!empty($param['resourceid'])){
             $map2['id'] = array("IN",array($param['resourceid']));
@@ -78,8 +84,8 @@ class CourseModel extends Model {
         foreach ($resdata as $key=>$val){
             $courselearning = $courselearningmodel->getCourseLearningByCondition(array('course_id'=>$val['id'],'uid'=>$this->uid));
             if(!empty($courselearning)){
-                $result['data'][$key]['start_date'] = $courselearning['start_date'];
-                $result['data'][$key]['end_date'] = $courselearning['end_date'];
+                //$result['data'][$key]['start_date'] = $courselearning['start_date'];
+                //$result['data'][$key]['end_date'] = $courselearning['end_date'];
                 $result['data'][$key]['percent'] = $courselearning['percent'];
             }
         }

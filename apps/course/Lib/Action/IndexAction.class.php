@@ -28,6 +28,16 @@ class IndexAction extends Action {
         if(empty($id)){
             $this->error("课程id不能为空");
         }
+        $course = model('Course')->getCourseByCondition(array('id'=>$id));
+        $course = $course[0];
+        $start_date = $course['start_date'];
+        $end_date = $course['end_date'];
+        if($start_date == 0 || $start_date > time()){
+            $this->error("课程未开始");
+        }
+        if($end_date < time()){
+            $this->error("课程已经结束");
+        }
         $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
         $data = $courseresource['data'];
         $this->courseresource = $data;
