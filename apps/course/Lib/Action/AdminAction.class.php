@@ -189,4 +189,28 @@ class AdminAction extends Action {
             echo '{"status":0,"msg":"资源保存失败"}';
         }
     }
+    
+    public function learnlist(){
+        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
+        $con['page'] = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
+        $result = model("CourseLearning")->getCourseLearningByCondition($con);
+        $data = $result['data'];
+        $coursemodel = model('Course');
+        $user = model('User');
+        foreach ($data as &$val){
+            $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
+            $course = $course[0];
+            $val['title'] = $course['title'];
+            $val['course_hour'] = $course['course_hour'];
+            $val['course_score'] = $course['course_score'];
+            $user = $user->getUserInfo($val['uid']);
+            $val['uname'] = $user['uname'];
+        }
+        $totalRows = $result['totalRows'];
+        $p = new Page($totalRows,$con['limit']);
+        $page = $p->show();
+        $this->courselearning = $data;
+        $this->page = $page;
+        $this->display(); 
+    }
 }

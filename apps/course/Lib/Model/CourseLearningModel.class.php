@@ -65,18 +65,8 @@ class CourseLearningModel extends Model {
         !empty($param['course_id']) && $map['course_id'] = $param['course_id'];
         !empty($param['uid']) && $map['uid'] = $param['uid'];
         !empty($param['class_id']) && $map['class_id'] = $param['class_id'];
-        $result = $this->where($map)->order('ctime desc')->find();
-//         $resdata = $result['data'];
-//         $coursemodel = model('Course');
-//         foreach ($resdata as $key=>$val){
-//             $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
-//             $course = $course[0];
-//             $result['data'][$key]['title'] = $course['title'];
-//             $result['data'][$key]['creator'] = $course['creator'];
-//             $result['data'][$key]['subject'] = $course['subject'];
-//             $result['data'][$key]['required'] = $course['required'];
-//         }
-//         return $this->getLastSql();
+        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $result = $this->where($map)->order('ctime desc')->findPage($limit);
         return $result;
     }
     
