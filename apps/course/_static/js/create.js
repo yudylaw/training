@@ -10,6 +10,7 @@ function _getData(){
 	data.description = $("#course_des").val();
 	data.resourceids = $("#resource_ids").val();
 	data.course_hour = $("#course_hour").val();//学时
+	data.course_score = $("#course_score").val();//学分
 	return data;
 }
 Course.init = function(){

@@ -127,9 +127,11 @@ class AdminAction extends Action {
         $data = array();
         $data['title'] = t($_REQUEST['title']);
         $data['creator'] = $this->uid;
-        $data['subject'] = t($_REQUEST['subject']);
-        $data['required'] = t($_REQUEST['required']);
-        $data['description'] = t($_REQUEST['description']);
+        $data['subject'] = t($_REQUEST['subject']);//学科
+        $data['required'] = t($_REQUEST['required']);//必修与选修
+        $data['course_hour'] = t($_REQUEST['required']);//学时
+        $data['course_score'] = t($_REQUEST['required']);//学分
+        $data['description'] = t($_REQUEST['description']);//描述
         $data['ctime'] = time();
         $resourceids = t($_REQUEST['resourceids']);
         $result = Model('Course')->addCourse($data);

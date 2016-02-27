@@ -21,7 +21,7 @@
 						<tr>
 							<td><span class="tab-ell w-l">{$res['title']}</span></td>
 							<td><span>{$res['start_date']|default=0|friendlyDate}-{$res['end_date']|default=0|friendlyDate}</span></td>
-							<td><span>200/40</span></td>
+							<td><span>{$res['course_hour']}/{$res['course_score']}</span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span class="color-roseo"><if condition="$res['percent'] eq 100"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">完成</a><else /><if condition="$res['percent'] eq 0"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">进入学习</a><else /><a href="{:U('course/Index/detail',array(id=>$res['id']))}">继续</a></if></if></span></td>
 						</tr>

@@ -35,6 +35,8 @@ class CourseModel extends Model {
         $data['creator'] = $param['creator'];
         $data['subject'] = $param['subject'];
         $data['required'] = $param['required'];
+        $data['course_hour'] = $param['course_hour'];
+        $data['course_score'] = $param['course_score'];
         $data['description'] = $param['description'];
         $data['ctime'] = time();
         return $this->add($param);
