@@ -33,7 +33,7 @@ img{border: 0px;}
 <div class="login-wrap">
     <div class="boarder"></div>
     <div class="login">
-        <div class="hd"><img src="__APP__/image/login-hd-logo.png" /></div>
+        <div class="hd"><h2>教师培训平台管理后台</h2></div>
         <div class="login-inner">
             <!--<div class="title">{:L('PUBLIC_ADMINISTRATOR_LOGIN')}</div>-->
             <form action="{:U('admin/Public/doLogin')}" id="reg" name="reg" method="post" class="form-login" >
@@ -49,10 +49,6 @@ img{border: 0px;}
                 <php>}</php>
                 <li>
                     <input id="login_pwd" placeholder="管理密码" type="password" name="password" value="">
-                </li>
-                <li>
-                    <input id="login_verify" placeholder="验证码" name="verify" value="" style="width:150px;float:left" >
-                    <img src="__ROOT__/public/captcha.php" id="verifyimg" alt="{:L('PUBLIC_CHANGE_ONE')}"  style="float:right;vertical-align:middle;border:none" onclick="changeverify()"/><!--<a href="javascript:void(0);" onclick="changeverify()">看不清，换一张</a>-->
                 </li>
                 <li>
                 <span onclick="$('#reg').submit();">进入</span>
