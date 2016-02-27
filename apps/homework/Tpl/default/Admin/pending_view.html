@@ -70,7 +70,8 @@
                     <a href="javascript:;" class="clearfix">末页</a>
                 </div>
                  -->
-                 <div class="clearfix" style="padding-top: 50px;"><a href="javascript:;" class="sub-btn">完成阅卷</a></div>
+                 <div class="clearfix" style="padding-top: 50px;"><a href="javascript:;" id="sub-test" class="sub-btn">完成阅卷</a></div>
+                 <div class="clearfix" style="padding-top: 10px;"><a href="javascript:;" id="redo-test" class="sub-btn">退回重做</a></div>
             </div>
         </div>
     </div>
@@ -89,9 +90,21 @@
       });
       
 	  //提交试卷
-	  $(".sub-btn").click(function(){
-		  if(confirm("是否确认交卷")){
+	  $("#sub-test").click(function(){
+		  if(confirm("是否确认提交阅卷")){
 			  $.post("{:U('homework/Admin/submit', array('uid'=>$uid, 'hw_id'=>$homework['id']))}", function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+				  }
+			  });
+		  }
+	  });
+	  
+	  //退回试卷
+	  $("#redo-test").click(function(){
+		  if(confirm("是否确认退回试卷")){
+			  $.post("{:U('homework/Admin/redo', array('uid'=>$uid, 'hw_id'=>$homework['id']))}", function(data) {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
 					  alert(obj.info);
