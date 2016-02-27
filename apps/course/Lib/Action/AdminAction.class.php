@@ -129,18 +129,18 @@ class AdminAction extends Action {
         $data['creator'] = $this->uid;
         $data['subject'] = t($_REQUEST['subject']);//学科
         $data['required'] = t($_REQUEST['required']);//必修与选修
-        $data['course_hour'] = t($_REQUEST['required']);//学时
-        $data['course_score'] = t($_REQUEST['required']);//学分
+        $data['course_hour'] = t($_REQUEST['course_hour']);//学时
+        $data['course_score'] = t($_REQUEST['course_score']);//学分
         $data['description'] = t($_REQUEST['description']);//描述
         $data['ctime'] = time();
         $resourceids = t($_REQUEST['resourceids']);
         $result = Model('Course')->addCourse($data);
         if($result){
             //将上传资源归属到对应的课程
-            $resourceids = explode(",",$resourceids);
+            /* $resourceids = explode(",",$resourceids);
             $courseids['course_id'] = $result;
             $map['id'] = array('IN',$resourceids);
-            model('CourseResource')->where($map)->save($courseids);
+            model('CourseResource')->where($map)->save($courseids); */
             echo '{"status":1,"msg":"创建成功"}';
         }else{
             echo '{"status":0,"msg":"创建失败"}';
@@ -175,5 +175,18 @@ class AdminAction extends Action {
         $data['resourceid'] = $resid;
         $res = model('CourseResourceLearning')->addResLearning($data);
         echo json_encode($res);
+    }
+    /**
+     * 将资源归属到课程
+     */
+    public function saveResToCourse(){
+        $courseids['course_id'] = intval($_POST['courseid']);
+        $map['id'] = intval($_POST['resid']);
+        $res = model('CourseResource')->where($map)->save($courseids);
+        if($res){
+            echo '{"status":1,"msg":"资源上传成功"}';
+        }else{
+            echo '{"status":0,"msg":"资源保存失败"}';
+        }
     }
 }

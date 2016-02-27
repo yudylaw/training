@@ -1,9 +1,15 @@
 <include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
 <div id="main-body" class="mt20">
         <div class="content clearfix">
             <include file="__THEME__/public_left_new" />
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('course/Index/index')}">课程学习-课程资源</a>&gt;<span class="color-gre">课程列表</span></div>
+                <div class="fr" style="margin-top:2px;">
+                	<div id="fileQueue"></div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                </div>
                 <div class="id-table">
                     <table>
                         <tr>
@@ -53,5 +59,69 @@
             </div>
         </div>
     </div>
-
+<script>
+var courseid = "{$courseid}";
+jQuery(document).ready(function(){
+	$('#file_upload').uploadify({
+		//auto:false,
+    	fileTypeExts: "*.flv;*.xls;*.xlsx;*.ppt;*.pptx",
+		swf: '__THEME__/js/uploadify/uploadify.swf',
+		uploader: "{:U('course/Admin/upload')}",
+		width: 115,
+		height: 30,
+		buttonImage: '__APP__/images/uploadBtn.png',
+		queueSizeLimit: 5,
+		fileSizeLimit : '100MB',
+		queueID: 'fileQueue',
+		overrideEvents: ['onSelectError', 'onDialogClose'],
+		onUploadSuccess : function(file, data, response) {
+			// 解析JSON数据
+			var jsondata = $.parseJSON(data);
+			if (jsondata.status === 1) {
+				//data返回服务端各个参数
+				//alert("上传成功");
+				var resid = jsondata.resource_id;
+				$.ajax({
+					type: "POST",
+					url: 'index.php?app=course&mod=Admin&act=saveResToCourse',
+					data:{"courseid":courseid,"resid":resid},
+					dataType: "json",
+					async:false,
+					success:function(msg){
+						if(msg.status == 1){
+							window.location.href="index.php?app=course&mod=Index&act=detail&id="+courseid;
+						}
+					},
+					error:function(msg){
+						alert("创建失败");
+						return;
+					}
+				});
+			}
+		},
+		onSelectError: function (file, errorCode, errorMsg) {
+			switch (errorCode) {
+				case -100:
+					alert('选择的上传数目超过，您还能上传'+errorMsg+'个视频');
+					break;
+				case -110:
+					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小100MB");
+					break;
+				case -120:
+					alert("文件 [" + file.name + "] 大小异常");
+					break;
+				case -130:
+					alert("文件 [" + file.name + "] 类型不正确");
+					break;
+			}
+		},
+		onFallback: function () {
+			alert('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
+		},
+		onUploadStart: function (file) {
+			
+		}
+	});
+});
+</script>
 <include file="__THEME__/public_footer_new" />
