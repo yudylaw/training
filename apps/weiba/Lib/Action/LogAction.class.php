@@ -1,6 +1,6 @@
 <?php
 // /**
-//  * 微吧管理知识控制器
+//  * 班级管理知识控制器
 //  * @author 
 //  * @version TS3.0
 //  */
@@ -16,7 +16,7 @@
 // 	}
 
 // 	/**
-// 	 * 微吧管理首页-修改微吧信息
+// 	 * 班级管理首页-修改班级信息
 // 	 * @return void
 // 	 */
 // 	public function index() {
@@ -31,7 +31,7 @@
 // 	}
 
 // 	/**
-// 	 * 执行编辑微吧
+// 	 * 执行编辑班级
 // 	 * @return void
 // 	 */
 // 	public function doWeibaEdit(){
@@ -42,7 +42,7 @@
 // 		$data['logo'] = t($_POST['logo']);
 // 		$data['who_can_post'] = t($_POST['who_can_post']);
 // 		if(strlen($data['weiba_name']) == 0){
-// 			$this->error('微吧名称不能为空');
+// 			$this->error('班级名称不能为空');
 // 		}
 // 		if(strlen($data['logo']) == 0){
 // 			$this->error('logo不能为空');
@@ -59,7 +59,7 @@
 // 	}
 
 // 	/**
-// 	 * 微吧成员管理
+// 	 * 班级成员管理
 // 	 * @return void
 // 	 */
 // 	public function member(){
@@ -75,7 +75,7 @@
 // 	}
 
 // 	/**
-// 	 * 设置微吧成员等级
+// 	 * 设置班级成员等级
 // 	 * @return void
 // 	 */
 // 	public function editLevel(){

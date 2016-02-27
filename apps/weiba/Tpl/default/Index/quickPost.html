@@ -24,7 +24,7 @@ function changeweiba(obj){
 			//ui.error('"'+weibaname+'"，需要管理员才能发表帖子');
 			$('#weibainfo').text('提示："'+weibaname+'"，需要管理员才能发表帖子');
 		}else if(res==3){
-			$('#weibainfo').text('提示："'+weibaname+'"，需要圈主才能发表帖子');
+			$('#weibainfo').text('提示："'+weibaname+'"，需要班级管理员才能发表帖子');
 		}
 		changelock = 0;
 	});
@@ -33,15 +33,15 @@ function changeweiba(obj){
 <div id="page-wrap">
   <div id="main-wrap">
     <div class="st-bg">
-      <!-- <p class="weiba-location"><a href="{:U('weiba/Index/index')}">微吧</a>&nbsp;>&nbsp;发表新帖</p> -->
+      <!-- <p class="weiba-location"><a href="{:U('weiba/Index/index')}">班级</a>&nbsp;>&nbsp;发表新帖</p> -->
       <div class="weiba-box"> 
         <!-- <h3>发新贴</h3> -->
         <form method="post" action="{:U('weiba/Index/doPost')}" model-node='weiba_post' onsubmit="return setcontent();" name="weibaPost">
           <dl class="form-set">
             <dd>
-              <div class="form-tt"><font color="red"> * </font>选择微吧</div>
+              <div class="form-tt"><font color="red"> * </font>选择班级</div>
               <div class="form-row">
-                <div class="select-area"><a id="weiba_name" name="1" href="javascript:void(0);">请选择微吧<i class="ico-arrow-down right mt15"></i></a>
+                <div class="select-area"><a id="weiba_name" name="1" href="javascript:void(0);">请选择班级<i class="ico-arrow-down right mt15"></i></a>
                   <input id="weiba_id" type="hidden" value="" name="weiba_id" /></div>
                 <div class="kind-list kind-1" id="kind-1" style="width:700px; border-bottom:#E2DDD5 1px solid; border-top:none;">
                   <ul class="clearfix">
@@ -81,9 +81,9 @@ function changeweiba(obj){
 	$("#weiba_name").click(function(){
 			$(".kind-list").toggle();
 		})
-//如果没有可选择微吧，添加提示
+//如果没有可选择班级，添加提示
 function nocircleTip(obj,tips){
-	var tipContent = ''+'<p class="f8 p20">您没有可选择的微吧，<a href="{:U('weiba/Index/weibaList',array('type'=>$_GET['type']))}"class="f-red">赶紧去加入吧！</a></p>'
+	var tipContent = ''+'<p class="f8 p20">您没有可选择的班级，<a href="{:U('weiba/Index/weibaList',array('type'=>$_GET['type']))}"class="f-red">赶紧去加入吧！</a></p>'
 	if($(obj).length<1){
 		$(tips).html(tipContent);
 		}

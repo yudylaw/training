@@ -25,7 +25,7 @@
           <form>
             <dl class="member-list" id="list">
               <dt class="f9"> 
-                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出微吧</span></a>--> 
+                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出班级</span></a>--> 
                 <!-- <div class="c1">头像</div> -->
                 <div class="c1">昵称</div>
                 <div class="c2">申请类型</div>
@@ -60,7 +60,7 @@
               <div class="left mt10"><a onclick="addUser()" class="btn-green-small">添加黑名单</a></div>
               </div>     
               <dt class="f9 cGray2"> 
-                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出微吧</span></a>--> 
+                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出班级</span></a>--> 
                 <!-- <div class="c1">头像</div> -->
                 <div class="c1">昵称</div>
                 <div class="c2">身份</div>
@@ -102,7 +102,7 @@
           <form>
             <dl class="member-list" id="list">
               <dt class="f9 cGray2"> 
-                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出微吧</span></a>--> 
+                <!-- <input id="checkbox_handle" type="checkbox" value="0" onclick="checkAll(this)"> --><!--<a href="javascript:void(0)" class="btn-cancel right" onclick="moveOut({$weiba_id})"><span>移出班级</span></a>--> 
                 <!-- <div class="c1">头像</div> -->
                 <div class="c1">昵称</div>
                 <div class="c2">身份</div>
@@ -144,7 +144,7 @@
                     <i class="vline">|</i>
                     <php>}</php>
                     <php>if(CheckPermission('core_admin','admin_login') || $mid==$weiba_super_admin || in_array($mid,$weiba_admin) && !in_array($vo['follower_uid'],$weiba_admin)){</php>
-                    <a href="javascript:void(0)" onclick="moveOut({$vo.weiba_id},{$vo.follower_uid})">移出微吧</a>
+                    <a href="javascript:void(0)" onclick="moveOut({$vo.weiba_id},{$vo.follower_uid})">移出班级</a>
                     <php>}</php>
                     <php>if(CheckPermission('core_admin','admin_login') || $mid==$weiba_super_admin || in_array($mid,$weiba_admin) && !in_array($vo['follower_uid'],$weiba_admin)){</php>
                     <i class="vline">|</i>

@@ -6,7 +6,7 @@
 <div id="page-wrap">
   <div id="main-wrap">
     <div class="st-bg">
-      <!-- <p class="weiba-location"><a href="{:U('weiba/Index/index')}">微吧</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$post_detail['weiba_id']))}">{$weiba_name}</a>&nbsp;>&nbsp;编辑帖子</p> -->
+      <!-- <p class="weiba-location"><a href="{:U('weiba/Index/index')}">班级</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$post_detail['weiba_id']))}">{$weiba_name}</a>&nbsp;>&nbsp;编辑帖子</p> -->
       <div class="weiba-manage">
         <form method="post" action="{:U('weiba/Index/doPostEdit')}" model-node='weiba_post_edit' name="weibaPost" onsubmit="return setcontent();">
           <input type="hidden" value="{$post_detail['post_id']}" name="post_id" id="post_id">

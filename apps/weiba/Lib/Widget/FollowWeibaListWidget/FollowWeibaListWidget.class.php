@@ -1,6 +1,6 @@
 <?php
 /**
- * 某人关注的微吧Widget
+ * 某人关注的班级Widget
  * @example W('FollowWeibaList', array('follower_uid'=>10000,'right'=>0))
  * @author jason <yangjs17@yeah.net>
  * @version TS3.0

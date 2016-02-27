@@ -12,12 +12,12 @@
               <php>if(!$nav){</php>
               class="current"
               <php>}</php>
-              >微吧首页</a></li>
+              >班级首页</a></li>
             <li><a href="{:U('weiba/Index/weibaList')}" 
               <php>if($nav=="weibalist"){</php>
               class="current"
               <php>}</php>
-              >所有微吧</a>
+              >所有班级</a>
               <php>if($GLOBALS['ts']['mid']){</php>
               <php>}</php>
             </li>
@@ -53,7 +53,7 @@
                   <php>if($vo['level']==3){</php>吧主：<php>}</php><php>if($vo['level']==2){</php>小吧主：<php>}</php><a href="{:U('public/Profile/index','uid='.$vo['userinfo']['uid'])}" event-node="face_card" uid="{$vo.userinfo.uid}" target="_blank">{$vo.userinfo.uname}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 </volist>
                 </p>      
-                <!-- <div class="right"><a class="slide-down" id="announce-slide">微吧简介&nbsp;&nbsp;<i class="ico-arrow-down"></i></a></div>
+                <!-- <div class="right"><a class="slide-down" id="announce-slide">班级简介&nbsp;&nbsp;<i class="ico-arrow-down"></i></a></div>
                 <p class="announce left mt10" style="display:none;">简介：{$weiba_detail['intro']|getShort=100}</p> -->
                 <!--<p class="mb10">
                   <php>if(!in_array($mid,$weiba_admin_uids)){</php>
@@ -145,7 +145,7 @@ $('#quick_post').bind('click', function () {
     ui.error('对不起，您没有权限进行该操作！');
   }
 });
-//微吧公告
+//班级公告
 $("#announce-slide").click(function(){
 	flag=$(this).children("i").attr("class")=="ico-arrow-down";
 	if(flag){

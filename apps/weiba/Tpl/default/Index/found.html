@@ -13,22 +13,22 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
 <div id="page-wrap">
   <div id="main-wrap">
     <div class="weiba-box clearfix"> 
-      <!--  创建微吧  -->
-      <div class="add_group_head">创建微吧</div>
+      <!--  创建班级  -->
+      <div class="add_group_head">创建班级</div>
       <!-- <form name="addform" action="{:U('weiba/Index/doAdd')}" method="post" onsubmit="return group_info.check_form(this);" enctype="multipart/form-data"> -->
       <ul class="add_group">
         <li>
-          <div class="c1"><span class="red">*</span>微吧名称：</div>
+          <div class="c1"><span class="red">*</span>班级名称：</div>
           <div class="c2">
             <input name="weiba_name" value="" class="text" style="width:610px;" type="text" />
             <span id="group_name_tips" class="cRed pr5"></span> </div>
         </li>
         <li>
-          <div class="c1"><span class="red">*</span>微吧logo：</div>
+          <div class="c1"><span class="red">*</span>班级logo：</div>
           <div class="c2"> {:W('Avatars',array('avatar'=>$user_info,'defaultImg'=>$imgurl))} </div>
         </li>
         <li>
-          <div class="c1"><span class="red">*</span>微吧简介：</div>
+          <div class="c1"><span class="red">*</span>班级简介：</div>
           <div class="c2">
             <textarea id="textarea" name="intro" rows="3" style="width:610px;" class="text" ></textarea>
           </div>
@@ -44,15 +44,15 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="1" class="checkBox" id="checkid2"/>
                 <label for="checkid2" class="mb20"></label>
-                仅限该微吧粉丝发帖</label></div>
+                仅限该班级粉丝发帖</label></div>
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="2" class="checkBox" id="checkid3"/>
                 <label for="checkid3" class="mb20"></label>
-                仅限微吧管理员发帖</label></div>
+                仅限班级管理员发帖</label></div>
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="3" class="checkBox" id="checkid4"/>
                 <label for="checkid4" class="mb20"></label>
-                仅限圈主发帖</label></div>
+                仅限班级管理员发帖</label></div>
                  <!--<![endif]--> 
             <!--[if IE]> 
                  <div class="mr30 left">
@@ -60,13 +60,13 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
                 所有人均可发帖</label></div>
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="1" />
-                仅限该微吧粉丝发帖</label></div>
+                仅限该班级粉丝发帖</label></div>
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="2" />
-                仅限微吧管理员发帖</label></div>
+                仅限班级管理员发帖</label></div>
               <div class="mr30 left">
                 <label><input type="radio"  name="who_can_post" value="3" />
-                仅限圈主发帖</label></div>
+                仅限班级管理员发帖</label></div>
                  <![endif]--> 
           </div>
         </li>
@@ -83,7 +83,7 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
         <li>
           <div class="c1">标签：</div>
           <div class="c2">
-          <div class="select-area"><a id="weiba_name" name="1" href="javascript:void(0);">请选择微吧<i class="ico-arrow-down right mt15"></i></a>
+          <div class="select-area"><a id="weiba_name" name="1" href="javascript:void(0);">请选择班级<i class="ico-arrow-down right mt15"></i></a>
             <input id="weiba_id" type="hidden" value="" name="weiba_id" />
           </div>
           <div class="kind-list kind-1" id="kind-1" style="width:740px; border-bottom:#E2DDD5 1px solid; border-top:none;">

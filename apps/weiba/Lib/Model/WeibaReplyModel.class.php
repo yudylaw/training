@@ -1,6 +1,6 @@
 <?php
 /**
- * 微吧模型 - 数据对象模型
+ * 班级模型 - 数据对象模型
  * @author jason <yangjs17@yeah.net> 
  * @version TS3.0
  */

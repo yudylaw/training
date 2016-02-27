@@ -97,7 +97,7 @@ M.addModelFns({
 			}, 1500);
 		}
 	},
-	weiba_admin_apply:{   //申请圈主
+	weiba_admin_apply:{   //申请班级管理员
 		callback:function(txt){
 			ui.success('申请成功，请等待管理员审核');
 			setTimeout(function() {
@@ -785,7 +785,7 @@ var search = {
 		this.searchKey = obj.value.replace(/(^\s*)|(\s*$)/g,"");
 		if(getLength(this.searchKey)>0){
 			var html = '<div class="search-box" id="search-box"><dd id="s_2" class="current" onclick="search.dosearch(2);" onmouseover="$(\'#s_2\').addClass(\'current\');$(\'#s_1\').removeClass(\'current\');">搜“<span>'+this.searchKey+'</span>”相关帖子&raquo;</dd>'
-						+'<dd id="s_1" onclick="search.dosearch(1);" onmouseover="$(\'#s_1\').addClass(\'current\');$(\'#s_2\').removeClass(\'current\');">搜“<span>'+this.searchKey+'</span>”相关微吧&raquo;</dd></div>';
+						+'<dd id="s_1" onclick="search.dosearch(1);" onmouseover="$(\'#s_1\').addClass(\'current\');$(\'#s_2\').removeClass(\'current\');">搜“<span>'+this.searchKey+'</span>”相关班级&raquo;</dd></div>';
 					//+'<dd class="more"><a href="#"" onclick="core.search.dosearch();">点击查看更多结果&raquo;</a></dd>';
 		}else{
 			var html = '';
@@ -819,7 +819,7 @@ var	upload = function(type,obj){
 
 /**
  * 修改吧内成员等级
- * @param integer weiba_id 微吧ID
+ * @param integer weiba_id 班级ID
  * @param integer follower_uid 当前成员UID
  * @param integer targetLevel 目标等级
  * @return void
@@ -831,9 +831,9 @@ var editLevel = function(weiba_id,follower_uid,targetLevel){
 };
 
 /**
- * 将用户移出微吧
- * @param integer weiba_id 微吧ID
- * @param integer follower_uid 微吧成员UID
+ * 将用户移出班级
+ * @param integer weiba_id 班级ID
+ * @param integer follower_uid 班级成员UID
  * @return void
  */
 var moveOut = function(weiba_id,follower_uid){
@@ -848,8 +848,8 @@ var moveOut = function(weiba_id,follower_uid){
 
 /**
  * 将用户加入黑名单
- * @param integer weiba_id 微吧ID
- * @param integer follower_uid 微吧成员UID
+ * @param integer weiba_id 班级ID
+ * @param integer follower_uid 班级成员UID
  * @return void
  */
 var moveTo = function(weiba_id,follower_uid){
@@ -864,8 +864,8 @@ var moveTo = function(weiba_id,follower_uid){
 
 /**
  * 将用户加入黑名单
- * @param integer weiba_id 微吧ID
- * @param integer follower_uid 微吧成员UID
+ * @param integer weiba_id 班级ID
+ * @param integer follower_uid 班级成员UID
  * @return void
  */
 var moveOutTo = function(weiba_id,follower_uid){
@@ -897,18 +897,18 @@ var addUser = function(){
 }; 
 
 /**
- * 解散微吧
- * @param integer weiba_id 微吧ID
+ * 解散班级
+ * @param integer weiba_id 班级ID
  * @return void
  */
 var delWeiba = function(weiba_id){
-	if(confirm('确定要解散此微吧吗？')){
+	if(confirm('确定要解散此班级吗？')){
         $.post(U('weiba/Manage/delWeiba'),{weiba_id:weiba_id},function(msg){
             if(msg == 1) {
             	ui.success('解散成功');
             	location.href = U('weiba/Index/index');
             }else if(msg == -1){
-            	ui.error('微吧ID不能为空');
+            	ui.error('班级ID不能为空');
             }else{
             	ui.error('解散失败');
             }
@@ -918,7 +918,7 @@ var delWeiba = function(weiba_id){
 
 /**
  * 检查是否有发帖权限
- * @param integer weiba_id 微吧ID
+ * @param integer weiba_id 班级ID
  * @param boolean who_can_post 发帖权限 0：所有人  1：关注本吧的人
  */
 var check_post = function(weiba_id, who_can_post){
@@ -940,12 +940,12 @@ var weiba_admin_apply = function(weiba_id,type){
 		if(txt==1){
 			location.href = U('weiba/Index/apply_weiba_admin')+'&weiba_id='+weiba_id+'&type='+type;
 		}else if(txt==2){
-			ui.error('该圈已经设置了圈主');
+			ui.error('该圈已经设置了班级管理员');
 			setTimeout("location.reload()",2000);
 		}else if(txt==-1){
 			ui.error('您已经提交了申请，请等待审核');
 		}else if(txt==-2){
-			ui.error('您已经是圈主，不能重复申请');
+			ui.error('您已经是班级管理员，不能重复申请');
 		}else if(txt==-3){
 			ui.error('对不起，您没有权限执行该操作！');
 		}else{
@@ -955,7 +955,7 @@ var weiba_admin_apply = function(weiba_id,type){
 };
 
 /**
- * 处理申请圈主或小主申请
+ * 处理申请班级管理员或小主申请
  */
 var verify = function(weiba_id, uid, value){
 	$.post(U('weiba/Manage/verify'),{weiba_id:weiba_id,uid:uid,value:value},function(msg){
@@ -979,7 +979,7 @@ var saveWeibaInfo = function(){
 	});
 }
 
-//申请微吧
+//申请班级
 var apply_weiba = function(){
 	//未登录
 	if( MID == 0 ){
@@ -990,7 +990,7 @@ var apply_weiba = function(){
 		if(txt == 1){
 			location.href = U('weiba/Index/apply_weiba');
 		}else{
-			ui.error("您的账号还没有达到申请微吧的要求！");
+			ui.error("您的账号还没有达到申请班级的要求！");
 		}
 	});
 }

@@ -1,32 +1,32 @@
 <?php
 /**
- * 微吧控制器
+ * 班级控制器
  * @author 
  * @version TS3.0
  */
 class IndexAction extends Action {
 
 	/**
-	 * 微吧首页
+	 * 班级首页
 	 * @return void
 	 */
 	public function index() {
 
-		//微吧推荐
+		//班级推荐
 		$this->_weiba_recommend(4,100,100);
 		//帖子列表
 		$post_type = in_array(t($_GET['post_type']), array('top','new','reply','hot','digest'))?t($_GET['post_type']):'new';
 		$this->assign('post_type',$post_type);
 		$post_list = $this->index_post_list($post_type,$_GET['p']);
 		$this->assign('post_list',$post_list);
-		//微吧达人
+		//班级达人
 		$daren_arr = $this->_weiba_daren();
 		$this->assign('daren_arr',$daren_arr);
 		//帖子推荐+置顶
 		$post_recommend_list = $this->_post_list('topandrecomment',10);
 		$this->assign('post_recommend_list',$post_recommend_list);
 		// dump($post_recommend_list);exit;
-		//微吧排行榜
+		//班级排行榜
 		// $this->_weibaOrder();
 		//帖子列表
 		// $this->_postList();
@@ -39,7 +39,7 @@ class IndexAction extends Action {
 		
 		$tiezi_count = D('weiba_reply')->where('is_del=0')->count() + D('weiba_post')->where('is_del=0')->count();
 		$this->assign('tiezi_count',$tiezi_count);
-		//我的微吧
+		//我的班级
 		$sfollow = D('weiba_follow')->where('follower_uid='.$this->mid)->findAll();
 		$map['weiba_id'] = array('in', getSubByKey($sfollow, 'weiba_id'));
 		$map['is_del'] = 0;
@@ -62,13 +62,13 @@ class IndexAction extends Action {
 		$this->assign('mynum', $mynum);
 		$this->assign('mid', $this->mid);
 		$this->assign('mylist',$var);
-		// 微吧是否开启
+		// 班级是否开启
 		
         $weibaAuditConfig = model('Xdata')->get('weiba_Admin:weibaAuditConfig');
         $this->assign('is_open',$weibaAuditConfig['apply_weiba_open']);
 
-		$this->setTitle( '微吧首页' );
-		$this->setKeywords( '微吧首页' );
+		$this->setTitle( '班级首页' );
+		$this->setKeywords( '班级首页' );
 		$this->display();
 	}
 
@@ -77,7 +77,7 @@ class IndexAction extends Action {
 	 */
 	private function index_post_list($post_type,$p){
 		$maps['is_del'] = 0;
-		//剔除不符合微吧ID
+		//剔除不符合班级ID
 		$fwid = D('weiba')->where('is_del=1 OR status=0')->order($order)->select();
 		$fids = getSubByKey($fwid, 'weiba_id');
 		if($fids){
@@ -165,7 +165,7 @@ class IndexAction extends Action {
 	}
 	
 	/**
-	 * 微吧列表
+	 * 班级列表
 	 * @return void
 	 */
 	public function weibaList(){
@@ -173,7 +173,7 @@ class IndexAction extends Action {
 		$map['is_del'] = 0;
 		$map['status'] = 1;
 		foreach ($list['data'] as $k=>$v){
-			//获取微吧
+			//获取班级
 			$map['cid'] = $v['id'];
 			$list['data'][$k]['list'] = D('weiba')->where($map)->order('new_day desc, new_count desc ,recommend desc,follower_count desc,thread_count desc')->select();
 			if($list['data'][$k]['list']){
@@ -202,8 +202,8 @@ class IndexAction extends Action {
 		$this->assign('nav','weibalist');
 		$this->assign('mid', $this->mid);
 		$this->assign( 'list' , $list );
-		$this->setTitle( '微吧列表' );
-		$this->setKeywords( '全站微吧列表' );
+		$this->setTitle( '班级列表' );
+		$this->setKeywords( '全站班级列表' );
 		$this->display("weibaList_new");
 	}
 
@@ -211,7 +211,7 @@ class IndexAction extends Action {
 	 * 帖子列表
 	 */
 	public function postList(){
-		//微吧推荐
+		//班级推荐
 		$this->_weiba_recommend(9);
 		//帖子列表
 		$this->_postList();
@@ -222,11 +222,11 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 我的微吧
+	 * 我的班级
 	 * @return  void
 	 */
 	public function myWeiba(){
-		$weiba_arr = getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(),'weiba_id');  //未删除且通过审核的微吧
+		$weiba_arr = getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(),'weiba_id');  //未删除且通过审核的班级
 		$map['weiba_id'] = array('in',$weiba_arr);
 		$map['is_del'] = 0;
 		$type = in_array(t($_GET['type']), array('myPost','myReply','myWeiba','myFavorite','myFollowing'))?t($_GET['type']):'myFollowing';
@@ -286,23 +286,23 @@ class IndexAction extends Action {
 		$this->assign('type',$type);
 		$this->assign('nav','myweiba');
 
-		$this->setTitle( '我的微吧' );
-		$this->setKeywords( '我的微吧' );
+		$this->setTitle( '我的班级' );
+		$this->setKeywords( '我的班级' );
 		$this->display();
 	}
 
 	/**
-	 * 微吧详情页
+	 * 班级详情页
 	 * @return void
 	 */
 	public function detail(){
 		$weiba_id = intval($_GET['weiba_id']);
 		$weiba_detail = D('weiba')->where('is_del=0 and status=1 and weiba_id='.$weiba_id)->find();
 		if(!$weiba_detail){
-			$this->error('该微吧还未被审核或已被解散');
+			$this->error('该班级还未被审核或已被解散');
 		}
 		$weiba_detail['logo'] = getImageUrlByAttachId($weiba_detail['logo'],200,200);
-		//圈主
+		//班级管理员
 		$map['weiba_id'] = $weiba_id;
 		$map['level'] = array('in','2,3');
 		$weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
@@ -413,7 +413,7 @@ class IndexAction extends Action {
 			$weiba_detail['area']= null;
 		}
 
-		//微吧帖子数
+		//班级帖子数
 		$weiba_detail['tiezi_count'] = D('weiba_reply')->where('weiba_id='.$weiba_id.' AND is_del=0')->count() + D('weiba_post')->where('weiba_id='.$weiba_id.' AND is_del=0')->count();
 
 		$this->assign('weiba_detail',$weiba_detail);
@@ -424,7 +424,7 @@ class IndexAction extends Action {
 		$this->assign('nav' , 'weibadetail');
 		$this->assign('weiba_name' , $weiba_detail['weiba_name']);
 		$this->assign('weiba_id', $weiba_id );
-		//微吧达人
+		//班级达人
 		$daren_arr = $this->_weiba_daren($weiba_id);
 		$daren_arr_uid = getSubByKey($daren_arr, 'uid');
 		$daren_arr_follow = model('Follow')->getFollowStateByFids($this->mid, $daren_arr_uid);
@@ -449,7 +449,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 关注微吧
+	 * 关注班级
 	 */
 	public function doFollowWeiba(){
 		$res = D('weiba')->doFollowWeiba($this->mid, intval($_REQUEST['weiba_id']));
@@ -460,7 +460,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 取消关注微吧
+	 * 取消关注班级
 	 */
 	public function unFollowWeiba(){
 		$res = D('weiba')->unFollowWeiba($this->mid, intval($_GET['weiba_id']));
@@ -483,7 +483,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 弹窗加入微吧
+	 * 弹窗加入班级
 	 */
 	public function joinWeiba(){
 		$weiba_id = intval($_GET['weiba_id']);
@@ -500,7 +500,7 @@ class IndexAction extends Action {
 		$this->display();
 	}
 	/**
-	 * 检查微吧 权限
+	 * 检查班级 权限
 	 */
 	public function checkWeibaStatus(){
 		$weibaid = intval ( $_POST['weibaid'] );
@@ -513,7 +513,7 @@ class IndexAction extends Action {
 				}
 				break;
 			case 2:
-				//圈主
+				//班级管理员
 				$map['weiba_id'] = $weibaid;
 				$map['level'] = array('in','2,3');
 				$weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
@@ -523,7 +523,7 @@ class IndexAction extends Action {
 				}
 				break;
 			case 3:
-				//圈主
+				//班级管理员
 				$map['weiba_id'] = $weibaid;
 				$map['level'] = 3;
 				$weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->find();
@@ -572,7 +572,7 @@ class IndexAction extends Action {
 		}
 		$weibaid = intval($_POST['weiba_id']);
 		if ( !$weibaid ){
-			$this->error('请选择微吧，等待返回选择微吧',$type);
+			$this->error('请选择班级，等待返回选择班级',$type);
 		}
 		$weiba = D('weiba')->where('weiba_id='.$weibaid)->find();
 		//黑名单功能添加
@@ -583,7 +583,7 @@ class IndexAction extends Action {
 					$map['follower_uid'] = $this->mid;
 					$res = D('weiba_follow')->where($map)->find();
 					if ( !$res && !CheckPermission('core_admin','admin_login')){
-						$this->error('对不起，您没有发帖权限，请关注该微吧！',$type);
+						$this->error('对不起，您没有发帖权限，请关注该班级！',$type);
 					}
 					break;
 				case 2:
@@ -720,7 +720,7 @@ class IndexAction extends Action {
 		$weiba_name = D('weiba')->where('weiba_id='.$post_detail['weiba_id'])->getField('weiba_name');
 		$this->assign('weiba_id' , $post_detail['weiba_id']);
 		$this->assign('weiba_name', $weiba_name);
-		//获得圈主uid
+		//获得班级管理员uid
 		$map['weiba_id'] = $post_detail['weiba_id'];
 		$map['level'] = array('in','2,3');
 		$weiba_admin = getSubByKey(D('weiba_follow')->where($map)->order('level desc')->field('follower_uid')->findAll(),'follower_uid');
@@ -809,7 +809,7 @@ class IndexAction extends Action {
 		echo D('UserData')->updateUserData();
 	}
 	
-	//是否加入微吧判断
+	//是否加入班级判断
 	function is_follow($weiba_id){
 		$weiba  = M('weiba_follow')->where('weiba_id='.$weiba_id.' and follower_uid='.$this->mid)->find();
 		if($weiba){
@@ -849,7 +849,7 @@ class IndexAction extends Action {
 		$post_id = intval($_GET['post_id']);
 		
 		$post_detail = D('weiba_post')->where('post_id='.$post_id)->find();
-		//获得圈主uid
+		//获得班级管理员uid
 		$map['weiba_id'] = $post_detail['weiba_id'];
 		$map['level'] = array('in','2,3');
 		$weiba_admin = getSubByKey(D('weiba_follow')->where($map)->order('level desc')->field('follower_uid')->findAll(),'follower_uid');
@@ -885,7 +885,7 @@ class IndexAction extends Action {
 		$weiba = D('weiba_post')->where('post_id='.intval($_POST['post_id']))->field('post_uid')->find();
 		if(CheckPermission('weiba_normal','weiba_edit')){   //判断编辑帖子权限
 			if ($weiba['post_uid']!=$this->mid){   //判断是否本人
-				if ( !CheckWeibaPermission( '' , $weiba['weiba_id'] ) ){   //判断管理员或圈主
+				if ( !CheckWeibaPermission( '' , $weiba['weiba_id'] ) ){   //判断管理员或班级管理员
 					$this->error('对不起，您没有权限进行该操作！',true);
 				}
 			}
@@ -991,14 +991,14 @@ class IndexAction extends Action {
 		$weiba = D('weiba_post')->where('post_id='.intval($_POST['post_id']))->field('weiba_id,post_uid')->find();
 		if(CheckPermission('weiba_normal','weiba_del') || $weiba['post_uid']==$this->mid || CheckWeibaPermission( '' , $weiba['weiba_id'])){  //判断删帖权限
 			if ($weiba['post_uid']!=$this->mid){  //判断是否本人
-				if ( !CheckWeibaPermission( '' , $weiba['weiba_id'])){  //判断管理员或圈主
+				if ( !CheckWeibaPermission( '' , $weiba['weiba_id'])){  //判断管理员或班级管理员
 					echo 0;return;
 				}
 			}
 		}else{
 			echo 0;return;
 		}
-		if ( !CheckWeibaPermission( '' , $weiba['weiba_id']) ){  //判断管理员或圈主
+		if ( !CheckWeibaPermission( '' , $weiba['weiba_id']) ){  //判断管理员或班级管理员
 			if ( !CheckPermission('weiba_normal','weiba_del') || $weiba['post_uid']!=$this->mid){
 				echo 0;return;
 			}
@@ -1136,7 +1136,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 搜索微吧或帖子
+	 * 搜索班级或帖子
 	 * @return  void
 	 */
 	public function search(){
@@ -1145,12 +1145,12 @@ class IndexAction extends Action {
 		$this->setKeywords( '搜索'.$k );
 		$this->setDescription( '搜索'.$k );
 
-		// //微吧推荐
+		// //班级推荐
 		// $this->_weiba_recommend(9,50,50);
-		// //微吧排行榜
+		// //班级排行榜
 		// $this->_weibaOrder();
 		
-		//微吧达人
+		//班级达人
 		$daren_arr = $this->_weiba_daren();
 		$this->assign('daren_arr',$daren_arr);
 		//帖子推荐
@@ -1171,7 +1171,7 @@ class IndexAction extends Action {
 		$map['is_del'] = 0;
 		$map['status'] = 1;
 		if($_REQUEST['type'] == '1'){
-			//搜微吧
+			//搜班级
 			$map['weiba_name'] = array('like','%'.$k.'%');
 			//$where['intro'] = array('like','%'.$k.'%');
 			//$where['_logic'] = 'or';
@@ -1185,7 +1185,7 @@ class IndexAction extends Action {
 				$this->_assignFollowState($weiba_ids);
 				$this->assign('weibaList',$weibaList);
 			}else{
-				//微吧推荐
+				//班级推荐
 				$this->_weiba_recommend(9,50,50);
 			}
 			$this->display('search_weiba');
@@ -1209,7 +1209,7 @@ class IndexAction extends Action {
 				}
 				$this->assign('post_list',$post_list);
 			}else{
-				//微吧推荐
+				//班级推荐
 				$this->_weiba_recommend(9,50,50);
 			}
 			$this->display('search_post');
@@ -1227,7 +1227,7 @@ class IndexAction extends Action {
 		$weiba_id = intval($_POST['weiba_id']);
 		
 		if(intval($_POST['type']) == 3){
-			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了圈主
+			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了班级管理员
 				echo 2;exit;
 			}
 		}
@@ -1238,7 +1238,7 @@ class IndexAction extends Action {
 			echo -2;exit;
 		}
 		model('User')->cleanCache($this->mid);
-		//关注该微吧
+		//关注该班级
 		if(!D('weiba_follow')->where('weiba_id='.$weiba_id.' AND follower_uid='.$this->mid)->find()){
 			echo 0;exit;
 		} 
@@ -1268,7 +1268,7 @@ class IndexAction extends Action {
 	}
 
 	public function apply_weiba_admin_box(){
-		//关注该微吧
+		//关注该班级
 		if(D('weiba_follow')->where('weiba_id='.intval($_GET['weiba_id']).' AND follower_uid='.$this->mid)->find()){
 			$follow['is_complete'] = '已完成';
 		}else{
@@ -1308,7 +1308,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 申请成为圈主或小主
+	 * 申请成为班级管理员或小主
 	 * @return void
 	 */
 	public function apply_weiba_admin(){
@@ -1318,12 +1318,12 @@ class IndexAction extends Action {
 		$weiba_id = intval($_GET['weiba_id']);
 		$type = intval($_GET['type']);
 		if(!D('weiba_follow')->where('weiba_id='.$weiba_id.' AND follower_uid='.$this->mid)->find()){
-			$this->error('您尚未关注该微吧');
+			$this->error('您尚未关注该班级');
 		} 
 		if($type!=2 && $type!=3) $this->error('参数错误');
 		if($type == 3){
-			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了圈主
-				$this->error('该吧已经设置了圈主');
+			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了班级管理员
+				$this->error('该吧已经设置了班级管理员');
 			} 
 		}
 		model('User')->cleanCache($this->mid);
@@ -1332,21 +1332,21 @@ class IndexAction extends Action {
 		if($weibaAdminAuditConfig['follower_open'] == 1){
 			$user_data = model ( 'UserData' )->getUserData ( $this->mid );
 			if($user_data['follower_count'] < $weibaAdminAuditConfig['follower']){
-				$this->error('您的粉丝数没达到'.$weibaAdminAuditConfig['follower'].',不能申请圈主');
+				$this->error('您的粉丝数没达到'.$weibaAdminAuditConfig['follower'].',不能申请班级管理员');
 			}
 		}
 		//等级
 		if($weibaAdminAuditConfig['level_open']==1){
 			$user_level = model ( 'Credit' )->getUserCredit ( $this->mid );
 			if($user_level['level']['level'] < $weibaAdminAuditConfig['level']){
-				$this->error('您的等级没达到'.$weibaAdminAuditConfig['level'].'级,不能申请微吧');
+				$this->error('您的等级没达到'.$weibaAdminAuditConfig['level'].'级,不能申请班级');
 			}
 		}
 		//发帖数
 		if($weibaAdminAuditConfig['weiba_post_open']==1){
 			$user_weiba_post = D('weiba_post')->where('post_uid='.$this->mid.' and weiba_id='.$weiba_id.' and is_del=0')->count();
 			if($user_weiba_post < $weibaAdminAuditConfig['weiba_post']){
-				$this->error('您的发帖数没达到'.$weibaAdminAuditConfig['weiba_post'].',不能申请圈主');
+				$this->error('您的发帖数没达到'.$weibaAdminAuditConfig['weiba_post'].',不能申请班级管理员');
 			}
 		}
 		$this->assign('weiba_name',D('weiba')->where('weiba_id='.$weiba_id)->getField('weiba_name'));
@@ -1356,7 +1356,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 执行申请成为圈主或小主
+	 * 执行申请成为班级管理员或小主
 	 * @return void
 	 */
 	public function do_apply_weiba_admin(){
@@ -1366,12 +1366,12 @@ class IndexAction extends Action {
 		$weiba_id = intval($_POST['weiba_id']);
 		$type = intval($_POST['type']);
 		if(!D('weiba_follow')->where('weiba_id='.$weiba_id.' AND follower_uid='.$this->mid)->find()){
-			$this->error('您尚未关注该微吧');
+			$this->error('您尚未关注该班级');
 		} 
 		if($type!=2 && $type!=3) $this->error('参数错误');
 		if($type == 3){
-			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了圈主
-				$this->error('该吧已经设置了圈主');
+			if(D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()){   //已经有了班级管理员
+				$this->error('该吧已经设置了班级管理员');
 			} 
 		}
 		model('User')->cleanCache($this->mid);
@@ -1380,21 +1380,21 @@ class IndexAction extends Action {
 		if($weibaAdminAuditConfig['follower_open'] == 1){
 			$user_data = model ( 'UserData' )->getUserData ( $this->mid );
 			if($user_data['follower_count'] < $weibaAdminAuditConfig['follower']){
-				$this->error('您的粉丝数没达到'.$weibaAdminAuditConfig['follower'].',不能申请圈主');
+				$this->error('您的粉丝数没达到'.$weibaAdminAuditConfig['follower'].',不能申请班级管理员');
 			}
 		}
 		//等级
 		if($weibaAdminAuditConfig['level_open']==1){
 			$user_level = model ( 'Credit' )->getUserCredit ( $this->mid );
 			if($user_level['level']['level'] < $weibaAdminAuditConfig['level']){
-				$this->error('您的等级没达到'.$weibaAdminAuditConfig['level'].'级,不能申请微吧');
+				$this->error('您的等级没达到'.$weibaAdminAuditConfig['level'].'级,不能申请班级');
 			}
 		}
 		//发帖数
 		if($weibaAdminAuditConfig['weiba_post_open']==1){
 			$user_weiba_post = D('weiba_post')->where('post_uid='.$this->mid.' and weiba_id='.$weiba_id.' and is_del=0')->count();
 			if($user_weiba_post < $weibaAdminAuditConfig['weiba_post']){
-				$this->error('您的发帖数没达到'.$weibaAdminAuditConfig['weiba_post'].',不能申请圈主');
+				$this->error('您的发帖数没达到'.$weibaAdminAuditConfig['weiba_post'].',不能申请班级管理员');
 			}
 		}
 		if(strlen(t($_POST['reason']))==0) $this->error('申请理由不能为空');
@@ -1403,7 +1403,7 @@ class IndexAction extends Action {
         	$this->error('申请理由不能超过140个字');
         } 
         if(D('weiba_follow')->where('weiba_id='.intval($_POST['weiba_id']).' AND follower_uid='.$this->mid.' AND (level=3 OR level=2)')->find()){
-			$this->error('您已经是圈主，不能重复申请');
+			$this->error('您已经是班级管理员，不能重复申请');
 		}
 		$data['follower_uid'] = $this->mid;
 		$data['weiba_id'] = intval($_POST['weiba_id']);
@@ -1430,7 +1430,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 判断是否达到申请微吧的条件
+	 * 判断是否达到申请班级的条件
 	 * @return boolean
 	 */
 	public function can_apply_weiba(){
@@ -1458,7 +1458,7 @@ class IndexAction extends Action {
 					echo -3;exit;
 				}
 			}
-			//圈主或小主
+			//班级管理员或小主
 			if($weibaAuditConfig['manager_open']==1){
 				$is_manager = D('weiba_follow')->where(array('follower_uid'=>$this->mid,'level'=>array('in','2,3')))->count();
 				if(!$is_manager){
@@ -1498,7 +1498,7 @@ class IndexAction extends Action {
 				$weiba_post['is_complete'] = '已完成';
 			}
 			$this->assign('weiba_post',$weiba_post);
-			//圈主或小主
+			//班级管理员或小主
 			$is_manager = D('weiba_follow')->where(array('follower_uid'=>$this->mid,'level'=>array('in','2,3')))->count();
 			if($is_manager){
 				$manage['is_complete'] = '已完成';
@@ -1509,7 +1509,7 @@ class IndexAction extends Action {
 			$this->assign('weibaAuditConfig',$weibaAuditConfig);
 			$this->display();
 		}else{
-			$this->error('申请微吧功能未开启');
+			$this->error('申请班级功能未开启');
 		}
 	}
 	public function apply_weiba(){
@@ -1520,34 +1520,34 @@ class IndexAction extends Action {
 			if($weibaAuditConfig['follower_open']==1){
 				$user_data = model ( 'UserData' )->getUserData ( $this->mid );
 				if($user_data['follower_count'] < $weibaAuditConfig['follower']){
-					$this->error('您的粉丝数没达到'.$weibaAuditConfig['follower'].',不能申请圈主');
+					$this->error('您的粉丝数没达到'.$weibaAuditConfig['follower'].',不能申请班级管理员');
 				}
 			}
 			//等级
 			if($weibaAuditConfig['level_open']==1){
 				$user_level = model ( 'Credit' )->getUserCredit ( $this->mid );
 				if($user_level['level']['level'] < $weibaAuditConfig['level']){
-					$this->error('您的等级没达到'.$weibaAuditConfig['level'].'级,不能申请微吧');
+					$this->error('您的等级没达到'.$weibaAuditConfig['level'].'级,不能申请班级');
 				}
 			}
 			//发帖数
 			if($weibaAuditConfig['weiba_post_open']==1){
 				$user_weiba_post = D('weiba_post')->where('post_uid='.$this->mid.' and is_del=0')->count();
 				if($user_weiba_post < $weibaAuditConfig['weiba_post']){
-					$this->error('您的发帖数没达到'.$weibaAuditConfig['weiba_post'].',不能申请圈主');
+					$this->error('您的发帖数没达到'.$weibaAuditConfig['weiba_post'].',不能申请班级管理员');
 				}
 			}
-			//圈主或小主
+			//班级管理员或小主
 			if($weibaAuditConfig['manager_open']==1){
 				$is_manager = D('weiba_follow')->where(array('follower_uid'=>$this->mid,'level'=>array('in','2,3')))->count();
 				if(!$is_manager){
-					$this->error('您还不是圈主或小主,不能申请微吧');
+					$this->error('您还不是班级管理员或小主,不能申请班级');
 				}
 			}
 			$this->assign( 'weiba_cates' , D('WeibaCategory')->getAllWeibaCate() );
 			$this->display();
 		}else{
-			$this->error('申请微吧功能未开启');
+			$this->error('申请班级功能未开启');
 		}
 		
 	}
@@ -1559,28 +1559,28 @@ class IndexAction extends Action {
 			if($weibaAuditConfig['follower_open']==1){
 				$user_data = model ( 'UserData' )->getUserData ( $this->mid );
 				if($user_data['follower_count'] < $weibaAuditConfig['follower']){
-					echo '您的粉丝数没达到'.$weibaAuditConfig['follower'].',不能申请圈主';exit;
+					echo '您的粉丝数没达到'.$weibaAuditConfig['follower'].',不能申请班级管理员';exit;
 				}
 			}
 			//等级
 			if($weibaAuditConfig['level_open']==1){
 				$user_level = model ( 'Credit' )->getUserCredit ( $this->mid );
 				if($user_level['level']['level'] < $weibaAuditConfig['level']){
-					echo '您的等级没达到'.$weibaAuditConfig['level'].'级,不能申请微吧';exit;
+					echo '您的等级没达到'.$weibaAuditConfig['level'].'级,不能申请班级';exit;
 				}
 			}
 			//发帖数
 			if($weibaAuditConfig['weiba_post_open']==1){
 				$user_weiba_post = D('weiba_post')->where('post_uid='.$this->mid.' and is_del=0')->count();
 				if($user_weiba_post < $weibaAuditConfig['weiba_post']){
-					echo '您的发帖数没达到'.$weibaAuditConfig['weiba_post'].',不能申请圈主';exit;
+					echo '您的发帖数没达到'.$weibaAuditConfig['weiba_post'].',不能申请班级管理员';exit;
 				}
 			}
-			//圈主或小主
+			//班级管理员或小主
 			if($weibaAuditConfig['manager_open']==1){
 				$is_manager = D('weiba_follow')->where(array('follower_uid'=>$this->mid,'level'=>array('in','2,3')))->count();
 				if(!$is_manager){
-					echo '您还不是圈主或小主,不能申请微吧';exit;
+					echo '您还不是班级管理员或小主,不能申请班级';exit;
 				}
 			}
 		}else{
@@ -1612,8 +1612,8 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 微吧推荐
-	 * @param integer limit 获取微吧条数
+	 * 班级推荐
+	 * @param integer limit 获取班级条数
 	 * @return void
 	 */
 	private function _weiba_recommend($limit=9,$width=100,$height=100){
@@ -1628,7 +1628,7 @@ class IndexAction extends Action {
 
 	/**
 	 * 热帖推荐
-	 * @param integer limit 获取微吧条数
+	 * @param integer limit 获取班级条数
 	 * @return void
 	 */
 	private function _post_recommend($limit){
@@ -1649,7 +1649,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 微吧排行榜
+	 * 班级排行榜
 	 * @return void
 	 */
 	private function _weibaOrder(){
@@ -1675,11 +1675,11 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 获取uid与微吧的关注状态
+	 * 获取uid与班级的关注状态
 	 * @return void
 	 */
 	private function _assignFollowState($weiba_ids){
-		// 批量获取uid与微吧的关注状态
+		// 批量获取uid与班级的关注状态
 		$follow_state = D('weiba')->getFollowStateByWeibaids($this->mid,$weiba_ids);
 		$this->assign('follow_state', $follow_state);
 	}
@@ -1733,7 +1733,7 @@ class IndexAction extends Action {
 		$reply_uids = getSubByKey($postList['data'], 'last_reply_uid');
 		$uids = array_unique(array_merge($post_uids,$reply_uids));
 		$this->_assignUserInfo($uids);
-		//微吧排行榜
+		//班级排行榜
 		$this->_weibaOrder();
 		$this->assign('postList',$postList);
 	}
@@ -1805,7 +1805,7 @@ class IndexAction extends Action {
 	}
 
 	/**
-	 * 微吧达人
+	 * 班级达人
 	 */
 	private function _weiba_daren($weibaid=0){
 		$uidlist = M('user_group_link')->where('user_group_id=7')->limit(1000)->select();
@@ -1822,7 +1822,7 @@ class IndexAction extends Action {
 	}
 	
 	/**
-	 * 微吧掌柜
+	 * 班级掌柜
 	 */
 	private function _weiba_darens($weibaid=0){
 		$uidlist = M('user_group_link')->where('user_group_id=5')->limit(1000)->select();
@@ -1919,7 +1919,7 @@ class IndexAction extends Action {
 		}
 		exit ( json_encode ( $content ) );
 	}
-	//创建微吧
+	//创建班级
 	public function found(){
 		$this->assign('imgurl', '__THEME__/image/circle-bg.png');
 		$this->assign( 'weiba_cates' , D('WeibaCategory')->getAllWeibaCate() );
@@ -1930,7 +1930,7 @@ class IndexAction extends Action {
 		$data['weiba_name'] = t($_POST['weiba_name']);
 		$data['is_del'] = 0;
 		if(D('weiba')->where($data)->find()){
-			$ress['info'] = '此微吧已存在';
+			$ress['info'] = '此班级已存在';
 			$ress['status'] = 0;
 			exit(json_encode($ress));
 		}
@@ -1940,17 +1940,17 @@ class IndexAction extends Action {
 			exit(json_encode($ress));
 		}
 		if ($_POST['weiba_name']=='') {
-			$ress['info'] = '微吧名称不能为空';
+			$ress['info'] = '班级名称不能为空';
 			$ress['status'] = 0;
 			exit(json_encode($ress));
 		}
 		if ($_POST['intro']=='') {
-			$ress['info'] = '微吧简介不能为空';
+			$ress['info'] = '班级简介不能为空';
 			$ress['status'] = 0;
 			exit(json_encode($ress));
 		}
 		if ($_POST['avatar_big']=='') {
-			$ress['info'] = '微吧LOGO不能为空';
+			$ress['info'] = '班级LOGO不能为空';
 			$ress['status'] = 0;
 			exit(json_encode($ress));
 		}
@@ -1989,13 +1989,13 @@ class IndexAction extends Action {
 		$data['status'] = 0;
 		$res = M('Weiba')->add($data);
 		if($res) {
-			if($this->mid){      //超级圈主加入微吧
+			if($this->mid){      //超级班级管理员加入班级
 				$follow['follower_uid'] = $data['admin_uid'] = $this->mid;
 				$follow['weiba_id'] = $res;
 				$follow['level'] = 3;
 				D('weiba_follow')->add($follow);
 			}
-			if($data['admin_uid'] != $this->mid){    //创建者加入微吧
+			if($data['admin_uid'] != $this->mid){    //创建者加入班级
 				$follows['follower_uid'] = $this->mid;
 				$follows['weiba_id'] = $res;
 				$follows['level'] = 1;

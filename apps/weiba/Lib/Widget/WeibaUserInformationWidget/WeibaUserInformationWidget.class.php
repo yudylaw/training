@@ -30,11 +30,11 @@ class WeibaUserInformationWidget extends Widget {
 		}
 		$var['userGroupData'] = $userGroupData;
 		//获取相关的统计数目
-		$weiba_arr = getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(),'weiba_id');  //未删除且通过审核的微吧
+		$weiba_arr = getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(),'weiba_id');  //未删除且通过审核的班级
 		$map['weiba_id'] = array('in',$weiba_arr);
 		$map['is_del'] = 0;
 
-		//获取关注的微吧数
+		//获取关注的班级数
 		$w_map = $map;
 		$weiba_id = D('weiba_follow')->where('follower_uid='.$data['uid'])->findAll();
 		$weiba_id = getSubByKey($weiba_id, 'weiba_id');

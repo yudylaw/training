@@ -1,6 +1,6 @@
 <?php
 /**
- * 微吧获取图片存在相对地址
+ * 班级获取图片存在相对地址
  * @param integer $attachid 附件ID
  * @return string 附件存储相对地址
  */

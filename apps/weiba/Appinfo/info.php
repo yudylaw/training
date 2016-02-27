@@ -3,9 +3,9 @@ if (!defined('SITE_PATH')) exit();
 
 return array(
 	// 应用名称 [必填]
-	'NAME'						=> '微吧',	
+	'NAME'						=> '班级',	
 	// 应用简介 [必填]
-	'DESCRIPTION'				=> '微吧',
+	'DESCRIPTION'				=> '班级',
 	// 托管类型 [必填]（0:本地应用，1:远程应用）
 	'HOST_TYPE'					=> '0',
 	// 前台入口 [必填]（格式：Action/act）
@@ -21,7 +21,7 @@ return array(
 	// 统计入口 [选填]（格式：Model/method）
 	'STATISTICS_ENTRY'			=> 'Statistics/statistics',
 	//公司名称
-	'COMPANY_NAME'				=> '智士软件',
+	'COMPANY_NAME'				=> 'yudylaw',
 	//是否有移动端
 	'HAS_MOBILE'				=> '1',
 );

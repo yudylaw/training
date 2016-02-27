@@ -177,7 +177,7 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .pop-weiba{width:500px;padding:20px;}
 .pop-weiba td{line-height:40px;}
 
-/*微吧信息*/
+/*班级信息*/
 .weiba-info { padding:20px; background:#fff;margin-bottom:20px;}
 .weiba-info dt{width:100px;height:100px; float:left;}
 .weiba-info dd{margin-left:120px;}
@@ -185,7 +185,7 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .weiba-info .manage{width:58px;height:20px; display:inline-block; text-align:center;line-height:20px; color:#888;font-size:12px; border:#d2d8e0 1px solid;vertical-align:top;}
 .weiba-info .info{line-height:24px;font-size:12px;} 
 
-/*微吧简介*/
+/*班级简介*/
 .announce{line-height: 22px;color:#666;font-size:12px;}
 
 /*帖子信息*/

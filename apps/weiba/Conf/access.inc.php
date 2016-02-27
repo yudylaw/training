@@ -4,7 +4,7 @@
  */
 return array (
 	"access" => array (
-		// 微吧
+		// 班级
 		'weiba/Index/index' => true,
 		'weiba/Index/detail' => true,
 		'weiba/Index/postDetail' => true,

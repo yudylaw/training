@@ -11,12 +11,12 @@
               <php>if(!$nav){</php>
               class="current"
               <php>}</php>
-              >微吧首页</a></li>
+              >班级首页</a></li>
             <li><a href="{:U('weiba/Index/weibaList')}" 
               <php>if($nav=="weibalist"){</php>
               class="current"
               <php>}</php>
-              >所有微吧</a>
+              >所有班级</a>
               <php>if($GLOBALS['ts']['mid']){</php>
               <php>}</php>
             </li>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <!--我的微吧帖子列表-->
+    <!--我的班级帖子列表-->
     <div class="mb10 clearfix">
       <div id="col3" class="st-index-right">
         <div class="right-wrap clearfix"> <a id="quick_post" href="javascript:;" class="quick_post"><i class="ico-post weiba-post"></i><span>发表帖子</span></a> 
@@ -42,9 +42,9 @@
           <div id="weiba-checkin"> {:W('WeibaCheckIn')}</div>
         </div>
         <div class="right-wrap clearfix">
-          <!--微吧推荐-->
-          <div class="mb30"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'微吧推荐','max'=>4))} </div>
-          <!--微吧右下广告-->
+          <!--班级推荐-->
+          <div class="mb30"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'班级推荐','max'=>4))} </div>
+          <!--班级右下广告-->
           <div class="right-box mb10 clearfix ad_space_right">
             {:Addons::hook('show_ad_space', array('place'=>'weiba_right'))}
           </div>
@@ -56,8 +56,8 @@
       <div class="post-type clearfix h46">
 			<div class="tab-menu line-b-animate"> 
 				<ul>
-	                <li <eq name="type" value="myFollowing">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFollowing'))}">我关注的微吧帖子</a></span></li>
-	                <li <eq name="type" value="myWeiba">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myWeiba'))}">我关注的微吧</a></span></li>
+	                <li <eq name="type" value="myFollowing">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFollowing'))}">我关注的班级帖子</a></span></li>
+	                <li <eq name="type" value="myWeiba">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myWeiba'))}">我关注的班级</a></span></li>
 	                <li <eq name="type" value="myPost">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myPost'))}">我发表的</a></span></li>
 	                <li <eq name="type" value="myReply">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myReply'))}">我回复的</a></span></li>
 	                <li <eq name="type" value="myFavorite">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFavorite'))}">我收藏的</a></span></li>
@@ -66,8 +66,8 @@
 
 			<!--<div class=" post-type-list">
               <ul>
-                <li <eq name="type" value="myFollowing">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFollowing'))}">我关注的微吧帖子</a></span></li>
-                <li <eq name="type" value="myWeiba">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myWeiba'))}">我关注的微吧</a></span></li>
+                <li <eq name="type" value="myFollowing">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFollowing'))}">我关注的班级帖子</a></span></li>
+                <li <eq name="type" value="myWeiba">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myWeiba'))}">我关注的班级</a></span></li>
                 <li <eq name="type" value="myPost">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myPost'))}">我发表的</a></span></li>
                 <li <eq name="type" value="myReply">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myReply'))}">我回复的</a></span></li>
                 <li <eq name="type" value="myFavorite">class="current"</eq>><span><a href="{:U('weiba/Index/myWeiba',array('type'=>'myFavorite'))}">我收藏的</a></span></li>

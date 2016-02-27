@@ -6,8 +6,8 @@
         elseif($_GET['feed_type']=='cweiba'){ $tag['cweiba'] = 'current'; }
         else{ $tag['public'] = 'current'; } </php>
       <li class="{$tag.public}"><a href="{:U('public/Profile/appList',array('tab'=>'weiba','type'=>'weiba','feed_type'=>'','uid'=>$uid))}">发表的帖子</a></li>
-      <li class="{$tag.weiba}"><a href="{:U('public/Profile/appList',array('tab'=>'weiba','type'=>'weiba','feed_type'=>'weiba','uid'=>$uid))}">加入的微吧</a></li>
-      <li class="{$tag.cweiba}"><a href="{:U('public/Profile/appList',array('tab'=>'weiba','type'=>'weiba','feed_type'=>'cweiba','uid'=>$uid))}">创建的微吧</a></li>
+      <li class="{$tag.weiba}"><a href="{:U('public/Profile/appList',array('tab'=>'weiba','type'=>'weiba','feed_type'=>'weiba','uid'=>$uid))}">加入的班级</a></li>
+      <li class="{$tag.cweiba}"><a href="{:U('public/Profile/appList',array('tab'=>'weiba','type'=>'weiba','feed_type'=>'cweiba','uid'=>$uid))}">创建的班级</a></li>
     </ul>
   </div>
 </div>
@@ -28,7 +28,7 @@
                 <a href="{$url}" target="_blank"><img src="{$vo.avatar_middle}"  /></a>
                 <php>if($vo['status']=='1' ){</php>
                 <php>if($vo['uid'] == $mid){</php>
-                <a  href="javascript:void(0)" onclick="delWeiba({$vo['weiba_id']});"  class="weiba-del"><span>解散微吧</span></a> 
+                <a  href="javascript:void(0)" onclick="delWeiba({$vo['weiba_id']});"  class="weiba-del"><span>解散班级</span></a> 
                 <php>}</php>
                 <php>} else{</php>
                 <a  href="javascript:void(0)" class="weiba-non-checked"><span>未审核</span></a>
@@ -54,18 +54,18 @@
   <php>}</php>
 <script>
 /**
- * 解散微吧
- * @param integer weiba_id 微吧ID
+ * 解散班级
+ * @param integer weiba_id 班级ID
  * @return void
  */
 function delWeiba(weiba_id){
-	if(confirm('确定要解散此微吧吗？')){
+	if(confirm('确定要解散此班级吗？')){
         $.post(U('weiba/Manage/delWeiba'),{weiba_id:weiba_id},function(msg){
             if(msg == 1) {
             	ui.success('解散成功');
             	window.location.reload();
             }else if(msg == -1){
-            	ui.error('微吧ID不能为空');
+            	ui.error('班级ID不能为空');
             }else{
             	ui.error('解散失败');
             }
