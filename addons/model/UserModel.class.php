@@ -948,6 +948,14 @@ class UserModel extends Model {
 			$userGroup = model ( 'UserGroupLink' )->getUserGroupData ( $uid );
 			$user ['api_user_group'] = $userGroup [$uid];
 			$user ['user_group'] = $userGroup [$uid];
+			
+			if (count($user ['user_group']) > 0) {
+			    //用户组id
+			    $user ['group_id'] = $user ['user_group'][0]['user_group_id'];
+			} else {
+			    $user ['group_id'] = Role::TEACHER;//默认教师
+			}
+			
 			$only = array(array(),array());
 // 			$authenticate = array();
 			foreach ( $userGroup [$uid] as $value ) {
