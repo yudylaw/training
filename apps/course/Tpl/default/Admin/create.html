@@ -28,7 +28,7 @@
 jQuery(document).ready(function(){
 	//初始化课程
 	Course.init();
-	$('#file_upload').uploadify({
+	/* $('#file_upload').uploadify({
 		//auto:false,
     	fileTypeExts: "*.flv;*.xls;*.xlsx;*.ppt;*.pptx",
 		swf: '__THEME__/js/uploadify/uploadify.swf',
@@ -76,7 +76,7 @@ jQuery(document).ready(function(){
 		onUploadStart: function (file) {
 			
 		}
-	});
+	}); */
 });
 </script>
 <div id="main-body" class="mt20">
@@ -131,8 +131,8 @@ jQuery(document).ready(function(){
                             </div>
                         </li>
                     </ul>
-                    <div id="fileQueue"></div>
-                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                    <!-- <div id="fileQueue"></div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="true"> -->
                     <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">创建</span></a><input type="hidden" id="resource_ids" value="0"></div>
                 </div>
 			</div>

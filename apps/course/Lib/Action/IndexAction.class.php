@@ -36,6 +36,7 @@ class IndexAction extends Action {
         $p = new Page($totalRows,$con['limit']);
         $page = $p->show();
         $this->page = $page;
+        $this->courseid = $id;
         $this->display();
     }
     

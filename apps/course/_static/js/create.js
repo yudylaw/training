@@ -8,7 +8,7 @@ function _getData(){
 	data.subject = $("#course_subject").attr("code");
 	data.required = $('#type input[name="type"]:checked ').val();
 	data.description = $("#course_des").val();
-	data.resourceids = $("#resource_ids").val();
+	/*data.resourceids = $("#resource_ids").val();*/
 	data.course_hour = $("#course_hour").val();//学时
 	data.course_score = $("#course_score").val();//学分
 	return data;
@@ -22,13 +22,13 @@ Course.init = function(){
 		if(coursedata.subject == ""){
 			alert("请选择学科");
 		}
-		if(coursedata.resourceids == "0"){
+		/*if(coursedata.resourceids == "0"){
 			var r=confirm("您还没上传资源，确认直接创建课程吗?")
 			if(r != true)
 			{
 			    return;
 			}
-		}
+		}*/
 		$.ajax({
 			type: "POST",
 			url: 'index.php?app=course&mod=Admin&act=ajaxCreate',
