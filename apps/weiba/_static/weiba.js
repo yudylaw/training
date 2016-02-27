@@ -429,9 +429,10 @@ M.addEventFns({
 						_this.setAttribute("event-node", "post_unlove");
 						M(_this);
 						$(_this).attr("title","取消点赞");
-						$(_this).attr("class","big-post-btn-h");
+						$(_this).attr("class","fr zan-btn");
 						var num = parseInt($(_this).find("span").text()) + 1;
-						var html = "<i class=\"i-h-praise\" title=\"取消点赞\"></i>已赞&nbsp;<span>"+num+"</span>"
+						/*var html = "<i class=\"i-h-praise\" title=\"取消点赞\"></i>已赞&nbsp;<span>"+num+"</span>"*/
+						var html = "已赞&nbsp;<span>"+num+"</span>"
 						$(_this).html(html);
 						ui.success('点赞成功');
 					}else{
@@ -453,9 +454,11 @@ M.addEventFns({
 						_this.setAttribute("event-node", "post_love");
 						M(_this);
 						$(_this).attr("title","点赞");
-						$(_this).attr("class","big-post-btn");
+						$(_this).attr("class","fr zan-btn");
+						/*$(_this).attr("class","big-post-btn");*/
 						var num = parseInt($(_this).find("span").text()) - 1;
-						var html = "<i class=\"i-praise\" title=\"点赞\"></i>赞&nbsp;<span>"+num+"</span>"
+						var html = "赞&nbsp;<span>"+num+"</span>";
+						/*var html = "<i class=\"i-praise\" title=\"点赞\"></i>赞&nbsp;<span>"+num+"</span>";*/
 						$(_this).html(html);
 						ui.success('取消点赞成功');
 					}else{

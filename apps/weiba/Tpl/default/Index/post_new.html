@@ -1,0 +1,38 @@
+<include file="__THEME__/public_header_new" />
+<link href="__APP__/weiba.css" rel="stylesheet" type="text/css" />
+<link href="__THEME__/public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__APP__/weiba.js"></script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>-<a
+					href="{:U('weiba/Index/weibaList')}">主题交流</a>-<span class="color-gre">发帖</span>
+			</div>
+			<div class="clearfix notice-publish">
+				<form method="post" action="{:U('weiba/Index/doPost')}" model-node='weiba_post' onsubmit="return setcontent();" name="weibaPost">
+					<input type="hidden" value="{$weiba_id}" name="weiba_id" id="weiba_id">
+					<ul class="ul-form">
+						<li class="clearfix"><span class="clearfix fl item-name">标题：</span>
+							<input type="text" class="fl input-text w-l" name="title" id="title" onkeydown="if(event.keyCode==13){return false;}" /></li>
+						<li class="clearfix"><span class="clearfix fl item-name">内容：</span>
+							<div class="bor-box fl" style="height:324px;">{:W('UM', array('type'=>'weiba','contentName'=>'content','content'=>'','width'=>'558','tpl'=>'weiba'))}</div>
+						</li>
+						<li class="clearfix"><span class="clearfix fl item-name">附件：<!-- </span>
+							<a href="javascript:;" class="fl mr10"><img
+								src="images/select_btn.jpg" /></a> <span class="fl text">未选择任何文件</span> -->
+							{:W('Upload', array('urlquery'=>'attach_type=weiba_attach'))}
+						</li>
+					</ul>
+					<div class="mt10 btn-box clearfix">
+						<a href="javascript:;" class="btn-org fl" event-node="submit_btn" event-args="editor=true"><span class="fl">确定</span></a>
+						<a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_id))}" class="btn-gray fl"><span class="fl">取消</span></a>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />
