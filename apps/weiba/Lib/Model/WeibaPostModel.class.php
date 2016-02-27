@@ -1,6 +1,6 @@
 <?php
 /**
- * 微吧模型 - 数据对象模型
+ * 班级模型 - 数据对象模型
  * @author jason <yangjs17@yeah.net> 
  * @version TS3.0
  */
@@ -32,7 +32,7 @@ class WeibaPostModel extends Model {
 
 	/**
 	 * 发表帖子forapi
-	 * @param integer weiba_id 微吧ID
+	 * @param integer weiba_id 班级ID
 	 * @param varchar title 帖子标题
 	 * @param varchar content 帖子内容
 	 * @param integer user_id 帖子作者 

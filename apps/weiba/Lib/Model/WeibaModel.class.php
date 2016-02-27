@@ -1,6 +1,6 @@
 <?php
 /**
- * 微吧模型 - 数据对象模型
+ * 班级模型 - 数据对象模型
  * @author jason <yangjs17@yeah.net> 
  * @version TS3.0
  */
@@ -84,7 +84,7 @@ class WeibaModel extends Model {
 			$_count = $this->where ( 'status=1 AND is_del=0 AND avatar_middle !="" ' . $gid_map )->count ();
 			$rand_list = $this->field ( 'weiba_id,weiba_name,avatar_middle,follower_count,ctime,intro' )->where ( 'status=1 AND is_del=0 AND avatar_middle !="" ' . $gid_map )->order(' rand() ')->limit ( (rand ( 0, $_count - ($pagesize - $weiba_count ['count']) )) . ',' . ($pagesize - $weiba_count ['count']) )->findAll ();
 			foreach ( $rand_list as $v ) {
-				$v ['reason'] = '热门微吧';
+				$v ['reason'] = '热门班级';
 				$weiba_list ['data'] [] = $v;
 			}
  			//dump($weiba_list); 			dump($this->getLastSql());exit;
@@ -92,13 +92,13 @@ class WeibaModel extends Model {
 		return $weiba_list;
 	}
 	/**
-	 * 获取微吧列表，后台可以根据条件查询
+	 * 获取班级列表，后台可以根据条件查询
 	 * 
 	 * @param integer $limit
 	 *        	结果集数目，默认为20
 	 * @param array $map
 	 *        	查询条件
-	 * @return array 微吧列表信息
+	 * @return array 班级列表信息
 	 */
 	public function getWeibaList($limit = 20, $map = array()) {
 		if (isset ( $_POST )) {
@@ -145,7 +145,7 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 获取微吧的Hash数组
+	 * 获取班级的Hash数组
 	 * 
 	 * @param string $k
 	 *        	Hash数组的Key值字段
@@ -170,7 +170,7 @@ class WeibaModel extends Model {
 	 *        	结果集数目，默认为20
 	 * @param array $map
 	 *        	查询条件
-	 * @return array 微吧列表信息
+	 * @return array 班级列表信息
 	 */
 	public function getPostList($limit = 20, $map = array()) {
 		if (isset ( $_POST )) {
@@ -224,11 +224,11 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 根据微吧ID获取微吧信息
+	 * 根据班级ID获取班级信息
 	 * 
 	 * @param integer $weiba_id
-	 *        	微吧ID
-	 * @return array 微吧信息
+	 *        	班级ID
+	 * @return array 班级信息
 	 */
 	public function getWeibaById($weiba_id) {
 		$weiba = $this->where ( 'weiba_id=' . $weiba_id )->find ();
@@ -240,19 +240,19 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 关注微吧
+	 * 关注班级
 	 * 
 	 * @param
 	 *        	integer uid 用户UID
 	 * @param
-	 *        	integer weiba_id 微吧ID
+	 *        	integer weiba_id 班级ID
 	 * @return integer 新添加的数据ID
 	 */
 	public function doFollowWeiba($uid, $weiba_id) {
 		$data ['weiba_id'] = $weiba_id;
 		$data ['follower_uid'] = $uid;
 		if (D ( 'weiba_follow' )->where ( $data )->find ()) {
-			$this->error = '您已关注该微吧';
+			$this->error = '您已关注该班级';
 			return false;
 		} else {
 			$res = D ( 'weiba_follow' )->add ( $data );
@@ -271,12 +271,12 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 取消关注微吧
+	 * 取消关注班级
 	 * 
 	 * @param
 	 *        	integer uid 用户UID
 	 * @param
-	 *        	integer weiba_id 微吧ID
+	 *        	integer weiba_id 班级ID
 	 * @return integer 新添加的数据ID
 	 */
 	public function unFollowWeiba($uid, $weiba_id) {
@@ -297,18 +297,18 @@ class WeibaModel extends Model {
 				return false;
 			}
 		} else {
-			$this->error = '您尚未关注该微吧';
+			$this->error = '您尚未关注该班级';
 			return false;
 		}
 	}
 	
 	/**
-	 * 判断是否关注某个微吧
+	 * 判断是否关注某个班级
 	 * 
 	 * @param
 	 *        	integer uid 用户UID
 	 * @param
-	 *        	integer weiba_id 微吧ID
+	 *        	integer weiba_id 班级ID
 	 * @return boolean 是否已关注
 	 */
 	public function getFollowStateByWeibaid($uid, $weiba_id) {
@@ -324,12 +324,12 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 批量获取微吧关注状态
+	 * 批量获取班级关注状态
 	 * 
 	 * @param
 	 *        	integer uid 用户UID
 	 * @param
-	 *        	array weiba_ids 微吧ID
+	 *        	array weiba_ids 班级ID
 	 * @return [type] [description]
 	 */
 	public function getFollowStateByWeibaids($uid, $weiba_ids) {
@@ -371,13 +371,13 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 获取微吧列表
+	 * 获取班级列表
 	 * 
 	 * @param
 	 *        	integer limit 每页显示条数
 	 * @param
 	 *        	integer page 第几页
-	 * @return array 微吧列表
+	 * @return array 班级列表
 	 */
 	public function get_weibas_forapi($since_id = 0, $max_id = 0, $limit = 20, $page = 1, $uid) {
 		$limit = intval ( $limit );
@@ -403,7 +403,7 @@ class WeibaModel extends Model {
 					'status' => 0,
 					'msg' => '没有贴吧发帖权限' 
 			);
-			// 添加微吧权限
+			// 添加班级权限
 			if ($GLOBALS ['ts'] ['mid'] && CheckPermission ( 'weiba_normal', 'weiba_post' )) {
 				$whoCanPost = $v ['who_can_post'];
 				CheckPermission ( 'core_admin', 'admin_login' ) && $whoCanPost = 0;
@@ -433,7 +433,7 @@ class WeibaModel extends Model {
 							$postStatus ['msg'] = '具有此贴吧的发帖权限';
 						} else {
 							$postStatus ['status'] = 0;
-							$postStatus ['msg'] = '该贴吧只有圈主能发帖';
+							$postStatus ['msg'] = '该贴吧只有班级管理员能发帖';
 						}
 						break;
 					case 3 :
@@ -461,7 +461,7 @@ class WeibaModel extends Model {
 	 * @param
 	 *        	integer page 第几页
 	 * @param
-	 *        	integer weiba_id 所属微吧ID(可选)
+	 *        	integer weiba_id 所属班级ID(可选)
 	 * @return array 帖子列表
 	 */
 	public function get_posts_forapi($limit = 20, $page = 1, $weiba_id = null) {
@@ -545,7 +545,7 @@ class WeibaModel extends Model {
 	}
 	
 	/**
-	 * 搜索微吧
+	 * 搜索班级
 	 * 
 	 * @param
 	 *        	varchar keyword 搜索关键字
@@ -555,7 +555,7 @@ class WeibaModel extends Model {
 	 *        	integer page 第几页
 	 * @param
 	 *        	integer uid 用户UID
-	 * @return array 微吧列表
+	 * @return array 班级列表
 	 */
 	public function searchWeibaForApi($keyword, $limit, $page, $uid) {
 		$limit = intval ( $limit );
@@ -654,7 +654,7 @@ class WeibaModel extends Model {
 	}
 	
 	/*
-	 * 获取微吧名称
+	 * 获取班级名称
 	 */
 	public function getWeibaName($weiba_ids) {
 		$weiba_ids = array_unique ( $weiba_ids );

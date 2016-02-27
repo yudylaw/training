@@ -1,10 +1,10 @@
 <div id="col3" class="st-index-right">
   <div class="right-wrap"> 
-    <!--微吧推荐-->
-    <div class="mb20"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'微吧推荐','max'=>4))} </div>
+    <!--班级推荐-->
+    <div class="mb20"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'班级推荐','max'=>4))} </div>
     <!--热门帖子-->
     {:W('HotPost')} 
-    <!--微吧右下广告-->
+    <!--班级右下广告-->
     <div class="right-box mb10 clearfix ad_space_right">
       {:Addons::hook('show_ad_space', array('place'=>'weiba_right'))}
     </div>

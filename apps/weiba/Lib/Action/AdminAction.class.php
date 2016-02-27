@@ -14,32 +14,32 @@ class AdminAction extends AdministratorAction {
 	 * 初始化，初始化页面表头信息，用于双语
 	 */
 	public function _initialize() {
-		$this->pageTitle['index'] = '微吧列表';
-		$this->pageTitle['addWeiba'] = '添加微吧';
-		$this->pageTitle['weibaCate'] = '微吧分类';
+		$this->pageTitle['index'] = '班级列表';
+		$this->pageTitle['addWeiba'] = '添加班级';
+		$this->pageTitle['weibaCate'] = '班级分类';
 		$this->pageTitle['addWeibaCate'] = '添加分类';
 		$this->pageTitle['editWeibaCate'] = '编辑分类';
 		$this->pageTitle['postList'] = '帖子列表';
 		$this->pageTitle['postRecycle'] = '帖子回收站';
-		$this->pageTitle['weibaAdminAuditConfig'] = '申请圈主配置';
-		$this->pageTitle['weibaAdminAudit'] = '圈主审核';
-		$this->pageTitle['weibaAuditConfig'] = '申请微吧配置';
-		$this->pageTitle['weibaAudit'] = '微吧审核';
+		$this->pageTitle['weibaAdminAuditConfig'] = '申请班级管理员配置';
+		$this->pageTitle['weibaAdminAudit'] = '班级管理员审核';
+		$this->pageTitle['weibaAuditConfig'] = '申请班级配置';
+		$this->pageTitle['weibaAudit'] = '班级审核';
 		$this->pageTitle['indexPost'] = '首页帖子';
 		parent::_initialize();
 	}
 
 	/**
-	 * 微吧列表
+	 * 班级列表
 	 * @return void
 	 */
 	public function index() {
-		// 初始化微吧列表管理菜单
+		// 初始化班级列表管理菜单
 		$this->_initWeibaListAdminMenu();
 		// 设置列表主键
 		$this->_listpk = 'weiba_id';
-		$this->pageButton[] = array('title'=>'搜索微吧','onclick'=>"admin.fold('search_form')");
-		$this->pageButton[] = array('title'=>'解散微吧','onclick'=>"admin.delWeiba()");
+		$this->pageButton[] = array('title'=>'搜索班级','onclick'=>"admin.fold('search_form')");
+		$this->pageButton[] = array('title'=>'解散班级','onclick'=>"admin.delWeiba()");
 		$this->searchKey = array('weiba_id','weiba_name','weiba_cate','uid','admin_uid','recommend');
 		$this->opt['recommend'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
 		$weibacate = D('weiba_category')->findAll();
@@ -55,15 +55,15 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 添加微吧
+	 * 添加班级
 	 * @return void
 	 */
 	public function addWeiba() {
-		// 初始化微吧列表管理菜单
+		// 初始化班级列表管理菜单
 		$this->_initWeibaListAdminMenu();
         // 列表key值 DOACTION表示操作
 		$this->pageKeyList = array('weiba_name','cid','logo','intro','who_can_post','admin_uid','recommend');
-		$this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'微吧管理员',3=>'微吧圈主');
+		$this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'班级管理员',3=>'班级班级管理员');
 		$this->opt['recommend'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
 		$list = D('WeibaCategory')->getAllWeibaCate();
 		$this->opt['cid'] = $list;
@@ -75,7 +75,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 执行添加微吧
+	 * 执行添加班级
 	 * @return  void
 	 */
 	public function doAddWeiba() {
@@ -83,11 +83,11 @@ class AdminAction extends AdministratorAction {
 		$data['weiba_name'] = t($_POST['weiba_name']);
 		$data['is_del'] = 0;
 		if(D('weiba')->where($data)->find()){
-			$this->error('此微吧已存在');
+			$this->error('此班级已存在');
 		}
 		$data['cid'] = intval( $_POST['cid'] );
 		if (empty($data['cid'])) {
-			$this->error('微吧分类不能为空');
+			$this->error('班级分类不能为空');
 		}
 		$data['uid'] = $this->mid;
 		$data['ctime'] = time();
@@ -101,7 +101,7 @@ class AdminAction extends AdministratorAction {
 		$data['recommend'] = intval($_POST['recommend']);
 		$data['status'] = 1;
 
-		// # 修复，后台上传微吧logo前台没有logo
+		// # 修复，后台上传班级logo前台没有logo
 		if ($data['logo']) {
 			$data['avatar_big']    = getImageUrlByAttachId($data['logo'], 200, 200);
 			$data['avatar_middle'] = getImageUrlByAttachId($data['logo'], 100, 100);
@@ -109,13 +109,13 @@ class AdminAction extends AdministratorAction {
 
 		$res = D('Weiba','weiba')->add($data);
 		if($res) {
-			if($_POST['admin_uid']){      //超级圈主加入微吧
+			if($_POST['admin_uid']){      //超级班级管理员加入班级
 				$follow['follower_uid'] = $data['admin_uid'];
 				$follow['weiba_id'] = $res;
 				$follow['level'] = 3;
 				D('weiba_follow')->add($follow);
 			}
-			if($data['admin_uid'] != $this->mid){    //创建者加入微吧
+			if($data['admin_uid'] != $this->mid){    //创建者加入班级
 				$follows['follower_uid'] = $this->mid;
 				$follows['weiba_id'] = $res;
 				$follows['level'] = 1;
@@ -130,24 +130,24 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 编辑微吧
+	 * 编辑班级
 	 * @return void
 	 */
 	public function editWeiba() {
-		$this->assign('pageTitle','编辑微吧');
-		// 初始化微吧列表管理菜单
+		$this->assign('pageTitle','编辑班级');
+		// 初始化班级列表管理菜单
 // 		$this->_initWeibaListAdminMenu();
-		$this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
-		//$this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-		$this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
-		$this->pageTab[] = array('title'=>'编辑微吧','tabHash'=>'editWeiba','url'=>U('weiba/Admin/editWeiba',array('weiba_id'=>$_GET['weiba_id'])));
+		$this->pageTab[] = array('title'=>'班级列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
+		//$this->pageTab[] = array('title'=>'添加班级','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
+		$this->pageTab[] = array('title'=>'班级分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
+		$this->pageTab[] = array('title'=>'编辑班级','tabHash'=>'editWeiba','url'=>U('weiba/Admin/editWeiba',array('weiba_id'=>$_GET['weiba_id'])));
 		$this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
 		$this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
         // 列表key值 DOACTION表示操作
 		$this->pageKeyList = array('weiba_id','weiba_name','cid','logo','intro', 'notify','who_can_post','admin_uid','recommend');
 		$list = D('WeibaCategory')->getAllWeibaCate();
 		$this->opt['cid'] = $list;
-		$this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'微吧管理员',3=>'微吧圈主');
+		$this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'班级管理员',3=>'班级班级管理员');
 		$this->opt['recommend'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
 		$weiba_id = intval($_GET['weiba_id']);
 		$data = D('weiba','weiba')->getWeibaById($weiba_id);
@@ -163,7 +163,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 执行编辑微吧
+	 * 执行编辑班级
 	 * @return void
 	 */
 	public function doEditWeiba(){
@@ -173,12 +173,12 @@ class AdminAction extends AdministratorAction {
 		$map['weiba_name'] = $data['weiba_name'];
 		$map['is_del'] = 0;
 		if(D('weiba')->where($map)->find()){
-			$this->error('此微吧已存在');
+			$this->error('此班级已存在');
 		}
 		//$data['uid'] = $this->mid;
 		$data['cid'] = intval( $_POST['cid'] );
 		if (empty($data['cid'])) {
-			$this->error('微吧分类不能为空');
+			$this->error('班级分类不能为空');
 		}
 		$data['logo'] = t($_POST['logo']);
 		$data['intro'] = $_POST['intro'];
@@ -187,7 +187,7 @@ class AdminAction extends AdministratorAction {
 		$data['admin_uid'] = t($_POST['admin_uid']);
 		$data['recommend'] = intval($_POST['recommend']);
 
-		// # 修复，后台上传微吧logo前台没有logo
+		// # 修复，后台上传班级logo前台没有logo
 		if ($data['logo']) {
 			$data['avatar_big']    = getImageUrlByAttachId($data['logo'], 200, 200);
 			$data['avatar_middle'] = getImageUrlByAttachId($data['logo'], 100, 100);
@@ -195,11 +195,11 @@ class AdminAction extends AdministratorAction {
 
 		$res = D('weiba')->where('weiba_id='.$weiba_id)->save($data);
 		if($res!==false) {
-			//现有超级圈主
+			//现有超级班级管理员
 			$follow['level'] = 3;
 			$follow['weiba_id'] = $weiba_id;
 			$admin_uid = D('weiba_follow')->where($follow)->getField('follower_uid');
-			if($admin_uid && $admin_uid!=$data['admin_uid']){  //如果存在圈主并且设置了新圈主，则原圈主降为普通成员
+			if($admin_uid && $admin_uid!=$data['admin_uid']){  //如果存在班级管理员并且设置了新班级管理员，则原班级管理员降为普通成员
 				$a['follower_uid'] = $admin_uid;
 				$a['weiba_id'] = $weiba_id;
 				D('weiba_follow')->where($a)->setField('level',1);
@@ -207,7 +207,7 @@ class AdminAction extends AdministratorAction {
 			if($data['admin_uid']){			
 				$follows['follower_uid'] = $data['admin_uid'];
 				$follows['weiba_id'] = $weiba_id;
-				if(D('weiba_follow')->where($follows)->find()){  //该圈主已经为成员
+				if(D('weiba_follow')->where($follows)->find()){  //该班级管理员已经为成员
 					D('weiba_follow')->where($follows)->where($follows)->setField('level',3);
 				}else{
 					$follows['level'] = 3;
@@ -221,10 +221,10 @@ class AdminAction extends AdministratorAction {
 		}
 	}
 	/**
-	 * 微吧分类列表
+	 * 班级分类列表
 	 */
 	public function weibaCate(){
-		// 初始化微吧列表管理菜单
+		// 初始化班级列表管理菜单
 		$this->_initWeibaListAdminMenu();
 		$this->pageKeyList = array( 'id' , 'name' , 'DOACTION' );
 		$this->pageButton[] = array('title'=>'添加分类','onclick'=>"javascript:location.href='".U('weiba/Admin/addWeibaCate',array('tabHash'=>'weibaCate'))."';");
@@ -236,17 +236,17 @@ class AdminAction extends AdministratorAction {
 		$this->displayList( $list );
 	}
 	/**
-	 * 添加微吧分类页面
+	 * 添加班级分类页面
 	 */
 	public function addWeibaCate(){
-		// 初始化微吧列表管理菜单
+		// 初始化班级列表管理菜单
 		$this->_initWeibaListAdminMenu();
 		$this->pageKeyList = array( 'name' );
 		$this->savePostUrl = U('weiba/Admin/doAddWeibaCate');
 		$this->displayConfig();
 	}
 	/**
-	 * 添加微吧分类数据 
+	 * 添加班级分类数据 
 	 */
 	public function doAddWeibaCate(){
 		$name = t ( $_POST['name'] );
@@ -268,10 +268,10 @@ class AdminAction extends AdministratorAction {
 		}
 	}
 	/**
-	 * 编辑微吧分类页面
+	 * 编辑班级分类页面
 	 */
 	public function editWeibaCate(){
-		// 初始化微吧列表管理菜单
+		// 初始化班级列表管理菜单
 		$this->_initWeibaListAdminMenu();
 		$id = intval( $_GET['id'] );
 		$data = D('WeibaCategory')->where('id='.$id)->find();
@@ -280,7 +280,7 @@ class AdminAction extends AdministratorAction {
 		$this->displayConfig($data);
 	}
 	/**
-	 * 编辑微吧分类数据
+	 * 编辑班级分类数据
 	 */
 	public function doEditWeibaCate(){
 		$name = t ( $_POST['name'] );
@@ -305,7 +305,7 @@ class AdminAction extends AdministratorAction {
 		}
 	}
 	/**
-	 * 删除微吧分类
+	 * 删除班级分类
 	 */
 	public function delWeibaCate(){
 		$ids = $_POST['cate_id'];
@@ -317,7 +317,7 @@ class AdminAction extends AdministratorAction {
 			$exist = D('Weiba')->where($wmap)->find();
 			if ( $exist ){
 				$return['status'] = 0;
-				$return['data'] = '删除失败，该分类下还有微吧！';
+				$return['data'] = '删除失败，该分类下还有班级！';
 				exit(json_encode($return));
 			}
 			$res = D('WeibaCategory')->where($map)->delete();
@@ -332,7 +332,7 @@ class AdminAction extends AdministratorAction {
 		echo json_encode($return);exit();
 	}
 	/**
-	 * 设置微吧推荐状态
+	 * 设置班级推荐状态
 	 * @return array 操作成功状态和提示信息
 	 */
 	public function setRecommend(){
@@ -365,7 +365,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 解散微吧
+	 * 解散班级
 	 * @return array 操作成功状态和提示信息
 	 */
 	public function delWeiba(){
@@ -615,10 +615,10 @@ class AdminAction extends AdministratorAction {
 	 */
 	public function editPost(){
 		$this->assign('pageTitle','编辑帖子');
-		// 初始化微吧列表管理菜单
-		$this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
-		//$this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-		$this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
+		// 初始化班级列表管理菜单
+		$this->pageTab[] = array('title'=>'班级列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
+		//$this->pageTab[] = array('title'=>'添加班级','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
+		$this->pageTab[] = array('title'=>'班级分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
 		$this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
 		$this->pageTab[] = array('title'=>'编辑帖子','tabHash'=>'editPost','url'=>U('weiba/Admin/editPost',array('post_id'=>$_GET['post_id'])));
         $this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
@@ -798,7 +798,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 圈主审核配置
+	 * 班级管理员审核配置
 	 * @return void
 	 */
 	public function weibaAdminAuditConfig(){
@@ -832,7 +832,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 圈主审核
+	 * 班级管理员审核
 	 * @return void
 	 */	
 	public function weibaAdminAudit(){
@@ -862,7 +862,7 @@ class AdminAction extends AdministratorAction {
 					$listData['data'][$k]['type'] = '小主';
 					break;
 				case '3':
-					$listData['data'][$k]['type'] = '圈主';
+					$listData['data'][$k]['type'] = '班级管理员';
 					break;
 			}
 			$listData['data'][$k]['DOACTION'] = '<a href="javascript:void(0)" onclick="admin.doAudit('.$v['weiba_id'].','.$v['follower_uid'].','.$v['type'].');">通过</a>&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="admin.doAudit('.$v['weiba_id'].','.$v['follower_uid'].',-1);">驳回</a>';
@@ -872,7 +872,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 圈主审核通过/驳回
+	 * 班级管理员审核通过/驳回
 	 */
 	public function doAudit(){
 		if(empty($_POST['id'])){
@@ -896,7 +896,7 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 微吧审核配置
+	 * 班级审核配置
 	 * @return void
 	 */	
 	public function weibaAuditConfig(){
@@ -933,7 +933,7 @@ class AdminAction extends AdministratorAction {
 		}
 	}
 	/**
-	 * 微吧审核
+	 * 班级审核
 	 * @return void
 	 */
 	public function weibaAudit(){
@@ -993,19 +993,19 @@ class AdminAction extends AdministratorAction {
 	}
 
 	/**
-	 * 微吧后台管理菜单
+	 * 班级后台管理菜单
 	 * @return void
 	 */
 	private function _initWeibaListAdminMenu(){
-		$this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
-		$this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-		$this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
+		$this->pageTab[] = array('title'=>'班级列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
+		$this->pageTab[] = array('title'=>'添加班级','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
+		$this->pageTab[] = array('title'=>'班级分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
 		$this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
 		$this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
-		$this->pageTab[] = array('title'=>'申请圈主配置','tabHash'=>'weibaAdminAuditConfig','url'=>U('weiba/Admin/weibaAdminAuditConfig'));
-		$this->pageTab[] = array('title'=>'圈主审核','tabHash'=>'weibaAdminAudit','url'=>U('weiba/Admin/weibaAdminAudit'));
-		$this->pageTab[] = array('title'=>'申请微吧配置','tabHash'=>'weibaAuditConfig','url'=>U('weiba/Admin/weibaAuditConfig'));
-		$this->pageTab[] = array('title'=>'微吧审核','tabHash'=>'weibaAudit','url'=>U('weiba/Admin/weibaAudit'));
+		$this->pageTab[] = array('title'=>'申请班级管理员配置','tabHash'=>'weibaAdminAuditConfig','url'=>U('weiba/Admin/weibaAdminAuditConfig'));
+		$this->pageTab[] = array('title'=>'班级管理员审核','tabHash'=>'weibaAdminAudit','url'=>U('weiba/Admin/weibaAdminAudit'));
+		$this->pageTab[] = array('title'=>'申请班级配置','tabHash'=>'weibaAuditConfig','url'=>U('weiba/Admin/weibaAuditConfig'));
+		$this->pageTab[] = array('title'=>'班级审核','tabHash'=>'weibaAudit','url'=>U('weiba/Admin/weibaAudit'));
 		$this->pageTab[] = array('title'=>'首页帖子','tabHash'=>'indexPost','url'=>U('weiba/Admin/indexPost'));
 
 		

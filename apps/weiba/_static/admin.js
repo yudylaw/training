@@ -1,7 +1,7 @@
 /**
- * 微吧后台JS操作对象 -
+ * 班级后台JS操作对象 -
  * 
- * 微吧后台所有JS操作都集中在此
+ * 班级后台所有JS操作都集中在此
  */
 
 var admin = {};
@@ -82,7 +82,7 @@ admin.upload = function(type,obj){
 
 admin.checkAddWeiba = function(form){
 	if(getLength(form.weiba_name.value) < 1){
-		ui.error('请输入微吧名称');
+		ui.error('请输入班级名称');
 		return false;
 	}
 	if(getLength(form.logo.value) < 1){
@@ -90,16 +90,16 @@ admin.checkAddWeiba = function(form){
 		return false;
 	}
 	if(getLength($('#form_intro').val()) < 1){
-		ui.error('请输入微吧简介');
+		ui.error('请输入班级简介');
 		return false;
 	}
     return true;	
 };
 
 /**
- * 设置微吧推荐状态
- * @param integer weiba_id 微吧ID
- * @param integer type 当前微吧的推荐状态
+ * 设置班级推荐状态
+ * @param integer weiba_id 班级ID
+ * @param integer type 当前班级的推荐状态
  * @return void
  */
 admin.recommend = function(weiba_id, type){
@@ -109,23 +109,23 @@ admin.recommend = function(weiba_id, type){
 };
 
 /**
- * 解散微吧
- * @param integer weiba_id 微吧ID
+ * 解散班级
+ * @param integer weiba_id 班级ID
  * @return void
  */
 admin.delWeiba = function(weiba_id){
     if("undefined" == typeof(weiba_id) || weiba_id=='') weiba_id = admin.getChecked();
     if(weiba_id==''){
-        ui.error('请选择要解散的微吧');return false;
+        ui.error('请选择要解散的班级');return false;
     }  
-    if(confirm('解散微吧会删除该微吧下的所有帖子，确定要解散此微吧吗？')){
+    if(confirm('解散班级会删除该班级下的所有帖子，确定要解散此班级吗？')){
         $.post(U('weiba/Admin/delWeiba'),{weiba_id:weiba_id},function(msg){
             admin.ajaxReload(msg);
         },'json');
     }
 };
 /**
- * 删除微吧分类
+ * 删除班级分类
  * @param integer cate_id 分类ID
  * @return void
  */
@@ -246,7 +246,7 @@ admin.deletePost = function(post_id){
 };
 
 /**
- * 圈主审核
+ * 班级管理员审核
  */
 admin.doAudit = function(weiba_id, uid, value){
     $.post(U('weiba/Manage/verify'),{weiba_id:weiba_id,uid:uid,value:value},function(msg){
@@ -257,7 +257,7 @@ admin.doAudit = function(weiba_id, uid, value){
 admin.doWeibaAudit = function(weiba_id, value){
     if("undefined" == typeof(weiba_id) || weiba_id=='') weiba_id = admin.getChecked();
     if(weiba_id==''){
-        ui.error('请选择微吧');return false;
+        ui.error('请选择班级');return false;
     }
     $.post(U('weiba/Admin/doWeibaAudit'),{weiba_id:weiba_id,value:value},function(msg){
             admin.ajaxReload(msg);

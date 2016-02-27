@@ -1,6 +1,6 @@
 <?php
 /**
- * 前台微吧管理控制器
+ * 前台班级管理控制器
  * @author 
  * @version TS3.0
  */
@@ -17,7 +17,7 @@ class ManageAction extends Action {
 			}
 		}
 		$this->assign('weiba_id',intval($_REQUEST['weiba_id']));
-		//超级圈主
+		//超级班级管理员
 		$this->assign('weiba_super_admin',D('weiba_follow')->where('level=3 and weiba_id='.intval($_REQUEST['weiba_id']))->getField('follower_uid'));
 		$this->assign('weiba_admin',getSubByKey(D('weiba_follow')->where(array('weiba_id'=>intval($_REQUEST['weiba_id']),'level'=>array('in','2,3')))->order('level desc')->field('follower_uid,level')->findAll(),'follower_uid'));
 		$weiba_name = D('weiba')->where('weiba_id='.intval($_REQUEST['weiba_id']))->getField('weiba_name');
@@ -26,7 +26,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 微吧管理首页-修改微吧信息
+	 * 班级管理首页-修改班级信息
 	 * @return void
 	 */
 	public function index() {
@@ -44,7 +44,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 执行编辑微吧
+	 * 执行编辑班级
 	 * @return void
 	 */
 	public function doWeibaEdit(){
@@ -63,7 +63,7 @@ class ManageAction extends Action {
 		}
 		if(strlen($data['weiba_name']) == 0){
 			$return['status'] = 0;
-			$return['data'] = '微吧名称不能为空';
+			$return['data'] = '班级名称不能为空';
 			echo json_encode($return);exit; 
 		}
 		if(false){
@@ -73,7 +73,7 @@ class ManageAction extends Action {
 		}
 		if(!$data['cid'] && false){
 			$return['status'] = 0;
-			$return['data'] = '微吧分类不能为空';
+			$return['data'] = '班级分类不能为空';
 			echo json_encode($return);exit;
 		}
 		if(strlen($data['intro']) == 0){
@@ -85,7 +85,7 @@ class ManageAction extends Action {
 		//dump(M()->getLastSql());
 		//dump($res);exit;
 		if($res !== false){
-			D('log')->writeLog($weiba_id,$this->mid,'修改了微吧基本信息','setting');
+			D('log')->writeLog($weiba_id,$this->mid,'修改了班级基本信息','setting');
 			$return['status'] = 1;
 			echo json_encode($return);
 		}else{
@@ -96,7 +96,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 微吧成员管理
+	 * 班级成员管理
 	 * @return void
 	 */
 	public function member(){
@@ -150,7 +150,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 设置微吧成员等级
+	 * 设置班级成员等级
 	 * @return void
 	 */
 	public function editLevel(){
@@ -160,7 +160,7 @@ class ManageAction extends Action {
 		if($targetLevel == 3){
 			if(D('weiba_follow')->where('level=3 AND weiba_id='.$map['weiba_id'])->find()){
 				$return['status'] = 0;
-				$return['data'] = '只能设置一个圈主';
+				$return['data'] = '只能设置一个班级管理员';
 				echo json_encode($return);exit();
 			}
 		}
@@ -185,7 +185,7 @@ class ManageAction extends Action {
 					D('log')->writeLog($map['weiba_id'],$this->mid,$content,'member');
 					break;
 				case '3':
-					$content = '将用户'.$user_info[$map['follower_uid']]['space_link'].'设为圈主';
+					$content = '将用户'.$user_info[$map['follower_uid']]['space_link'].'设为班级管理员';
 					D('log')->writeLog($map['weiba_id'],$this->mid,$content,'member');
 
 					//添加积分
@@ -215,7 +215,7 @@ class ManageAction extends Action {
 		}else{
 			D('weiba_apply')->where($map)->delete();
 			$user_info = model('User')->getUserInfoByUids(array($map['follower_uid']));
-			$content = '将用户'.$user_info[$map['follower_uid']]['space_link'].'移出微吧';
+			$content = '将用户'.$user_info[$map['follower_uid']]['space_link'].'移出班级';
 			D('log')->writeLog($map['weiba_id'],$this->mid,$content,'member');
 			D('weiba')->where('weiba_id='.$map['weiba_id'])->setDec('follower_count','',count($_POST['follower_uid']));
 			$return['status'] = 1;
@@ -274,7 +274,7 @@ class ManageAction extends Action {
 	}
 	
 	/**
-	 * 处理用户申请圈主或小主
+	 * 处理用户申请班级管理员或小主
 	 */
 	public function verify(){
 		$map['weiba_id'] = intval($_POST['weiba_id']);
@@ -289,7 +289,7 @@ class ManageAction extends Action {
 			if($value==3){
 				if(D('weiba_follow')->where('level=3 AND weiba_id='.$map['weiba_id'])->find()){
 					$return['status'] = 0;
-					$return['data'] = '只能设置一个圈主';
+					$return['data'] = '只能设置一个班级管理员';
 					echo json_encode($return);exit();
 				}
 			}
@@ -356,7 +356,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 微吧管理知识
+	 * 班级管理知识
 	 * @return void
 	 */
 	public function log(){
@@ -376,7 +376,7 @@ class ManageAction extends Action {
 	}
 
 	/**
-	 * 解散微吧
+	 * 解散班级
 	 * @return array 操作成功状态和提示信息
 	 */
 	public function delWeiba(){

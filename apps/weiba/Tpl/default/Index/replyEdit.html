@@ -12,7 +12,7 @@
 	   	   	 <include file="_weiba_header" /> 
 
 	   	   	   <div class="mb10 clearfix extend">
-                <p class="pb15"><a href="{:U('weiba/Index/index')}">微吧</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$reply_detail['weiba_id']))}">{$weiba_name}</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/postDetail',array('post_id'=>$reply_detail['post_id']))}">{$post_title}</a></p>
+                <p class="pb15"><a href="{:U('weiba/Index/index')}">班级</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$reply_detail['weiba_id']))}">{$weiba_name}</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/postDetail',array('post_id'=>$reply_detail['post_id']))}">{$post_title}</a></p>
                  <div class="weiba-manage">                     
                         <h3>编辑帖子回复</h3>
                         <form method="post" action="{:U('weiba/Index/doReplyEdit')}" model-node='weiba_reply_edit' name="reply_edit">

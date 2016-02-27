@@ -19,22 +19,22 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `ts_weiba`;
 CREATE TABLE `ts_weiba` (
-  `weiba_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '微吧ID',
+  `weiba_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '班级ID',
   `cid` int(11) DEFAULT NULL,
-  `weiba_name` varchar(255) NOT NULL DEFAULT '微吧名称',
+  `weiba_name` varchar(255) NOT NULL DEFAULT '班级名称',
   `uid` int(11) NOT NULL COMMENT '创建者ID',
   `ctime` int(11) NOT NULL COMMENT '创建时间',
-  `logo` varchar(255) DEFAULT NULL COMMENT '微吧logo',
-  `intro` text COMMENT '微吧简介',
+  `logo` varchar(255) DEFAULT NULL COMMENT '班级logo',
+  `intro` text COMMENT '班级简介',
   `who_can_post` tinyint(1) NOT NULL DEFAULT '0' COMMENT '发帖权限 0-所有人 1-仅成员',
   `who_can_reply` tinyint(1) NOT NULL DEFAULT '0' COMMENT '回帖权限 0-所有人 1-仅成员',
   `follower_count` int(10) DEFAULT '0' COMMENT '成员数',
   `thread_count` int(10) DEFAULT '0' COMMENT '帖子数',
-  `admin_uid` int(11) NOT NULL COMMENT '超级圈主uid',
+  `admin_uid` int(11) NOT NULL COMMENT '超级班级管理员uid',
   `recommend` tinyint(1) DEFAULT '0' COMMENT '是否设为推荐（热门）0-否，1-是',
   `status` tinyint(1) DEFAULT '0' COMMENT '是否通过审核：0-未通过，1-已通过',
   `is_del` int(2) DEFAULT '0' COMMENT '是否删除 默认为0',
-  `notify` varchar(255) DEFAULT NULL COMMENT '微吧公告',
+  `notify` varchar(255) DEFAULT NULL COMMENT '班级公告',
   PRIMARY KEY (`weiba_id`),
   KEY `recommend` (`recommend`,`is_del`) USING BTREE,
   KEY `count` (`is_del`,`follower_count`,`thread_count`) USING BTREE
@@ -46,9 +46,9 @@ CREATE TABLE `ts_weiba` (
 DROP TABLE IF EXISTS `ts_weiba_follow`;
 CREATE TABLE `ts_weiba_follow` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `weiba_id` int(11) NOT NULL COMMENT '微吧ID',
+  `weiba_id` int(11) NOT NULL COMMENT '班级ID',
   `follower_uid` int(11) NOT NULL COMMENT '成员ID',
-  `level` tinyint(1) NOT NULL DEFAULT '1' COMMENT '等级 1-粉丝 2-小主 3-圈主',
+  `level` tinyint(1) NOT NULL DEFAULT '1' COMMENT '等级 1-粉丝 2-小主 3-班级管理员',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -58,7 +58,7 @@ CREATE TABLE `ts_weiba_follow` (
 DROP TABLE IF EXISTS `ts_weiba_post`;
 CREATE TABLE `ts_weiba_post` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '帖子ID',
-  `weiba_id` int(11) NOT NULL COMMENT '所属微吧ID',
+  `weiba_id` int(11) NOT NULL COMMENT '所属班级ID',
   `post_uid` int(11) NOT NULL COMMENT '发表者uid',
   `title` varchar(255) NOT NULL COMMENT '帖子标题',
   `content` text NOT NULL COMMENT '帖子内容',
@@ -84,7 +84,7 @@ CREATE TABLE `ts_weiba_post` (
 DROP TABLE IF EXISTS `ts_weiba_reply`;
 CREATE TABLE `ts_weiba_reply` (
   `reply_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '回复ID',
-  `weiba_id` int(11) NOT NULL COMMENT '所属微吧',
+  `weiba_id` int(11) NOT NULL COMMENT '所属班级',
   `post_id` int(11) NOT NULL COMMENT '所属帖子ID',
   `post_uid` int(11) NOT NULL COMMENT '帖子作者UID',
   `uid` int(11) NOT NULL COMMENT '回复者ID',
@@ -129,8 +129,8 @@ INSERT INTO `ts_weiba_category` VALUES ('3', '分类3');
 -- ----------------------------
 -- 任务
 -- ----------------------------
-INSERT INTO `ts_task` VALUES ('23', '2', '进阶任务', '2', '关注1个微吧', '关注1个微吧', '{\"weibafollow\":1}', '', null, '{\"exp\":5,\"score\":5,\"medal\":null}');
-INSERT INTO `ts_task` VALUES ('24', '2', '进阶任务', '2', '在微吧发表1篇帖子', '在微吧发表1篇帖子', '{\"weibapost\":1}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":80,\"name\":\"\\u5fae\\u5427\\u5148\\u950b\",\"src\":\"2012\\/1226\\/10\\/50da5f9f91ee3.png\"}}');
-INSERT INTO `ts_task` VALUES ('35', '3', '达人任务', '2', '至少有1篇精华帖子', '在微吧中至少有1篇帖子被管理员设置为精华帖', '{\"weibamarrow\":1}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":86,\"name\":\"\\u5fae\\u5427\\u8fbe\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da61216c423.png\"}}');
-INSERT INTO `ts_task` VALUES ('43', '4', '高手任务', '2', '至少有10篇精华帖子', '在微吧发表10篇以上的精华帖子', '{\"weibamarrow\":10}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":93,\"name\":\"\\u5fae\\u5427\\u725b\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da629074f1e.png\"}}');
-INSERT INTO `ts_task` VALUES ('53', '5', '终极任务', '2', '发表100篇以上的精华帖子', '在微吧发表100篇以上的精华帖子', '{\"weibamarrow\":100}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":100,\"name\":\"\\u5fae\\u5427\\u795e\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da646ea4712.png\"}}');
+INSERT INTO `ts_task` VALUES ('23', '2', '进阶任务', '2', '关注1个班级', '关注1个班级', '{\"weibafollow\":1}', '', null, '{\"exp\":5,\"score\":5,\"medal\":null}');
+INSERT INTO `ts_task` VALUES ('24', '2', '进阶任务', '2', '在班级发表1篇帖子', '在班级发表1篇帖子', '{\"weibapost\":1}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":80,\"name\":\"\\u5fae\\u5427\\u5148\\u950b\",\"src\":\"2012\\/1226\\/10\\/50da5f9f91ee3.png\"}}');
+INSERT INTO `ts_task` VALUES ('35', '3', '达人任务', '2', '至少有1篇精华帖子', '在班级中至少有1篇帖子被管理员设置为精华帖', '{\"weibamarrow\":1}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":86,\"name\":\"\\u5fae\\u5427\\u8fbe\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da61216c423.png\"}}');
+INSERT INTO `ts_task` VALUES ('43', '4', '高手任务', '2', '至少有10篇精华帖子', '在班级发表10篇以上的精华帖子', '{\"weibamarrow\":10}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":93,\"name\":\"\\u5fae\\u5427\\u725b\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da629074f1e.png\"}}');
+INSERT INTO `ts_task` VALUES ('53', '5', '终极任务', '2', '发表100篇以上的精华帖子', '在班级发表100篇以上的精华帖子', '{\"weibamarrow\":100}', '', null, '{\"exp\":6,\"score\":6,\"medal\":{\"id\":100,\"name\":\"\\u5fae\\u5427\\u795e\\u4eba\",\"src\":\"2012\\/1226\\/10\\/50da646ea4712.png\"}}');

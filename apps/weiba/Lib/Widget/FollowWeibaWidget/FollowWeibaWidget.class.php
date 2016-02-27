@@ -1,6 +1,6 @@
 <?php
 /**
- * 关注微吧按钮Widget
+ * 关注班级按钮Widget
  * @example W('FollowWeiba', array('weiba_id'=>10000, 'weiba_name'=>'weiba_name', 'follow_state'=>$followState))
  * @author jason <yangjs17@yeah.net>
  * @version TS3.0
@@ -10,9 +10,9 @@ class FollowWeibaWidget extends Widget {
 	/**
      * 渲染关注按钮模板
      * @example
-     * $data['weiba_id'] integer 目标微吧的ID
-     * $data['weiba_name'] string 目标微吧的名称
-     * $data['follow_state'] array 当前用户与目标微吧的关注状态，array('following'=>1)
+     * $data['weiba_id'] integer 目标班级的ID
+     * $data['weiba_name'] string 目标班级的名称
+     * $data['follow_state'] array 当前用户与目标班级的关注状态，array('following'=>1)
      * @param array $data 渲染的相关配置参数
      * @return string 渲染后的模板数据
 	 */

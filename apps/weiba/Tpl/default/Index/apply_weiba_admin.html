@@ -7,7 +7,7 @@
 <div id="page-wrap">
 	   <div id="main-wrap">
 	   	   	   <div class="st-bg">
-                <p class="pb15"><a href="{:U('weiba/Index/index')}">微吧</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_id))}">{$weiba_name}</a>&nbsp;>&nbsp;<php>if($type==3){</php>申请圈主<php>}else{</php>申请小主<php>}</php></p>
+                <p class="pb15"><a href="{:U('weiba/Index/index')}">班级</a>&nbsp;>&nbsp;<a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_id))}">{$weiba_name}</a>&nbsp;>&nbsp;<php>if($type==3){</php>申请班级管理员<php>}else{</php>申请小主<php>}</php></p>
                  <div class="weiba-manage">                     
                         <!-- <h3>发新贴</h3> -->
                         <form method="post" action="{:U('weiba/Index/do_apply_weiba_admin')}" onkeydown="if(event.keyCode==13){return false;}" name="weibaApply" model-node='weiba_admin_apply'>

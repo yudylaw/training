@@ -9,13 +9,13 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
 <div class="content_holder">
    <div class="content no_bg">
        <div class="mno_l"> 
-            <p class="weiba-location"><a href="{:U('weiba/Index/index')}">微吧</a>&nbsp;<span class="f8">></span>&nbsp;<span class="f-red">申请微吧</span></p>
+            <p class="weiba-location"><a href="{:U('weiba/Index/index')}">班级</a>&nbsp;<span class="f8">></span>&nbsp;<span class="f-red">申请班级</span></p>
              <div class="weiba-manage">
                <div class="boxL" style="width:100%;">                    
                 <!-- <form method="post" action="{:U('weiba/Manage/doWeibaEdit')}" id="weibaInfo"> -->
                     <ul class="add_group">
                         <li>
-                            <div class="c1"><font color="red"> * </font>微吧名称：</div>
+                            <div class="c1"><font color="red"> * </font>班级名称：</div>
                             <div class="c2">
                             <input type="text" class="text" style="width:610px;" name="weiba_name" id="weiba_name">
                             <span id="group_name_tips" class="cRed pr5"></span>
@@ -23,7 +23,7 @@ var UPLOAD_URL ='{:UPLOAD_URL}';
                         </li>
                         <li>
                             <div class="c1"><font color="red"> * </font>logo：</div>
-                            <!-- <div class="c2"><span class="left mr10"><img src=""/></span><span>更换微吧头像:<br />{:W('Upload',array('attachIds'=>$weiba_detail['logo'], 'uploadType'=>'image'))}</span></div> -->
+                            <!-- <div class="c2"><span class="left mr10"><img src=""/></span><span>更换班级头像:<br />{:W('Upload',array('attachIds'=>$weiba_detail['logo'], 'uploadType'=>'image'))}</span></div> -->
                             <div class="c2">
                                 {:W('Avatar',array('avatar'=>$user_info,'defaultImg'=>"__THEME__/image/icon_weiba_default.jpg",'tpl'=>'weiba'))}
                            </div>
@@ -84,11 +84,11 @@ function dosubmit(){
         var avatar_middle = $("img[event-node='avatar_middle']").attr('src');
         var cid = $("#cid").val();
         if(weiba_name == ""){
-          ui.error('微吧名称不能为空');
+          ui.error('班级名称不能为空');
           return false;
         }
         if(intro == ""){
-          ui.error('微吧简介不能为空');
+          ui.error('班级简介不能为空');
           return false;
         }
         if(typeof(who_can_post) == "undefined"){
@@ -96,11 +96,11 @@ function dosubmit(){
           return false;
         }
         if(typeof(avatar_big) == "undefined"){
-          ui.error('微吧LOGO不能为空');
+          ui.error('班级LOGO不能为空');
           return false;
         }
         if(cid == 0){
-          ui.error('请选择微吧分类');
+          ui.error('请选择班级分类');
           return false;
         }
         if(typeof(avatar_middle) == "undefined"){
@@ -125,7 +125,7 @@ function dosubmit(){
                location.href = "{:U('weiba/Index/weibaList')}";
             }, 1000);
           }else if(data == -1){
-            ui.error("申请微吧功能未开启");
+            ui.error("申请班级功能未开启");
           }else{
             ui.error("申请失败");
           }
