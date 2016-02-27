@@ -43,7 +43,7 @@ class CourseResourceModel extends Model {
         foreach ($resdata as $key=>$val){
             $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
             $course = $course[0];
-            $result['data'][$key]['title'] = $course['title'];
+            $result['data'][$key]['coursetitle'] = $course['title'];
             $result['data'][$key]['creator'] = $course['creator'];
             $result['data'][$key]['subject'] = $course['subject'];
             $result['data'][$key]['required'] = $course['required'];
