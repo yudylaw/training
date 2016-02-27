@@ -35,7 +35,7 @@ class IndexAction extends Action {
         if($start_date == 0 || $start_date > time()){
             $this->error("课程未开始");
         }
-        if($end_date < time()){
+        if($end_date !=0 && $end_date < time()){
             $this->error("课程已经结束");
         }
         $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
