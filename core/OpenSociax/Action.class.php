@@ -282,29 +282,9 @@ abstract class Action
                            U('public/Register/step3', '', true);
                         }
                     }
-                    /*              
-                    if ($init_config ['photo_open']) {
-                        U ( 'public/Register/step2', '', true );
-                    }
-                    if ($init_config ['tag_open']) {
-                        U ( 'public/Register/step3', '', true );
-                    }*/
-                    
-                    // 添加双向关注用户
-                    $registerConfig = model('Xdata')->get('admin_Config:register');
-                    $eachFollow = $registerConfig['each_follow'];
-                    if(!empty($eachFollow)) {
-                        model('Follow')->eachDoFollow($this->mid, $eachFollow);
-                    }
-                    // 添加默认关注用户
-                    $defaultFollow = $registerConfig['default_follow'];
-                    $defaultFollow = array_diff(explode(',', $defaultFollow), explode(',', $eachFollow));
-                    if(!empty($defaultFollow)) {
-                        model('Follow')->bulkDoFollow($this->mid, $defaultFollow);
-                    }
 
                     model ( 'Register' )->overUserInit ( $GLOBALS ['ts'] ['mid'] );
-                    U ( 'square/Index/index', '', true );
+                    U ( 'public/Index/index', '', true );
                 }
             }
 
