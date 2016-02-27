@@ -236,6 +236,25 @@ class AdminAction extends Action {
     }
     
     /**
+     * 删除试卷
+     */
+    public function delete() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        $homework = M('homework')->find(array('id'=>$hw_id));
+        if (empty($homework)) {
+            $this->ajaxReturn(null, '作业或考试不存在');
+        }
+        
+        $count = M("homework_record")->where(array('hw_id'=>$hw_id))->count();
+        
+        if ($count > 0) {
+            $this->ajaxReturn(null, '已结存在考试记录，无法删除');
+        }
+        M('homework')->where(array('id'=>$hw_id))->save(array('is_del'=>1));
+        $this->ajaxReturn(null, '删除成功');
+    }
+    
+    /**
      * 完成打分
      */
     public function submit() {
