@@ -50,8 +50,10 @@ class CourseResourceLearningModel extends Model {
         }else{
             if($result['percent'] < $percent){//如果存在学习进度并且当前进度大于之前进度直接更新学习进度
                 $res = $this->where($map)->save(array('percent'=>$percent));
+            }else{
+                $res = 0;//已完成学习或者当前进度小于原来进度无需更新学习进度
             }
-            $res = 0;//已完成学习或者当前进度小于原来进度无需更新学习进度
+            
         }
         if($res && $percent == 100){//完成该资源学习更新课程总体学习进度
             $map2['id'] = $param['resourceid'];
