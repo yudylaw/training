@@ -1,4 +1,32 @@
 <include file="__THEME__/public_header_new" />
+<script type="text/javascript">
+	function startcourse(id){
+		updatetime('start',id);
+	}
+	function endcourse(id){
+		updatetime('end',id);
+	}
+	function updatetime(type,id){
+		$.ajax({
+			type: "POST",
+			url: 'index.php?app=course&mod=Admin&act=startandend',
+			data:{"type":type,"course_id":id},
+			dataType: "json",
+			async:false,
+			success:function(msg){
+				if(msg.status == 1){
+					window.location.href="index.php?app=course&mod=Index&act=index";
+				}else{
+					alert(msg.msg);
+				}
+			},
+			error:function(msg){
+				alert("操作失败");
+				return;
+			}
+		});
+	}
+</script>
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
 		<include file="__THEME__/public_left_new" />
@@ -24,7 +52,7 @@
 							<td><span>{$res['start_date']|default=0|friendlyDate}-{$res['end_date']|default=0|friendlyDate}</span></td>
 							<td><span>{$res['course_hour']}/{$res['course_score']}</span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
-							<td><span class="color-roseo"><if condition="$res['percent'] eq 100"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">完成</a><else /><if condition="$res['percent'] eq 0"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">进入学习</a><else /><a href="{:U('course/Index/detail',array(id=>$res['id']))}">继续</a></if></if><a href="javascript:void(0);" class="color-gre" id="start_course" code="{$res['id']}">开始</a>&nbsp;<a href="javascript:void(0);" class="color-gre" id="end_course" code="{$res['id']}">结束</a></span></td>
+							<td><span class="color-roseo"><if condition="$res['percent'] eq 100"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">完成</a><else /><if condition="$res['percent'] eq 0"><a href="{:U('course/Index/detail',array(id=>$res['id']))}">进入学习</a><else /><a href="{:U('course/Index/detail',array(id=>$res['id']))}">继续</a></if></if><a href="javascript:;" onclick="startcourse({$res['id']});" class="color-gre" id="start_course_{$res['id']}" code="{$res['id']}">开始</a>&nbsp;<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a></span></td>
 						</tr>
 					</volist>
 					<!-- <tr>
@@ -69,36 +97,4 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-jQuery(document).ready(function(){
-	$("#start_course").click(function(){
-		var id = parseInt($(this).attr("code"));
-		updatetime('start',id);
-	});
-	$("#end_course").click(function(){
-		var id = parseInt($(this).attr("code"));
-		updatetime('end',id);
-	});
-	function updatetime(type,id){
-		$.ajax({
-			type: "POST",
-			url: 'index.php?app=course&mod=Admin&act=startandend',
-			data:{"type":type,"course_id":id},
-			dataType: "json",
-			async:false,
-			success:function(msg){
-				if(msg.status == 1){
-					window.location.href="index.php?app=course&mod=Index&act=index";
-				}else{
-					alert(msg.msg);
-				}
-			},
-			error:function(msg){
-				alert("操作失败");
-				return;
-			}
-		});
-	}
-});
-</script>
 <include file="__THEME__/public_footer_new" />
