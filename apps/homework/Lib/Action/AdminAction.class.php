@@ -118,6 +118,24 @@ class AdminAction extends Action {
         }
     }
     
+    public function hlist() {
+        //参数 p=currentPage
+        $pageSize = 20;
+        $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
+    
+        $h_ids = array();
+    
+        $homeworks = $result['data'];
+    
+        foreach ($homeworks as $homework) {
+            array_push($h_ids, $homework['id']);
+        }
+    
+        $this->assign("homeworks", $homeworks);
+        $this->assign("page", $result['html']);
+        $this->display("homework_list");
+    }
+    
     public function detail() {
         $hw_id = intval($_REQUEST['hw_id']);
         $uid = intval($_REQUEST['uid']);
