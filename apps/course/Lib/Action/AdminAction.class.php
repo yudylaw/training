@@ -196,14 +196,14 @@ class AdminAction extends Action {
         $result = model("CourseLearning")->getCourseLearningByCondition($con);
         $data = $result['data'];
         $coursemodel = model('Course');
-        $user = model('User');
+        $usermodel = model('User');
         foreach ($data as &$val){
             $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
             $course = $course[0];
             $val['title'] = $course['title'];
             $val['course_hour'] = $course['course_hour'];
             $val['course_score'] = $course['course_score'];
-            $user = $user->getUserInfo($val['uid']);
+            $user = $usermodel->getUserInfo($val['uid']);
             $val['uname'] = $user['uname'];
         }
         $totalRows = $result['totalRows'];
