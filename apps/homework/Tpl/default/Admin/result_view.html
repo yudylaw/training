@@ -19,7 +19,7 @@
 	                    </h3>
 	                    <div class="choose">
 	                        <dl>
-	                            <dt class="clearfix">{$question['num']}、{$question['name']}（　）</dt>
+	                            <dt class="clearfix">{$question['num']}、{$question['name']} （{$question['score']}分）</dt>
 	                            <dd>
 	                                <p><span>A</span>.{$question['a_option']}</p>
 	                                <p><span>B</span>.{$question['b_option']}</p>
@@ -44,7 +44,7 @@
 		                    <h3 class="test-title color-gre mt20">简答题</h3>
 		                    <div class="simple">
 		                        <dl>
-		                            <dt>{$question['num']}、{$question['name']}</dt>
+		                            <dt>{$question['num']}、{$question['name']} （{$question['score']}分）</dt>
 		                            <dd class="clearfix">
 		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
 		                            </dd>
