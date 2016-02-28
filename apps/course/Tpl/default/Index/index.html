@@ -77,7 +77,7 @@
 									<else />	
 										<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
 									</if>
-										<a href="{:U('course/Admin/learnlist',array('cid'=>{$res['id']}))}" class="btn-green fl"><span class="fl">查看学习记录</span></a>
+										<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="btn-green fl"><span class="fl">查看学习记录</span></a>
 								</if>
 								</span>
 							</td>
