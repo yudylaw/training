@@ -224,10 +224,10 @@ class AdminAction extends Action {
         $id = $_POST['course_id'];
         if($type == 'start'){
             $start_date = time();
-            $res = model('Course')->updateCourse(array('id'=>$id,'start_date'=>$start_date));
+            $res = model('Course')->updateCourse(array('id'=>$id,'status'=>1));
         }else{
             $end_date = time();
-            $res = model('Course')->updateCourse(array('id'=>$id,'end_date'=>$end_date));
+            $res = model('Course')->updateCourse(array('id'=>$id,'status'=>0));
         }
         if($res){
             echo '{"status":1,"msg":"操作成功"}';

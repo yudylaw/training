@@ -18,6 +18,7 @@ class IndexAction extends Action {
         $page = $p->show();
         $this->resource = $result['data'];
         $this->page = $page;
+        $this->role = $this->user['group_id'];
         $this->display();
     }
     /**
@@ -30,13 +31,9 @@ class IndexAction extends Action {
         }
         $course = model('Course')->getCourseByCondition(array('id'=>$id));
         $course = $course[0];
-        $start_date = $course['start_date'];
-        $end_date = $course['end_date'];
-        if($start_date == 0 || $start_date > time()){
-            $this->error("课程未开始");
-        }
-        if($end_date !=0 && $end_date < time()){
-            $this->error("课程已经结束");
+        $status = $course['status'];
+        if($status == 0){
+            $this->error("课程未开始或已结束");
         }
         $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
         $data = $courseresource['data'];
