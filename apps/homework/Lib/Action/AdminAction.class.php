@@ -285,6 +285,12 @@ class AdminAction extends Action {
         $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba ORDER BY ctime desc limit 0,20");
         
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
+        
+        
+        $schedules = M('homework_schedule')->query("SELECT wb.weiba_name, hs.start_date, hs.end_date 
+            from ts_homework_schedule hs LEFT JOIN ts_weiba wb on class_id = wb.weiba_id where hs.hw_id=".$hw_id);
+        
+        $this->assign("schedules", $schedules);
         $this->assign("homework", $homework);
         $this->assign("classes", $classes);
         $this->display("create");
@@ -318,7 +324,7 @@ class AdminAction extends Action {
         $data = array('hw_id'=>$hw_id, 'class_id'=>$weiba_id, 
             'start_date'=>$startDate, 'end_date'=>$endDate, 'ctime'=>time());
         
-        M('homework_schedule')->save($data);
+        M('homework_schedule')->add($data);
         
         $this->ajaxReturn(null, '考试安排成功');
     }

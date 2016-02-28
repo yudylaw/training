@@ -43,6 +43,14 @@ $(document).ready(function() {
 		var class_id = $('#classes').val();
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
+		if (startDate == "") {
+			alert("开始时间不能为空");
+			return;
+		}
+		if (endDate == "") {
+			alert("结束时间不能为空");
+			return;
+		}
 		  $.post("{:U('homework/Admin/schedule_test')}", {'hw_id':hw_id, 
 			  'weiba_id':class_id, 
 			  'startDate':startDate, 
@@ -51,7 +59,7 @@ $(document).ready(function() {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
 					  alert(obj.info);
-					  window.location.href = "{:U('homework/Admin/hlist')}";
+					  window.location.reload();
 				  }
 		  });
 	});
@@ -89,6 +97,28 @@ $(document).ready(function() {
                     <input id="file_upload" name="file_upload" type="file" multiple="true"> -->
                     <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">安排考试</span></a><input type="hidden" id="resource_ids" value="0"></div>
                 </div>
+                <!-- schedules begin -->
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                        	<th width="40%">试卷</th>
+                            <th width="20%">班级</th>
+                            <th width="20%">开始时间</th>
+                            <th width="20%">结束时间</th>
+                        </tr>
+                        <volist name='schedules' id='schedule'>
+                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                        	<td><span>{$homework['name']}</span></td>
+                            <td><span>{$schedule['weiba_name']}</span></td>
+                            <td><span>{$schedule['start_date']}</span></td>
+                            <td><span>{$schedule['end_date']}</span></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+                <!-- schedule end -->
 			</div>
 		</div>
 	</div>
