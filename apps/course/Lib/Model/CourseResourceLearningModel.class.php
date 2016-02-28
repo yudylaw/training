@@ -86,4 +86,22 @@ class CourseResourceLearningModel extends Model {
         }
         return $res;
     }
+    /**
+     * 获取学习记录列表
+     */
+    public function getLearningList($param){
+        $map = array();
+        $cid = $param['course_id'];
+        $resids = array();
+        $resources = model('CourseResource')->where(array('course_id'=>$cid))->findAll();
+        foreach ($resources as $val){
+            array_push($resids, $val['id']);
+        }
+        isset($param['class_id']) && $map['classid'] = $param['class_id'];
+        isset($param['uid']) && $map['uid'] = $param['uid'];
+        $map['resourceid'] = array('IN',$resids);
+        $result = $this->where($map)->findPage(5);
+        return $result;
+//         return $this->getLastSql();
+    }
 }

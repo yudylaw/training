@@ -193,25 +193,27 @@ class AdminAction extends Action {
      * 查看学习记录
      */
     public function learnlist(){
-        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
-        $con['page'] = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
-        $result = model("CourseLearning")->getCourseLearningByCondition($con);
+        $id = $_REQUEST['cid'];//课程id
+        if(empty($id)){
+            $this->error("课程id不能为空");
+        }
+        
+        $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
         $data = $result['data'];
-        $coursemodel = model('Course');
+        $course = model('Course')->where(array('id'=>$id))->select();
         $usermodel = model('User');
         foreach ($data as &$val){
-            $course = $coursemodel->getCourseByCondition(array('id'=>$val['course_id']));
-            $course = $course[0];
-            $val['title'] = $course['title'];
-            $val['course_hour'] = $course['course_hour'];
-            $val['course_score'] = $course['course_score'];
             $user = $usermodel->getUserInfo($val['uid']);
             $val['uname'] = $user['uname'];
+            $resource = model('CourseResource')->getResourceById($val['resourceid']);
+            $resource = $resource[0];
+            $val['restitle'] = $resource['title'];
         }
         $totalRows = $result['totalRows'];
-        $p = new Page($totalRows,$con['limit']);
+        $p = new Page($totalRows,5);
         $page = $p->show();
         $this->courselearning = $data;
+        $this->course = $course[0];
         $this->page = $page;
         $this->display(); 
     }
