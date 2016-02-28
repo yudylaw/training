@@ -240,7 +240,7 @@ class AdminAction extends Action {
      */
     public function delete() {
         $hw_id = intval($_REQUEST['hw_id']);
-        $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
+        $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         if (empty($homework)) {
             $this->ajaxReturn(null, '作业或考试不存在');
         }
@@ -284,11 +284,43 @@ class AdminAction extends Action {
         //最近20个班级
         $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba ORDER BY ctime desc limit 0,20");
         
-        $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
-        
+        $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         $this->assign("homework", $homework);
         $this->assign("classes", $classes);
         $this->display("create");
+    }
+    
+    /**
+     * 安排考试
+     */
+    public function schedule_test() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        $weiba_id = intval($_REQUEST['weiba_id']);
+        $startDate = $_REQUEST['startDate'];
+        $endDate = $_REQUEST['endDate'];
+        
+        if ($endDate <= $startDate) {
+            $this->ajaxReturn(null, '结束时间必须大于开始时间');
+        }
+        
+        $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
+        
+        if (empty($homework)) {
+            $this->ajaxReturn(null, '试卷不存在');
+        }
+        
+        $class = M('weiba')->where(array('weiba_id'=>$weiba_id, 'is_del'=>0))->find();
+        
+        if (empty($class)) {
+            $this->ajaxReturn(null, '班级不存在');
+        }
+        
+        $data = array('hw_id'=>$hw_id, 'class_id'=>$weiba_id, 
+            'start_date'=>$startDate, 'end_date'=>$endDate, 'ctime'=>time());
+        
+        M('homework_schedule')->save($data);
+        
+        $this->ajaxReturn(null, '考试安排成功');
     }
     
 }

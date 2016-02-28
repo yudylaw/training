@@ -28,9 +28,33 @@
 <script>
 $(document).ready(function() {
 	
-	$( "#startDate" ).datepicker();
+	$( "#startDate" ).datepicker({
+		dateFormat:'yymmdd',
+		minDate: new Date()
+	});
 	
-	$( "#endDate" ).datepicker();
+	$( "#endDate" ).datepicker({
+		minDate: new Date(),
+	    dateFormat:'yymmdd'
+	});
+	
+	$("#create").click(function() {
+		var hw_id = {$homework['id']};
+		var class_id = $('#classes').val();
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		  $.post("{:U('homework/Admin/schedule_test')}", {'hw_id':hw_id, 
+			  'weiba_id':class_id, 
+			  'startDate':startDate, 
+			  'endDate':endDate}, 
+			  function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.href = "{:U('homework/Admin/hlist')}";
+				  }
+		  });
+	});
 	
 });
 </script>
@@ -46,7 +70,7 @@ $(document).ready(function() {
                     <ul class="ul-form">
                         <li class="clearfix">
                             <span class="clearfix fl item-name">班级：</span>
-                           	<select style="font-size:14px;height:26px;">
+                           	<select style="font-size:14px;height:26px;" id="classes">
                            		<volist name = "classes" id="class">
                            			<option value="{$class['weiba_id']}">{$class['weiba_name']}</option>
                            		</volist>
