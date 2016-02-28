@@ -187,7 +187,7 @@ class AdminAction extends Action {
         
         $query = array('hw_id'=>$id);
         
-        $sql = "SELECT hr.uid, u.uname, hr.ctime, hr.score, hr.is_grade FROM ts_homework_record hr LEFT JOIN ts_user u ON hr.uid = u.uid";
+        $sql = "SELECT hr.uid, u.uname, u.location,u.phone, hr.ctime, hr.score, hr.is_grade FROM ts_homework_record hr LEFT JOIN ts_user u ON hr.uid = u.uid";
         $sql .=" WHERE hr.hw_id=" . $id;
         
         $records = M('')->query($sql);
