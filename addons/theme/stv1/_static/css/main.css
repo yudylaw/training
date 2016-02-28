@@ -141,7 +141,7 @@ body{
 }
 .user-info li{
     padding: 2px 0;
-    width: 66px;
+    width: 98px;
     height: 36px;
     border-left: 1px solid #ccc;
     text-align: center;
@@ -1531,4 +1531,27 @@ a.color-aa:hover,
 }
 .paper-info span{
     margin: 0 10px;
+}
+
+.back-btn{
+    margin: 0 auto;
+    display: block;
+    width: 193px;
+    height: 40px;
+    background: url("../images/test_icon.png") no-repeat 0 -191px;
+    line-height: 38px;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+}
+.back-btn:hover{
+    background-position: 0 -231px;
+}
+.test-btn-box{
+    text-align: center;
+}
+.test-btn-box a{
+    margin: 40px 5px 0;
+    display: inline-block;
+    vertical-align: middle;
 }
