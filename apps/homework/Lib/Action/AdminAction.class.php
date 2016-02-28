@@ -278,4 +278,17 @@ class AdminAction extends Action {
         $this->ajaxReturn(null, '阅卷成功');
     }
     
+    public function schedule() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        
+        //最近20个班级
+        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba ORDER BY ctime desc limit 0,20");
+        
+        $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
+        
+        $this->assign("homework", $homework);
+        $this->assign("classes", $classes);
+        $this->display("create");
+    }
+    
 }

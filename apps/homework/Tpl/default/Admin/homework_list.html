@@ -17,7 +17,8 @@
                             <th width="10%">及格分</th>
                             <th width="10%">阅卷</th>
                             <th width="10%">删除试卷</th>
-                            <th width="20%">创建时间</th>
+                            <th width="10%">安排考试</th>
+                            <th width="10%">创建时间</th>
                         </tr>
                         <volist name='homeworks' id='homework'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
@@ -26,7 +27,8 @@
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span><a class="color-gre" href="{:U('homework/Admin/recordList', array('hw_id'=>$homework['id']))}">试卷列表</a></span></td>
                             <td><span><a class="color-gre" href="javascript:deleteTest({$homework['id']});void(0);">删除</a></span></td>
-                            <td><span><php>echo date("Y-m-d H:i", $homework['ctime']);</php></span></td>
+                            <td><span><a class="color-gre" href="{:U('homework/Admin/schedule', array('hw_id'=>$homework['id']))}">安排</a></span></td>
+                            <td><span><php>echo date("Y-m-d", $homework['ctime']);</php></span></td>
                         </tr>
                         </volist>
                     </tbody>
