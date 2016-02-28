@@ -36,7 +36,6 @@
 					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">课程列表</span>
 			</div>
 			<if condition="$user['group_id'] neq 3">
-				<div class="fr" style="margin-left:1px;margin-top:5px;margin-bottom:2px;"><a href="{:U('course/Admin/learnlist')}" class="btn-green fl"><span class="fl">查看学习记录</span></a></div>
 				<div class="fr" style="margin-top:5px;margin-bottom:2px;"><a href="{:U('course/Admin/create')}" class="btn-green fl"><span class="fl">创建课程</span></a></div>
 			</if>
 			<div class="id-table les">
@@ -78,6 +77,7 @@
 									<else />	
 										<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
 									</if>
+										<a href="{:U('course/Admin/learnlist',array('cid'=>{$res['id']}))}" class="btn-green fl"><span class="fl">查看学习记录</span></a>
 								</if>
 								</span>
 							</td>
