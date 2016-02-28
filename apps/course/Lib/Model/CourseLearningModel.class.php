@@ -70,4 +70,19 @@ class CourseLearningModel extends Model {
         return $result;
     }
     
+    /**
+     * 根据条件查询课程学习记录
+     * @param array $param
+     */
+    public function getCourseLearning($param) {
+        $map = array();
+        $map['is_del'] = 0;//默认查询未删除的课程
+        !empty($param['course_id']) && $map['course_id'] = $param['course_id'];
+        !empty($param['uid']) && $map['uid'] = $param['uid'];
+        !empty($param['class_id']) && $map['class_id'] = $param['class_id'];
+        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $result = $this->where($map)->order('ctime desc')->select();
+        return $result;
+    }
+    
 }

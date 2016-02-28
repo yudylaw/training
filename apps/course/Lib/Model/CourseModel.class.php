@@ -65,6 +65,9 @@ class CourseModel extends Model {
         if(!empty($param['end_date'])){
             $data['end_date'] = $param['end_date'];
         }
+        if(isset($param['status'])){
+            $data['status'] = $param['status'];
+        }
         //删除课程资源
         if(!empty($param['resourceid'])){
             $map2['id'] = array("IN",array($param['resourceid']));
@@ -81,14 +84,17 @@ class CourseModel extends Model {
         $result = $this->where($map)->order('ctime desc')->findPage($limit);
         $resdata = $result['data'];
         $courselearningmodel = model('CourseLearning');
-        foreach ($resdata as $key=>$val){
-            $courselearning = $courselearningmodel->getCourseLearningByCondition(array('course_id'=>$val['id'],'uid'=>$this->uid));
+        foreach ($resdata as &$value){
+            $courselearning = $courselearningmodel->getCourseLearning(array('course_id'=>$value['id'],'uid'=>$this->uid));
             if(!empty($courselearning)){
                 //$result['data'][$key]['start_date'] = $courselearning['start_date'];
                 //$result['data'][$key]['end_date'] = $courselearning['end_date'];
-                $result['data'][$key]['percent'] = $courselearning['percent'];
+                $value['percent'] = $courselearning[0]['percent'];
+            }else{
+                $value['percent'] = 0;
             }
         }
+        $result['data'] = $resdata;
         return $result;
     }
 }
