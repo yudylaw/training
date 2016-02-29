@@ -1,10 +1,26 @@
 <include file="__THEME__/public_header_new" />
 <script type="text/javascript">
 	function startcourse(id){
-		updatetime('start',id);
+		var r=confirm("确定开始课程吗?");
+		  if (r==true)
+	      {
+			  updatetime('start',id);
+	      }
+	  	  else
+	      {
+	    	  return;
+	      }
 	}
 	function endcourse(id){
-		updatetime('end',id);
+		var r=confirm("确定结束课程吗?");
+		  if (r==true)
+	      {
+			  updatetime('end',id);
+	      }
+	  	  else
+	      {
+	    	  return;
+	      }
 	}
 	function updatetime(type,id){
 		$.ajax({
