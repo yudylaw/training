@@ -46,6 +46,7 @@ class CourseResourceLearningModel extends Model {
             $data['percent'] = $percent;
             $data['ctime'] = time();
             $data['start_date'] = time();
+            $data['end_date'] = time();//记录最近一次学习时间
             $res = $this->add($data);
         }else{
             if($result['percent'] < $percent){//如果存在学习进度并且当前进度大于之前进度直接更新学习进度
