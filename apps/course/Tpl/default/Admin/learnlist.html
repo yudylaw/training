@@ -11,7 +11,7 @@
 				<table>
 					<tr>
 						<th width="40%">资源名称</th>
-						<th width="30%">时间</th>
+						<th width="30%">最近学习时间</th>
 						<th width="10%">所属课程</th>
 						<th width="10%">进度</th>
 						<th width="10%">学习人</th>
@@ -19,7 +19,7 @@
 					<volist name="courselearning" id="res">
 						<tr <if condition="$i % 2 eq 1">class="special"</if>>
 							<td><span class="tab-ell w-l">{$res['restitle']}</span></td>
-							<td><span>{$res['start_date']|default=0|date="y-m-d",###}-{$res['end_date']|default=0|date="y-m-d",###}</span></td>
+							<td><span>{$res['end_date']|date="y-m-d",###}</span></td>
 							<td><span>{$course['title']}</span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span class="color-roseo">{$res['uname']}</span></td>
