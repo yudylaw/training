@@ -65,7 +65,7 @@
 						<th width="25%">操作</th>
 					</tr>
 					<volist name="resource" id="res">
-						<tr <if condition="$i % 2 == 0">class="special"</if>>
+						<tr <if condition="$i % 2 == 1">class="special"</if>>
 							<td><span class="tab-ell w-l"><a href="{:U('course/Index/detail',array(id=>$res['id']))}" class="color-gre">{$res['title']}</a></span></td>
 							<td><span>{$res['ctime']|default=0|date="y-m-d",###}</span></td>
 							<!-- <td><span>{$res['end_date']|date="y-m-d",###}</span></td> -->

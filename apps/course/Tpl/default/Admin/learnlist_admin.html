@@ -15,7 +15,7 @@
 						<th width="30%">学习人</th>
 					</tr>
 					<volist name="courselearning" id="res">
-						<tr <if condition="$i % 2 eq 0">class="special"</if>>
+						<tr <if condition="$i % 2 eq 1">class="special"</if>>
 							<td><span class="tab-ell w-l"><a href="{:U('course/Index/detail',array(id=>$res['course_id']))}" class="color-gre">{$res['coutitle']}</a></span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span class="color-roseo">{$res['uname']}</span></td>
