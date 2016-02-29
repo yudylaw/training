@@ -18,8 +18,8 @@
 					</tr>
 					<volist name="courselearning" id="res">
 						<tr <if condition="$i % 2 eq 1">class="special"</if>>
-							<td><span class="tab-ell w-l">{$res['restitle']}</span></td>
-							<td><span>{$res['end_date']|date="y-m-d",###}</span></td>
+							<td><span class="tab-ell w-l"><a href="{:U('course/Index/video',array(id=>$res['resourceid']))}" class="color-gre" >{$res['restitle']}</a></span></td>
+							<td><span>{$res['end_date']|date="Y年-m月-d日 G时-i分-s秒",###}</span></td>
 							<td><span>{$course['title']}</span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span class="color-roseo">{$res['uname']}</span></td>
