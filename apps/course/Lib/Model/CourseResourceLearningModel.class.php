@@ -49,7 +49,7 @@ class CourseResourceLearningModel extends Model {
             $res = $this->add($data);
         }else{
             if($result['percent'] < $percent){//如果存在学习进度并且当前进度大于之前进度直接更新学习进度
-                $res = $this->where($map)->save(array('percent'=>$percent));
+                $res = $this->where($map)->save(array('percent'=>$percent,'end_date'=>time()));
             }else{
                 $res = 0;//已完成学习或者当前进度小于原来进度无需更新学习进度
             }
