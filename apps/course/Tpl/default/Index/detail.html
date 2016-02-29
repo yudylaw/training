@@ -16,15 +16,15 @@
                     <table>
                         <tr>
                             <th width="20%">序号</th>
+                            <th width="40%">资源名称</th>
                             <th width="20%">资源类型</th>
-                            <th width="50%">资源名称</th>
-                            <th width="10%">状态</th>
+                            <th width="20%">操作</th>
                         </tr>
                         <volist name="courseresource" id="cr">
 	                        <tr <if condition="$i%2 eq 0">class="special"</if>>
 	                            <td><span>{$i}</span></td>
+	                            <td><span class="tab-ell w-l"><a href="{:U('course/Index/video',array(id=>$cr['id']))} class="color-gre" >{$cr['title']}</a></span></td>
 	                            <td><span class="tab-ell <if condition='$cr["ext"] eq flv'>type-vid<else/>type-doc</if>"><if condition="$cr['ext'] eq flv">视频<else/>文档</if></span></td>
-	                            <td><span class="tab-ell w-l">{$cr['title']}</span></td>
 	                            <td>
 	                            	<if condition="$user['group_id'] eq 3">
 	                            		<span><if condition="$cr['percent'] eq 100"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">完成</a><else /><if condition="$cr['percent'] eq 0"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">进入学习</a><else /><a href="{:U('course/Index/video',array(id=>$cr['id']))}">继续</a></if></if></span>
