@@ -5,7 +5,7 @@
         <div class="content clearfix">
             <include file="__THEME__/public_left_new" />
             <div class="fr id-section">
-                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('course/Index/index')}">课程学习-课程资源</a>&gt;<span class="color-gre">课程列表</span></div>
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('course/Index/index')}">课程学习-课程资源</a>&gt;<span class="color-gre">资源列表</span></div>
                 <if condition="$user['group_id'] neq 3">	
                 	<div class="fr" style="margin-top:2px;">
                 		<div id="fileQueue"></div>
@@ -25,7 +25,13 @@
 	                            <td><span>{$i}</span></td>
 	                            <td><span class="tab-ell <if condition='$cr["ext"] eq flv'>type-vid<else/>type-doc</if>"><if condition="$cr['ext'] eq flv">视频<else/>文档</if></span></td>
 	                            <td><span class="tab-ell w-l">{$cr['title']}</span></td>
-	                            <td><span><if condition="$cr['percent'] eq 100"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">完成</a><else /><if condition="$cr['percent'] eq 0"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">进入学习</a><else /><a href="{:U('course/Index/video',array(id=>$cr['id']))}">继续</a></if></if></span></td>
+	                            <td>
+	                            	<if condition="$user['group_id'] eq 3">
+	                            		<span><if condition="$cr['percent'] eq 100"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">完成</a><else /><if condition="$cr['percent'] eq 0"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">进入学习</a><else /><a href="{:U('course/Index/video',array(id=>$cr['id']))}">继续</a></if></if></span>
+	                            	<else />
+	                            		<span><a href="{:U('course/Index/video_admin',array(id=>$cr['id']))}">预览</a></span>
+	                            	</if>
+	                            </td>
 	                        </tr>
                         </volist>
                        <!--  <tr class="special">

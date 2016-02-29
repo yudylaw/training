@@ -1,0 +1,18 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/flowplayer-6.0.5/skin/minimalist.css">
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>><a href="{:U('course/Index/index')}">课程学习</a>><span class="color-gre">视频播放</span></div>
+                <div class="paper-name tc">视频播放-{$resource['title']|getShort=10}</div>
+                <div class="video-box mt20 flowplayer" data-ratio="0.6">
+                   <video>
+      					<source type="video/flash" src="{$previewurl}">
+   					</video>
+                </div>
+        </div>
+	</div>
+</div>
+<script type="text/javascript" src="__THEME__/js/flowplayer-6.0.5/flowplayer.min.js"></script>
+<include file="__THEME__/public_footer_new" />

@@ -193,29 +193,51 @@ class AdminAction extends Action {
      * 查看学习记录
      */
     public function learnlist(){
-        $id = $_REQUEST['cid'];//课程id
-        if(empty($id)){
-            $this->error("课程id不能为空");
+        //普通教师预览课程资源学习记录
+        if($this->user['group_id'] == 3){
+            $id = $_REQUEST['cid'];//课程id
+            if(empty($id)){
+                $this->error("课程id不能为空");
+            }
+            
+            $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
+            $data = $result['data'];
+            $course = model('Course')->where(array('id'=>$id))->select();
+            $usermodel = model('User');
+            foreach ($data as &$val){
+                $user = $usermodel->getUserInfo($val['uid']);
+                $val['uname'] = $user['uname'];
+                $resource = model('CourseResource')->getResourceById($val['resourceid']);
+                $resource = $resource[0];
+                $val['restitle'] = $resource['title'];//资源名称
+            }
+            $totalRows = $result['totalRows'];
+            $p = new Page($totalRows,5);
+            $page = $p->show();
+            $this->courselearning = $data;
+            $this->course = $course[0];
+            $this->page = $page;
+            $this->display();
+        }else{//管理员查看所有课程学习记录
+            $result = model("CourseLearning")->getCourseLearningByCondition();
+            $data = $result['data'];
+            $usermodel = model('User');
+            $coursemodel = model('Course');
+            foreach ($data as &$val){
+                $user = $usermodel->getUserInfo($val['uid']);
+                $val['uname'] = $user['uname'];
+                $course = $coursemodel->where(array('id'=>$val['course_id']))->select();
+                $course = $course[0];
+                $val['coutitle'] = $course['title'];//课程名称
+            }
+            $this->courselearning = $data;
+            $totalRows = $result['totalRows'];
+            $p = new Page($totalRows,5);
+            $page = $p->show();
+            $this->page = $page;
+            $this->display("learnlist_admin");
         }
-        
-        $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
-        $data = $result['data'];
-        $course = model('Course')->where(array('id'=>$id))->select();
-        $usermodel = model('User');
-        foreach ($data as &$val){
-            $user = $usermodel->getUserInfo($val['uid']);
-            $val['uname'] = $user['uname'];
-            $resource = model('CourseResource')->getResourceById($val['resourceid']);
-            $resource = $resource[0];
-            $val['restitle'] = $resource['title'];
-        }
-        $totalRows = $result['totalRows'];
-        $p = new Page($totalRows,5);
-        $page = $p->show();
-        $this->courselearning = $data;
-        $this->course = $course[0];
-        $this->page = $page;
-        $this->display(); 
+         
     }
     /**
      * 开始或者结束课程
@@ -236,5 +258,11 @@ class AdminAction extends Action {
         }else{
             echo '{"status":0,"msg":"操作失败"}';
         }
+    }
+    /**
+     * 管理员预览课程页面
+     */
+    public function preview(){
+        
     }
 }

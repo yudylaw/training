@@ -41,7 +41,7 @@
 			<div class="id-table les">
 				<table>
 					<tr>
-						<th width="40%">名称</th>
+						<th width="40%" style="padding-left:0px;text-align:center;">名称</th>
 						<th width="15%">创建时间</th>
 						<!-- <th width="15%">结束时间</th> -->
 						<th width="10%">学时/学分</th>
@@ -49,8 +49,8 @@
 						<th width="25%">操作</th>
 					</tr>
 					<volist name="resource" id="res">
-						<tr>
-							<td><span class="tab-ell w-l">{$res['title']}</span></td>
+						<tr <if condition="$i % 2 == 0">class="special"</if>>
+							<td><span class="tab-ell w-l"><a href="{:U('course/Index/detail',array(id=>$res['id']))}" class="color-gre">{$res['title']}</a></span></td>
 							<td><span>{$res['ctime']|default=0|date="y-m-d",###}</span></td>
 							<!-- <td><span>{$res['end_date']|date="y-m-d",###}</span></td> -->
 							<td><span>{$res['course_hour']}/{$res['course_score']}</span></td>
@@ -72,12 +72,12 @@
 											<a href="javascript:void(0);" class="color-gre">未开始或已结束</a>
 									</if>
 								<else />
-									<if condition="$res['status'] eq 0">
-										<a href="javascript:;" onclick="startcourse({$res['id']});" class="color-gre" id="start_course_{$res['id']}" code="{$res['id']}">开始</a>
-									<else />	
-										<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
-									</if>
-										<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">查看学习记录</a>
+										<if condition="$res['status'] eq 0">
+											<a href="javascript:;" onclick="startcourse({$res['id']});" class="color-gre" id="start_course_{$res['id']}" code="{$res['id']}">开始</a>
+										<else />	
+											<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
+										</if>
+											&nbsp;|&nbsp;<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">查看学习记录</a>
 								</if>
 								</span>
 							</td>

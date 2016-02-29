@@ -1,0 +1,66 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a
+					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">课程学习记录</span>
+			</div>
+			<div class="id-table les">
+				<table>
+					<tr>
+						<th width="40%" style="padding-left:0px;text-align:center;">名称</th>
+						<th width="30%">进度</th>
+						<th width="30%">学习人</th>
+					</tr>
+					<volist name="courselearning" id="res">
+						<tr <if condition="$i % 2 eq 0">class="special"</if>>
+							<td><span class="tab-ell w-l"><a href="{:U('course/Index/detail',array(id=>$res['course_id']))}" class="color-gre">{$res['coutitle']}</a></span></td>
+							<td><span>{$res['percent']|default=0}%</span></td>
+							<td><span class="color-roseo">{$res['uname']}</span></td>
+						</tr>
+					</volist>
+					<!-- <tr>
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～简单美观风格(八年级数学)</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-roseo">开始</span></td>
+					</tr>
+					<tr class="special">
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-gre">继续</span></td>
+					</tr>
+					<tr>
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>98%</span></td>
+						<td><span class="color-red">已完成</span></td>
+					</tr>
+					<tr class="special">
+						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
+						<td><span>2015.01.20-2015.01.23</span></td>
+						<td><span>200/40</span></td>
+						<td><span>100%</span></td>
+						<td><span>未完成</span></td>
+					</tr> -->
+				</table>
+			</div>
+			<div class="comment-page tc">
+				<!-- <a href="javascript:;" class="clearfix">首页</a> <a
+					href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+				<a href="javascript:;" class="clearfix">1</a> <a href="javascript:;"
+					class="clearfix">2</a> <a href="javascript:;" class="clearfix">3</a>
+				<a href="javascript:;" class="clearfix"><span>下一页</span><em
+					class="arr-rt"></em></a> <a href="javascript:;" class="clearfix">末页</a> -->
+					{$page}
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />

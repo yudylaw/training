@@ -73,7 +73,11 @@ class IndexAction extends Action {
             $percent = $courseresourcelearning->where(array('resourceid'=>$resid))->getField('percent');
             $this->percent = $percent;
             //视频部分播放进度在前段js部分控制
-            $this->display();
+            if($this->user['group_id'] == 3){
+                $this->display();
+            }else{
+                $this->display("video_admin");
+            }
         }
     }
 }
