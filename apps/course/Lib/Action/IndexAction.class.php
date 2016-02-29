@@ -75,7 +75,12 @@ class IndexAction extends Action {
             $this->percent = $percent;
             //视频部分播放进度在前段js部分控制
             if($this->user['group_id'] == 3){
-                $this->display();
+                //当用户完成该资源学习时不再记录学习进度以及弹出验证码
+                if($percent == 100){
+                    $this->display("video_admin");
+                }else{
+                    $this->display();
+                }
             }else{
                 $this->display("video_admin");
             }
