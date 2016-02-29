@@ -85,7 +85,7 @@ class CourseModel extends Model {
         $resdata = $result['data'];
         $courselearningmodel = model('CourseLearning');
         foreach ($resdata as &$value){
-            $courselearning = $courselearningmodel->getCourseLearning(array('course_id'=>$value['id'],'uid'=>$this->uid));
+            $courselearning = $courselearningmodel->getCourseLearning(array('course_id'=>$value['id'],'uid'=>$param['uid']));
             if(!empty($courselearning)){
                 //$result['data'][$key]['start_date'] = $courselearning['start_date'];
                 //$result['data'][$key]['end_date'] = $courselearning['end_date'];
