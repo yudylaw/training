@@ -23,7 +23,7 @@
                         <volist name="courseresource" id="cr">
 	                        <tr <if condition="$i%2 eq 0">class="special"</if>>
 	                            <td><span>{$i}</span></td>
-	                            <td><span class="tab-ell w-l"><a href="{:U('course/Index/video',array(id=>$cr['id']))} class="color-gre" >{$cr['title']}</a></span></td>
+	                            <td><span class="tab-ell w-l"><a href="{:U('course/Index/video',array(id=>$cr['id']))}" class="color-gre" >{$cr['title']}</a></span></td>
 	                            <td><span class="tab-ell <if condition='$cr["ext"] eq flv'>type-vid<else/>type-doc</if>"><if condition="$cr['ext'] eq flv">视频<else/>文档</if></span></td>
 	                            <td>
 	                            	<if condition="$user['group_id'] eq 3">
