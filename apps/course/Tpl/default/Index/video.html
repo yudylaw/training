@@ -20,7 +20,8 @@ var previewurl = '{$previewurl}';//播放地址
 var ext = '{$resource["ext"]}';//扩展名
 var resid = '{$resource["id"]}';//资源id
 var percent = '{$percent}';//视频播放进度
-var timer = null;
+var timer = null;//此定时器用于定时弹出验证码
+var timer2 = null;//此定时器用于定时记录播放进度
 jQuery(document).ready(function(){
    var api = flowplayer();//获取
    //timer = setInterval(function(){
@@ -32,10 +33,11 @@ jQuery(document).ready(function(){
    api.on("pause", function(e, api) {
 	   //暂停
 	   clearInterval(timer);//清除计时器
+	   //播放进度写入数据库
 	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
   			
   		});
-	   //播放进度写入数据库
+	   clearInterval(timer2);//清除计时器
    }).on("resume",function(e,api){
 	   //如果视频有播放进度设置为上次播放进度,记忆播放
 	   /* if(parseInt(percent) &&  parseInt(percent) < 100){
@@ -45,6 +47,12 @@ jQuery(document).ready(function(){
 	   }else{
 		   api.resume();
 	   } */
+	   //定时保存播放进度,10s一次
+	   timer2 = setInterval(function(){
+		   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.duration},function(txt){
+				
+			});	  
+	   },10000);
 	   timer = setInterval(function(){
 			  api.pause();//暂停播放
 			  clearInterval(timer);//清除计时器
@@ -59,7 +67,14 @@ jQuery(document).ready(function(){
  			
  		});
 	   //播放进度写入数据库，播放进度为100,表示已完成学习
+	   clearInterval(timer2);//清除计时器
    });
+   //定时保存播放进度,10s一次
+   timer2 = setInterval(function(){
+	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.duration},function(txt){
+			
+		});	  
+   },10000);
    //刷新验证码
    function changeverify(){
        var date = new Date();
