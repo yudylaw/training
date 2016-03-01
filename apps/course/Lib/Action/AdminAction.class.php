@@ -193,13 +193,12 @@ class AdminAction extends Action {
      * 查看学习记录
      */
     public function learnlist(){
+        $id = $_REQUEST['cid'];//课程id
+        if(empty($id)){
+            $this->error("课程id不能为空");
+        }
         //普通教师预览课程资源学习记录
         if($this->user['group_id'] == 3){
-            $id = $_REQUEST['cid'];//课程id
-            if(empty($id)){
-                $this->error("课程id不能为空");
-            }
-            
             $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
             $data = $result['data'];
             $course = model('Course')->where(array('id'=>$id))->select();
