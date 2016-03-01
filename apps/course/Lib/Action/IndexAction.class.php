@@ -33,7 +33,7 @@ class IndexAction extends Action {
         $course = model('Course')->getCourseByCondition(array('id'=>$id));
         $course = $course[0];
         $status = $course['status'];
-        if($status == 0){
+        if($status == 0 && $this->user['group_id'] == 3){//未开始的课程教师不允许查看
             $this->error("课程未开始");
         }
         $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
