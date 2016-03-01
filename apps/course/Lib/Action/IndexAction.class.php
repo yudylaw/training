@@ -34,7 +34,7 @@ class IndexAction extends Action {
         $course = $course[0];
         $status = $course['status'];
         if($status == 0){
-            $this->error("课程未开始或已结束");
+            $this->error("课程未开始");
         }
         $courseresource = model('CourseResource')->getResourceByCondition(array('course_id'=>$id,'uid'=>$this->uid));
         $data = $courseresource['data'];
