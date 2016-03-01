@@ -219,7 +219,7 @@ class AdminAction extends Action {
             $this->page = $page;
             $this->display();
         }else{//管理员查看所有课程学习记录
-            $result = model("CourseLearning")->getCourseLearningByCondition();
+            $result = model("CourseLearning")->getCourseLearningByCondition(array('course_id'=>$id));
             $data = $result['data'];
             $usermodel = model('User');
             $coursemodel = model('Course');
