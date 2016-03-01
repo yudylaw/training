@@ -66,7 +66,7 @@
 					</tr>
 					<volist name="resource" id="res">
 						<tr <if condition="$i % 2 == 1">class="special"</if>>
-							<td><span class="tab-ell w-l"><a <if condition="$res['status'] eq 1">href="{:U('course/Index/detail',array(id=>$res['id']))}"<else />href="javascript:void(0);"</if> class="color-gre">{$res['title']}</a></span></td>
+							<td><span class="tab-ell w-l"><a <if condition="$res['status'] eq 1">href="{:U('course/Index/detail',array(id=>$res['id']))}" class="color-gre" <else /><if condition="$user['group_id'] eq 3">href="javascript:void(0);"<else />href="{:U('course/Index/detail',array(id=>$res['id']))}" class="color-gre"</if></if> >{$res['title']}</a></span></td>
 							<td><span>{$res['ctime']|default=0|date="y-m-d",###}</span></td>
 							<!-- <td><span>{$res['end_date']|date="y-m-d",###}</span></td> -->
 							<td><span>{$res['course_hour']}/{$res['course_score']}</span></td>
@@ -85,7 +85,7 @@
 											</if>
 										</if>
 									<else />
-											<a href="javascript:void(0);" class="color-gre">未开始</a>
+											<a href="javascript:void(0);">未开始</a>
 									</if>
 								<else />
 										<if condition="$res['status'] eq 0">
