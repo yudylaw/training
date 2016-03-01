@@ -62,7 +62,7 @@
 						<!-- <th width="15%">结束时间</th> -->
 						<th width="10%">学时/学分</th>
 						<th width="10%">进度</th>
-						<th width="25%">操作</th>
+						<th width="25%" colspan="2">操作</th>
 					</tr>
 					<volist name="resource" id="res">
 						<tr <if condition="$i % 2 == 1">class="special"</if>>
@@ -85,7 +85,7 @@
 											</if>
 										</if>
 									<else />
-											<a href="javascript:void(0);" class="color-gre">未开始或已结束</a>
+											<a href="javascript:void(0);" class="color-gre">未开始</a>
 									</if>
 								<else />
 										<if condition="$res['status'] eq 0">
@@ -94,7 +94,9 @@
 											<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
 										</if>
 								</if>
-								&nbsp;|&nbsp;<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">查看学习记录</a>
+								</span>
+								<span class="color-roseo">
+									<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">学习记录</a>
 								</span>
 							</td>
 						</tr>
