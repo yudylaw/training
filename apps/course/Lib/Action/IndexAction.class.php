@@ -12,6 +12,8 @@ class IndexAction extends Action {
         $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
         $con['page'] = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
         $con['uid'] = $this->uid;
+        $group_id = $this->user['group_id'];
+        $con['group_id'] = $group_id;
         $result = model("Course")->getCourseList($con);
         $data = $result['data'];
         $totalRows = $result['totalRows'];
