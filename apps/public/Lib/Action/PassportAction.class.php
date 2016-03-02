@@ -52,7 +52,7 @@ class PassportAction extends Action
 		// 	$login_bg = APP_PUBLIC_URL . '/image/login/banner.png';
         $this->assign('login_bg', $login_bg);
         
-		$this->display('login');
+		$this->display('login_new');
 	}
 	
 	/**

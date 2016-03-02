@@ -1,0 +1,45 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/css/login.css" type="text/css">
+<div id="main-body" class="login">
+	<div class="content clearfix">
+		<div class="login-box fr">
+			<h2 class="tc mt20">
+				<strong class="color-gre">教师登录入口</strong>
+			</h2>
+			<form id="ajax_login_form" method="POST" action="{:U('public/Passport/doLogin')}">
+				<ul class="login-form">
+					<li class="clearfix lg-txt"><label class="fl">用&nbsp;户&nbsp;名</label>
+						<input type="text" class="fl" name="login_email" onfocus=" if(this.value=='输入邮箱或用户名登录') this.value=''" onblur="if(this.value=='') this.value='输入邮箱或用户名登录'" value="输入邮箱或用户名登录" /></li>
+					<li class="clearfix lg-txt"><label class="fl clearfix"><em
+							class="fl">密</em><em class="fr">码</em></label> <input type="password"
+						class="fl" name="login_password" onfocus=" if(this.value=='输入密码') this.value=''" onblur="if(this.value=='') this.value='输入密码'" value="输入密码" /></li>
+					<li class="clearfix"><span class="fl check-box clearfix"
+						id="type"> <input type="checkbox" checked=""
+							name="login_remember" value="0" id="check-box"> <label name="type_xx" class=""
+							for="type_yes">记住密码</label>
+					</span></li>
+				</ul>
+				<div class="clearfix login-btn-box">
+					<a href="javascript:;" class="login-btn tc" onclick="$('#ajax_login_form').submit();">登&nbsp;录</a> <a
+						href="{:U('public/Passport/findPassword')}" class="color-red fr">忘记密码？</a>
+				</div>
+				<div class="register tc">
+					还没有账号？<a href="javascript:;" class="color-gre" onclick="javascript:window.open('{:U('public/Register')}','_self')">请注册>></a>
+				</div>
+				<div id="js_login_input" style="display:none" class="color-red"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="__THEME__/js/login.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+    //回车自动提交
+    $('body').keypress(function(event){
+        if(event.which==13){
+          $('#ajax_login_form').submit();
+        }
+    });
+})
+</script>
+<include file="__THEME__/public_footer_new" />
