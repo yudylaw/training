@@ -45,6 +45,7 @@ class IndexAction extends Action {
         $page = $p->show();
         $this->page = $page;
         $this->courseid = $id;
+        $this->course = $course;
         $this->display();
     }
     
