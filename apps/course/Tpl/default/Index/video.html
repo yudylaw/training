@@ -49,7 +49,7 @@ jQuery(document).ready(function(){
 	   } */
 	   //定时保存播放进度,10s一次
 	   timer2 = setInterval(function(){
-		   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.duration},function(txt){
+		   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
 				
 			});	  
 	   },10000);
@@ -71,7 +71,7 @@ jQuery(document).ready(function(){
    });
    //定时保存播放进度,10s一次
    timer2 = setInterval(function(){
-	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.duration},function(txt){
+	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
 			
 		});	  
    },10000);
