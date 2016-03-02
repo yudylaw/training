@@ -1555,3 +1555,26 @@ a.color-aa:hover,
     display: inline-block;
     vertical-align: middle;
 }
+
+/*login-add*/
+.check-box input{
+    display: none;
+}
+.check-box label{
+    padding-left: 28px;
+    width: 18px;
+    height: 18px;
+    background: url("../images/input_bg.png") no-repeat 0 -116px;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+}
+.check-box label.checked{
+    background-position: 0 -157px;/*
+    background-position: 0 0\0;*/
+}
+.check-box label *{
+    float: left;
+    height: 18px;
+    line-height: 16px;
+}

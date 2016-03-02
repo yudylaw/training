@@ -1,0 +1,103 @@
+html,
+body,
+.wrapper{
+    height: 100%;
+}
+.login{
+    height: 100%;
+    background: #ffeed7 url("../images/login_bg.jpg") no-repeat center;
+}
+.header-wrap{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.login .content{
+    position: relative;
+    height: 100%;
+}
+.login-box{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin: -178px 0 0;
+    padding: 7px 18px 20px 27px;
+    width: 359px;
+    height: 327px;
+    background: url("../images/login_box.png") no-repeat;
+}
+.login-box h2 strong{
+    *margin-top: 5px;
+    padding-left: 53px;
+    display: inline-block;
+    height: 60px;
+    background: url("../images/login_role.png") no-repeat left center;
+    line-height: 60px;
+    font-size: 22px;
+    font-weight: bold;
+}
+.login-box .login-form li{
+    margin: 10px 0;
+    vertical-align: middle;
+}
+.login-box .login-form li.lg-txt label{
+    margin: 0 12px 0 26px;
+    width: 54px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 15px;
+    color: #717171;
+}
+.login-box .login-form li.lg-txt input{
+    padding: 0 5px;
+    width: 226px;
+    height: 34px;
+    line-height: 34px;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 3px;
+    font-size: 15px;
+    font-family: "microsoft yahei";
+    color: #666;
+}
+.login-box .login-form li .check-box{
+    margin-left: 92px;
+}
+.login-box .login-form li .check-box label{
+    color: #999;
+}
+.login-box .login-btn-box{
+    margin-left: 92px;
+    width: 233px;
+    height: 74px;
+}
+.login-box .login-btn{
+    margin-bottom: 7px;
+    display: block;
+    width: 233px;
+    height: 42px;
+    line-height: 40px;
+    background: url("../images/login_btn.png") no-repeat;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
+.login-box .login-btn:hover{
+    background-position: 0 -42px;
+}
+.login-box .register{
+    height: 42px;
+    line-height: 40px;
+    font-size: 12px;
+    color: #333;
+}
+.login-box .register a{
+    margin-left: 15px;
+}
