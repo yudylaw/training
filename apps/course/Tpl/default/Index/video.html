@@ -47,12 +47,6 @@ jQuery(document).ready(function(){
 	   }else{
 		   api.resume();
 	   } */
-	   //定时保存播放进度,10s一次
-	   timer2 = setInterval(function(){
-		   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
-				
-			});	  
-	   },10000);
 	   timer = setInterval(function(){
 			  api.pause();//暂停播放
 			  clearInterval(timer);//清除计时器
@@ -60,6 +54,12 @@ jQuery(document).ready(function(){
 			  $("#cover_id").css("display","block");
 	   },60000);
 	   //重新播放
+	   //定时保存播放进度,10s一次
+	   timer2 = setInterval(function(){
+		   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
+				
+			});	  
+	   },10000);
    }).on("finish",function(e,api){
 	   //结束
 	   clearInterval(timer);//清除计时器
@@ -69,12 +69,6 @@ jQuery(document).ready(function(){
 	   //播放进度写入数据库，播放进度为100,表示已完成学习
 	   clearInterval(timer2);//清除计时器
    });
-   //定时保存播放进度,10s一次
-   timer2 = setInterval(function(){
-	   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:api.video.duration,time:api.video.time},function(txt){
-			
-		});	  
-   },10000);
    //刷新验证码
    function changeverify(){
        var date = new Date();
