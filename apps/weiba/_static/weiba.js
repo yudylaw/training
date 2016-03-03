@@ -248,12 +248,12 @@ M.addEventFns({
 				return false;	//不要重复评论
 			}
 			// 如果转发到自己的分享
-			var ischecked = $(this.comment_textarea).find("input[name='shareFeed']").get(0).checked;
+			/*var ischecked = $(this.comment_textarea).find("input[name='shareFeed']").get(0).checked;
 			if(ischecked == true) {
 				var ifShareFeed = 1;
 			} else {
 				var ifShareFeed = 0;
-			}
+			}*/
             var attach_id = $('#attach_ids').val();
             if (typeof attach_id != 'undefined') {
                 attach_id = attach_id.split('|');
