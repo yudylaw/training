@@ -4,7 +4,7 @@
 <!-- <include file="_controlLayer" /> -->
 <div id="page-wrap">
   <div id="main-wrap">
-    <div id="weiba-top">
+    <div id="weiba-top" style="display:none;">
       <div class="app-title clearfix">
         <div class="app-tab-menu clearfix">
           <ul>
@@ -140,16 +140,17 @@
           <php>}</php>
         </div>
         <div class="poster-control" <if condition=" $page neq '' AND $page neq '1' ">style="display:none"</if>>
-          <div class="left"> <a class="big-post-btn" event-args="sid={$post_detail['post_id']}&stable=weiba_post&curtable=feed&curid={$post_detail['feed_id']}&initHTML=&appname=weiba&cancomment=1&feedtype=weiba_post" href="javascript:void(0)" event-node="share"><i class="i-repost" title="转发"></i>转发</a>
+          <div class="left"> 
+          	<!-- <a class="big-post-btn" event-args="sid={$post_detail['post_id']}&stable=weiba_post&curtable=feed&curid={$post_detail['feed_id']}&initHTML=&appname=weiba&cancomment=1&feedtype=weiba_post" href="javascript:void(0)" event-node="share"><i class="i-repost" title="转发"></i>转发</a>
             <php>if($post_detail['favorite']==1){</php>
             <a class="big-post-btn-h" event-args="post_id={$post_detail['post_id']}&weiba_id={$post_detail['weiba_id']}&post_uid={$post_detail['post_uid']}" href="javascript:void(0)" event-node="post_unfavorite" id="favorite"><i class="i-h-store" title="取消收藏"></i>取消收藏</a>
             <php>}else{</php>
             <a class="big-post-btn" event-args="post_id={$post_detail['post_id']}&weiba_id={$post_detail['weiba_id']}&post_uid={$post_detail['post_uid']}" href="javascript:void(0)" event-node="post_favorite" id="favorite"><i class="i-store" title="收藏"></i>收藏</a>
-            <php>}</php>
+            <php>}</php> -->
             <eq name="post_detail['digg']" value="undigg"> <a class="big-post-btn" title="赞" event-args="blog_id={$post_detail['post_id']}" href="javascript:void(0)" event-node="post_love"  ><i class="i-praise" title="赞"></i>赞&nbsp;<span>{$post_detail.praise}</span></a> </eq>
             <eq name="post_detail['digg']" value="digg"> <a class="big-post-btn-h" title="已赞" event-args="blog_id={$post_detail['post_id']}" href="javascript:void(0)" event-node="post_unlove"  ><i class="i-h-praise" title="已赞"></i>已赞&nbsp;<span>{$post_detail.praise}</span></a> </eq>
           </div>
-          <div class="right">{:W('ThirdpartyShare')}</div>
+          <!-- <div class="right">{:W('ThirdpartyShare')}</div> -->
         </div>
       </div>
       <div class="reply" id="reply">
