@@ -47,9 +47,36 @@
                 	</if>
                 </nosession>
                 <session name="mid">
-                	<a href="javascript:;" class="user-msg fl">消息</a>
+                	<a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a>
+                	<!-- <a href="javascript:;" class="user-msg fl">消息<em class="two">12</em></a>
+                	<a href="javascript:;" class="user-msg fl">消息<em class="three">123</em></a> -->
                 	<a href="javascript:;" class="user-nick fl">欢迎你,{$user['uname']}</a>
+                	<a href="{:U('public/Passport/logout')}" class="user-nick fl">退出</a>
+                	<script type="text/javascript">
+						core.plugFunc('dropnotify',function(){
+					        setTimeout(function(){
+					            core.dropnotify.init('message_list_container','message_container');
+					        },320);   
+					    });
+						function showNotice(){
+							//ui.box.load(U('public/Index/messageBox'),null);							
+						}
+					</script>
                 </session>
             </div>
+            <php> if(MODULE_NAME !='Register'):</php>
+            <div id="message_container" class="layer-massage-box" style="display:none">
+	            <ul class="message_list_container" >
+	              <li rel="new_folower_count" style="display:none"><span></span>，<a href="{:U('public/Index/follower',array('uid'=>$mid))}">{:L('PUBLIC_FOLLOWERS_REMIND')}</a></li>
+	              <li rel="unread_comment" style="display:none"><span></span>，<a href="{:U('public/Comment/index',array('type'=>'receive'))}">{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	              <li rel="unread_message" style="display:none"><span></span>，<a href="{:U('public/Message')}" >{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	              <li rel="unread_atme" style="display:none"><span></span>，<a href="{:U('public/Mention')}">{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	              <li rel="unread_notify" style="display:none"><span></span>，<a href="{:U('public/Message/notify')}">{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	              <li rel="unread_group_atme" style="display:none"><span></span>，<a href="{:U('group/SomeOne/index')}">{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	              <li rel="unread_group_comment" style="display:none"><span></span>，<a href="{:U('group/SomeOne/index')}">{:L('PUBLIS_MESSAGE_REMIND')}</a></li>
+	            </ul>
+            <a href="javascript:void(0)" onclick="core.dropnotify.closeParentObj()" class="ico-close1"></a> 
+            </div>
+          <php>endif;</php>
         </div>
     </div>
