@@ -14,8 +14,11 @@
                                 <img src="{$weiba_detail['avatar_middle']}" class="fl"/>
                                 <div class="fr">{:W('FollowWeiba',array('weiba_id'=>$weiba_detail['weiba_id'],'follow_state'=>array('following'=>$follow_state[$weiba_detail['weiba_id']]['following']),'isrefresh'=>1))}</div>
                                 <strong>{$weiba_detail['weiba_name']}</strong>
-                                <span>粉丝数：{$weiba_detail['follower_count']|default=0}<em>|</em>主题：{$weiba_detail['thread_count']|default=0}<em>|</em>帖子数：{$weiba_detail['tiezi_count']|default=0}</span>
-                                <span>吧主：jack</span>
+                                <span>班级成员数：{$weiba_detail['follower_count']|default=0}<em>|</em>主题：{$weiba_detail['thread_count']|default=0}<em>|</em>帖子数：{$weiba_detail['tiezi_count']|default=0}</span>
+                                <span><volist name="weiba_admin" id="vo">
+                  					<php>if($vo['level']==3){</php>班级管理员：<a href="{:U('public/Profile/index','uid='.$vo['userinfo']['uid'])}" event-node="face_card" uid="{$vo.userinfo.uid}" target="_blank">{$vo.userinfo.uname}</a><php>}</php>
+                				</volist>
+                				</span>
                             </dt>
                             <dd class="mt10">简介：{$weiba_detail['intro']|getShort=100}</dd>
                         </dl>
