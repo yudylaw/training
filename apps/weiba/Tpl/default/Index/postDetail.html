@@ -4,11 +4,11 @@
 <!-- <include file="_controlLayer" /> -->
 <div id="page-wrap">
   <div id="main-wrap">
-    <div id="weiba-top" style="display:none;">
+    <div id="weiba-top">
       <div class="app-title clearfix">
         <div class="app-tab-menu clearfix">
           <ul>
-            <li><a href="{:U('weiba/Index/index')}" 
+            <!-- <li><a href="{:U('weiba/Index/index')}" 
               
               
               
@@ -33,7 +33,7 @@
               class="current"
               <php>}</php>
               >我的</a></li>
-            <php>}</php>
+            <php>}</php> -->
             <php>if($nav=="weibadetail"){</php>
             <li><a href="{:U('weiba/Index/detail',array('weiba_id'=>$weiba_id))}" class="current">{$weiba_name}</a></li>
             <php>}</php>
