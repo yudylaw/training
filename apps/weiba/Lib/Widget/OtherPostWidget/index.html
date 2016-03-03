@@ -18,7 +18,7 @@
 	<dd>
 		<ul model-node="related_or_post">
 			<volist name="topic_list" id="vo">
-				<li class="txt-ell"><a href="{:U('weiba/Index/postDetail',array('post_id'=>$vo['post_id']))}">{$vo.title|getShort=14}</a></li>
+				<li class="txt-ell" style="line-height:20px;"><a href="{:U('weiba/Index/postDetail',array('post_id'=>$vo['post_id']))}">{$vo.title|getShort=14}</a></li>
 			</volist>
 		</ul>
 	</dd>
