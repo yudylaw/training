@@ -1578,3 +1578,40 @@ a.color-aa:hover,
     height: 18px;
     line-height: 16px;
 }
+
+.user-msg{
+    position: relative;
+}
+.user-msg em{
+    position: absolute;
+    left: 45px;
+    top: 1px;
+    height: 18px;
+    background: url("../images/control_bg.png") no-repeat;
+    text-align: center;
+    line-height: 16px;
+    color: #fff;
+    font-weight: normal;
+    font-size: 12px;
+}
+.user-msg em.one{
+    width: 16px;
+    background-position: -195px -68px;
+}
+.user-msg em.two{
+    width: 20px;
+    background-position: -195px -86px;
+}
+.user-msg em.three{
+    width: 30px;
+    background-position: -195px -104px;
+}
+.header-wrap  .user-msg{
+    margin-left: 20px;
+}
+.header-wrap  .user-nick{
+    margin-left: 30px;
+}
+a:focus{
+    outline: none;
+}
