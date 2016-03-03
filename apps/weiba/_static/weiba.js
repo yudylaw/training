@@ -254,6 +254,7 @@ M.addEventFns({
 			} else {
 				var ifShareFeed = 0;
 			}*/
+			var ifShareFeed = 0;
             var attach_id = $('#attach_ids').val();
             if (typeof attach_id != 'undefined') {
                 attach_id = attach_id.split('|');
