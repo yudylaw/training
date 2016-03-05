@@ -204,7 +204,7 @@ class IndexAction extends Action {
 		$this->assign( 'list' , $list );
 		$this->setTitle( '班级列表' );
 		$this->setKeywords( '全站班级列表' );
-		$this->display("weibaList");
+		$this->display("weibaList_new");
 	}
 
 	/**
@@ -445,7 +445,7 @@ class IndexAction extends Action {
 		$this->setDescription( $weiba_detail['weiba_name'].','.$weiba_detail['intro'] );
 
 
-		$this->display("detail");
+		$this->display("detail_new");
 	}
 
 	/**
