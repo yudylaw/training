@@ -1,0 +1,119 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;作业中心</div>
+                <div class="test-box mt20 clearfix">
+                    <div class="test-bor tc"><span class="test-tip">此处添加作业位置</span></div>
+                    <div id="fileQueue" style="float:left;"></div>
+                    <div class="fr mt10">
+                    	<input id="file_upload" name="file_upload" type="file" multiple="true">
+                    </div>
+                </div>
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th width="40%">标题</th>
+                            <th width="10%">总分</th>
+                            <th width="10%">及格分</th>
+                            <th width="10%">批阅</th>
+                            <th width="10%">删除作业</th>
+                            <th width="10%">安排作业</th>
+                            <th width="10%">创建时间</th>
+                        </tr>
+                        <volist name='homeworks' id='homework'>
+                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                            <td><span class="tab-ell w-l"><a class="color-gre" href="{:U('homework/HomeIndex/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
+                            <td><span>{$homework['total_score']}</span></td>
+                            <td><span>{$homework['pass_score']}</span></td>
+                            <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/recordList', array('hw_id'=>$homework['id']))}">作业列表</a></span></td>
+                            <td><span><a class="color-gre" href="javascript:deleteTest({$homework['id']});void(0);">删除</a></span></td>
+                            <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/schedule', array('hw_id'=>$homework['id']))}">安排</a></span></td>
+                            <td><span><php>echo date("Y-m-d", $homework['ctime']);</php></span></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+                <!-- 
+                <div id="page" class="page" style="">{$page}</div>
+                 -->
+				<div class="comment-page tc">
+				{$page}
+					<!-- 
+                    <a href="javascript:;" class="clearfix">首页</a>
+                    <a href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+                     -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    jQuery(document).ready(function(){
+    	$('#file_upload').uploadify({
+    		//auto:false,
+        	fileTypeExts: "*.xls;*.xlsx",
+    		swf: '__THEME__/js/uploadify/uploadify.swf',
+    		uploader: "{:U('homework/HomeAdmin/upload')}",
+    		width: 112,
+    		height: 30,
+    		buttonImage: '__APP__/images/zy_uploadBtn.png',
+    		queueSizeLimit: 1,
+    		fileSizeLimit : '10MB',
+    		queueID: 'fileQueue',
+    		overrideEvents: ['onSelectError', 'onDialogClose'],
+    		onUploadSuccess : function(file, data, response) {
+    			//console.log($.parseJSON(data));
+    			// 解析JSON数据
+    			var jsondata = $.parseJSON(data);
+    			console.log(data);
+    			if (jsondata.status === 1) {
+    			}
+    		},
+    		onSelectError: function (file, errorCode, errorMsg) {
+    			switch (errorCode) {
+    				case -100:
+    					alert('选择的上传数目超过，您还能上传'+errorMsg+'个文件');
+    					break;
+    				case -110:
+    					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小100MB");
+    					break;
+    				case -120:
+    					alert("文件 [" + file.name + "] 大小异常");
+    					break;
+    				case -130:
+    					alert("文件 [" + file.name + "] 类型不正确");
+    					break;
+    			}
+    		},
+    		onFallback: function () {
+    			alert('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
+    		},
+    		onUploadStart: function (file) {
+    			
+    		},
+    		onQueueComplete:function(){
+    			alert("上传OK");
+    		}
+    	});
+    });
+    
+    //删除试卷
+    function deleteTest(hid) {
+		  if(confirm("是否确认删除作业")){
+			  $.get("{:U('homework/HomeAdmin/delete')}", {'hw_id':hid}, function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.reload();
+				  }
+			  });
+		  }
+    }
+	  
+	</script>
+<include file="__THEME__/public_footer_new" />

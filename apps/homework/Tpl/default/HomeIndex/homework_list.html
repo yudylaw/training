@@ -3,32 +3,24 @@
         <div class="content clearfix">
 			<include file="__THEME__/public_left_new" />
             <div class="fr id-section">
-                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Admin/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
-                <div class="test-box mt20 clearfix">
-                </div>
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;作业中心</div>
 				<div class="id-table">
                     <table>
                         <tbody>
                         <tr>
-                        	<th width="10%">姓名</th>
-                            <th width="20%">单位</th>
-                            <th width="10%">电话</th>
+                            <th width="50%">作业</th>
                             <th width="10%">总分</th>
                             <th width="10%">及格分</th>
-                            <th width="10%">操作</th>
-                            <th width="20%">交卷时间</th>
+                            <th width="20%">创建时间</th>
                             <th width="10%">得分</th>
                         </tr>
-                        <volist name='records' id='record'>
+                        <volist name='homeworks' id='homework'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
-                        	<td><span>{$record['uname']}</span></td>
-                        	<td><span>{$record['location']}</span></td>
-                        	<td><span>{$record['phone']}</span></td>
+                            <td><span class="tab-ell w-l"><a class="color-gre" href="{:U('homework/HomeIndex/detail', array('id'=>$homework['id']))}">{$homework['name']}</a></span></td>
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
-                            <td><span><a class="color-gre" href="{:U('homework/Admin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">阅卷</a></span></td>
-                            <td><span><php>echo date("Y-m-d H:i", $record['ctime']);</php></span></td>
-                            <td><span>{$record['score']}</span></td>
+                            <td><span><php>echo date("Y-m-d H:i", $homework['ctime']);</php></span></td>
+                            <td><span><php>if(empty($homework['y_score'])) {echo "未完成";} else {echo $homework['y_score'];}</php></span></td>
                         </tr>
                         </volist>
                         <!-- 

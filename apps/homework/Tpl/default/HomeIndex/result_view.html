@@ -3,16 +3,14 @@
         <div class="content clearfix">
 			<include file="__THEME__/public_left_new" />
             <div class="fr id-section">
-                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/Admin/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;<a href="{:U('homework/HomeIndex/hlist')}">作业中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
                 <div class="paper-name tc">{$homework['name']}</div>
-                <php>if(!isset($can_submit)) {</php>
-                <div class="paper-info tc">
+				<div class="paper-info tc">
                     <span>考生姓名：<em class="color-78">{$user['uname']}</em></span>
                     <span>所属学校：<em class="color-78">{$user['location']}</em></span>
-                    <span>得分：<em class="color-red">0</em></span>
-                    <span>试卷状态：<em class="color-org">等待批改</em></span>
+                    <span>得分：<em class="color-red">{$score}</em></span>
+                    <span>作业状态：<em class="color-gre">已经批改</em></span>
                 </div>
-                <php>}</php>
                 <div class="question-types">
                 	<volist name="questions" id="question">
                 		<php>if($question['type'] == 1 || $question['type'] == 2){</php>
@@ -37,7 +35,7 @@
 	                                </ul>
 	                                <div class="grade-box clearfix mt10">
 	                                	<span class="score">回答：<em>{$question['y_answer']}</em></span>
-	                                	<span class="score">得分：<em>{$question['y_score']}</em></span>
+                                    	<span class="score">得分：<em>{$question['y_score']}</em></span>
                                 	</div>
 	                            </dd>
 	                        </dl>
@@ -51,10 +49,9 @@
 		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
 		                            </dd>
 		                        </dl>
-								<div class="grade-box clearfix mt10">
-		                            <span class="fl grade"><input type="text" class="jd_answer" value="{$question['y_score']}"></span>
-		                            <span class="fl sure ml10"><input type="submit" value="确认" class="grade-btn" aid="{$question['answer_id']}"></span>
-		                        </div>
+	                                <div class="grade-box clearfix mt10">
+                                    	<span class="score">得分：<em>{$question['y_score']}</em></span>
+                                	</div>
 		                    </div>
 	                    <php>}</php>
                     </volist>
@@ -70,43 +67,40 @@
                     <a href="javascript:;" class="clearfix">末页</a>
                 </div>
                  -->
-				<div class="clearfix test-btn-box">
-                    <a href="javascript:;" id="sub-test" class="sub-btn">完成阅卷</a>
-                    <a href="javascript:;" id="redo-test" class="back-btn">退回重做</a>
-                </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
     //TODO
     $(document).ready(function(){
+    	
+      //选择题
+	  $(".answer li").click(function(){
+		  $(this).toggleClass("active");
+	  });
       
-      $(".grade-btn").click(function(){
-    	  var aid = $(this).attr('aid');
-   		  //简答题
-   		  var score = $(this).parent().prev().children(".jd_answer").val();
-		  $.post("{:U('homework/Admin/grade')}", {'aid':aid, 'score':score}, function(data){
-			  var obj = $.parseJSON(data);
-			  alert(obj.info);
-		  });
+      $(".answer-btn-1").click(function(){
+    	  var answer = "";
+    	  var qid = $(this).attr('qid');
+    	  var qtype = $(this).attr('qtype');
+    	  if (qtype != 3) {
+    		  //选择题
+    		  $(this).parent().prev().find(".answer .active").each(function(){
+    			  answer +=$(this).text() + ",";
+    		  });
+    		  if (answer.length > 0) {
+    			  answer = answer.substring(0, answer.length - 1);//删除尾部逗号
+    		  }
+    	  } else {
+    		  //简答题
+    		  answer = $(this).parent().prev().children(".jd_answer").val();
+    	  }
       });
       
 	  //提交试卷
-	  $("#sub-test").click(function(){
-		  if(confirm("是否确认提交阅卷")){
-			  $.post("{:U('homework/Admin/submit', array('uid'=>$uid, 'hw_id'=>$homework['id']))}", function(data) {
-				  var obj = $.parseJSON(data);
-				  if (obj.status == 1) {
-					  alert(obj.info);
-				  }
-			  });
-		  }
-	  });
-	  
-	  //退回试卷
-	  $("#redo-test").click(function(){
-		  if(confirm("是否确认退回试卷")){
-			  $.post("{:U('homework/Admin/redo', array('uid'=>$uid, 'hw_id'=>$homework['id']))}", function(data) {
+	  $(".sub-btn").click(function(){
+		  if(confirm("是否确认交卷")){
+			  $.get("{:U('homework/Index/submit', array('hw_id'=>$homework['id']))}", function(data) {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
 					  alert(obj.info);
