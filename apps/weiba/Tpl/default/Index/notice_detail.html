@@ -1,0 +1,34 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>-<a
+					href="{:U('weiba/Index/notice_list')}">通知公告</a>-<span class="color-gre">{$notice['title']}</span>
+			</div>
+			<div class="notice-detail">
+				<h2 class="mt20">{$notice['title']}</h2>
+				<p class="clearfix detail-op">
+					<span class="fl"><php>echo date("Y-m-d H:i", $notice['post_time']);</php>发布</span>
+					<span class="fr look-btn">({$notice['read_count']})</span>
+				</p>
+				<!-- <div class="detail-img">
+					<img src="images/temp_notice.jpg" />
+				</div> -->
+				<p class="detail-content">{$notice['content']}</p>
+				<php>if($notice['attachInfo']){</php>
+		          <p class="detail-content">
+		            <volist name="notice.attachInfo" id="vo">
+		              <li> <a href="{:U('widget/Upload/down',array('attach_id'=>$vo['attach_id']))}" class="current right" target="_blank" title="下载"><i class="ico-down"></i></a><i class="ico-{$vo.extension}-small"></i><a href="{:U('widget/Upload/down',array('attach_id'=>$vo['attach_id']))}">{$vo.attach_name}</a> <span class="tips">({$vo.size|byte_format})</span> </li>
+		            </volist>
+		          </p>
+          		<php>}</php>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+</script>
+<include file="__THEME__/public_footer_new" /> 

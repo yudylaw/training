@@ -1,0 +1,71 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>-<a href="javascript:;">通知公告</a></div>
+                <div class="clearfix notice-list">
+                    <if condition="$user['group_id'] neq 3">
+                    	<div class="clearfix mt20 notice-tre">
+                        	<div class="fr"><a href="{:U('weiba/Index/notice_post')}" class="btn-org fl"><span class="fl">发布</span></a></div>
+                    	</div>
+                    </if>
+                    <div class="clearfix mt20 notice-info">
+                        <span class="fl">共有{$totalnum}个公告</span>
+                        <!-- <span class="fr">排序方式：<a href="javascript:;" class="current">回复时间</a><a href="javascript:;">发帖时间</a></span> -->
+                    </div>
+                    <div class="list-con">
+                    	<volist name="notice" id="nto">
+	                        <dl class="list-item clearfix">
+	                            <dt class="fl clearfix">
+	                                <!-- <a href="#" class="notice-head fl">
+	                                    <img src="images/temp_head.jpg"/>
+	                                    <span></span>
+	                                </a> -->
+	                                <p class="fl notice-content">
+	                                    <span class="txt-ell"><a href="{:U('weiba/Index/notice_detail',array('id'=>$nto['id']))}" class="color-gre">{$nto['title']}</a></span>
+	                                    <span class="mt10">
+	                                        <em>发布时间:<php>echo date("Y-m-d H:i", $nto['post_time']);</php></em>
+	                                        <!-- <em>最后回复1月31日发布&nbsp;21:55</em> -->
+	                                    </span>
+	                                </p>
+	                            </dt>
+	                            <dd class="fr clearfix"><span class="color-gre fl">浏览（{$nto['read_count']}）</span><if condition="$user['group_id'] neq 3"><if condition="$nto['is_del'] eq 0"><a href="javascript:;" class="color-gre fl" onclick="delNotice({$nto['id']})">删除</a><else /><a href="javascript:;" class="color-red fl"">已删除</a></if></if></dd>
+	                        </dl>
+                       </volist>
+                    </div>
+                    <div class="comment-page tr">
+                        {$page}
+                    </div>
+                </div>
+            </div>
+	</div>
+</div>
+<script>
+	function delNotice(id){
+		var r = confirm("确认删除这条通知吗?");
+		if(r){
+			$.ajax({
+				type: "POST",
+				url: 'index.php?app=weiba&mod=Index&act=ajaxDel',
+				data:{nid:id},
+				dataType: "json",
+				async:false,
+				success:function(msg){
+					if(msg.status == 1){
+						window.location.href="index.php?app=weiba&mod=Index&act=notice_list";
+					}else{
+						alert(msg.msg);
+					}
+				},
+				error:function(msg){
+					alert("删除失败");
+					return;
+				}
+			});
+		}else{
+			
+		}
+	}
+</script> 
+<include file="__THEME__/public_footer_new" /> 
