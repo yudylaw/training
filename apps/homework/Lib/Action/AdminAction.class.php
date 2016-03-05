@@ -4,11 +4,95 @@ class AdminAction extends Action {
     
     private $types = array('单选题'=>1, '多选题'=>2, '简答题'=>3);
     
+    public function upload() {
+        //调用本地上传
+        $this->localUpload(array());
+    }
+    /**
+     * 上传方法
+     * @param array $options
+     */
+    private function localUpload($options,$input_options=null){
+    
+        $system_default = model('Xdata')->get('admin_Config:attach');
+        if(empty($system_default['attach_path_rule']) || empty($system_default['attach_max_size']) || empty($system_default['attach_allow_extension'])) {
+            $system_default['attach_path_rule'] = 'Y/md/H/';
+            $system_default['attach_max_size'] = '100'; 		// 默认100M
+            $system_default['attach_allow_extension'] = 'flv';
+            model('Xdata')->put('admin_Config:attach', $system_default);
+        }
+        // 载入默认规则
+        $default_options = array();
+        $default_options['custom_path']	= date($system_default['attach_path_rule']);					// 应用定义的上传目录规则：'Y/md/H/'
+        $default_options['max_size'] = floatval($system_default['attach_max_size']) * 1024 * 1024;		// 单位: 兆
+        $default_options['allow_exts'] = "xls,xlsx"; 					// 'jpg,gif,png,jpeg,bmp,zip,rar,doc,xls,ppt,docx,xlsx,pptx,pdf'
+        $default_options['save_path'] =	UPLOAD_PATH.'/'.$default_options['custom_path'];
+        $default_options['save_name'] =	''; //指定保存的附件名.默认系统自动生成
+        $default_options['save_to_db'] = true;
+        // 定制化设这，覆盖默认设置
+        $options = is_array($input_options) ? array_merge($default_options,$input_options) : $default_options;
+        // 初始化上传参数
+        $upload	= new UploadFile($options['max_size'], $options['allow_exts'], array());
+        // 设置上传路径
+        $upload->savePath = $options['save_path'];
+        // 启用子目录
+        $upload->autoSub = false;
+        // 保存的名字
+        $upload->saveName = $options['save_name'];
+        // 默认文件名规则
+        $upload->saveRule = $options['save_rule'];
+        // 是否缩略图
+        if ($options['auto_thumb'] == 1) {
+            $upload->thumb = true;
+        }
+    
+        // 创建目录
+        mkdir($upload->save_path, 0777, true);
+    
+        // 执行上传操作
+        if(!$upload->upload()) {
+            // 上传失败，返回错误
+            $return['status'] = false;
+            $return['info']	= $upload->getErrorMsg();
+            return $return;
+        } else {
+            $upload_info = $upload->getUploadFileInfo();
+            // 保存信息到附件表
+            $data = $this->saveInfo($upload_info, $options);
+            $filepath = $default_options['save_path'].$data['save_name'];
+            //生成试卷
+            $this->createPaper($filepath);
+            // 输出信息
+            $return['status'] = true;
+            $return['info']   = '{"status":1}';
+            // 上传成功，返回信息
+            return $return;
+        }
+    }
+    
+    /**
+     * 保存上传信息
+     * @param array $upload_info
+     * @param array $options
+     */
+    private function saveInfo($upload_info,$options){
+        foreach($upload_info as $u) {
+            $name = t($u['name']);
+            $data['title'] = $name ? $name : $u['savename'];
+            $data['utime'] = time();
+            $data['ext'] = strtolower($u['extension']);
+            $data['size'] = $u['size'];
+            $data['save_path'] = $options['custom_path'];
+            $data['save_name'] = $u['savename'];
+            $data['status'] = 1;
+        }
+        return $data;
+    }
+    
     /**
      * 导入试卷模板,生成考试试卷
      */
-    public function createPaper() {
-        $filename = SITE_PATH . "/paper_template.xls";
+    public function createPaper($filename) {
         // Check
         if (!file_exists($filename)) {
             exit("not found ".$filename);
