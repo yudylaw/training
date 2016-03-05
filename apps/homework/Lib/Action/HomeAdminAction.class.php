@@ -1,6 +1,6 @@
 <?php 
 
-class AdminAction extends Action {
+class HomeAdminAction extends Action {
     
     private $types = array('单选题'=>1, '多选题'=>2, '简答题'=>3);
     
@@ -124,7 +124,7 @@ class AdminAction extends Action {
         
         $uid = $this->mid;
         $actionTime = time();
-        $paper = array("name"=>$title, "uid"=>$uid, "ctime"=>$actionTime, "type"=>0,
+        $paper = array("name"=>$title, "uid"=>$uid, "ctime"=>$actionTime, "type"=>1,
             "total_score"=>$totalScore, "pass_score"=>$passScore, "is_del"=>0);
         $hw_id = M('homework')->add($paper);
         
@@ -205,7 +205,7 @@ class AdminAction extends Action {
     public function hlist() {
         //参数 p=currentPage
         $pageSize = 20;
-        $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
+        $result = M("homework")->where(array('type'=>1,'is_del'=>0))->order('id desc')->findPage($pageSize);
     
         $h_ids = array();
     
@@ -224,7 +224,7 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $uid = intval($_REQUEST['uid']);
         
-        $query = array("type"=>0, 'id'=>$hw_id, "is_del"=>0);//type=1,作业; type=0, 考试
+        $query = array("type"=>1, 'id'=>$hw_id, "is_del"=>0);//type=1,作业; type=0, 考试
         $homework = M('homework')->where($query)->find();
         
         $hid = $homework['id'];
@@ -326,13 +326,13 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         if (empty($homework)) {
-            $this->ajaxReturn(null, '作业或考试不存在');
+            $this->ajaxReturn(null, '作业不存在');
         }
         
         $count = M("homework_record")->where(array('hw_id'=>$hw_id))->count();
         
         if ($count > 0) {
-            $this->ajaxReturn(null, '已结存在考试记录，无法删除');
+            $this->ajaxReturn(null, '已结存在作业记录，无法删除');
         }
         M('homework')->where(array('id'=>$hw_id))->save(array('is_del'=>1));
         $this->ajaxReturn(null, '删除成功');
@@ -346,7 +346,7 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $homework = M('homework')->find(array('id'=>$hw_id, 'is_del'=>0));
         if (empty($homework)) {
-            $this->ajaxReturn(null, '作业或考试不存在');
+            $this->ajaxReturn(null, '作业不存在');
         }
         $sql = "select sum(score) as total from __TABLE__ where uid=".$uid." and hw_id=".$hw_id;
         $data = M("homework_answer")->query($sql);
@@ -354,12 +354,12 @@ class AdminAction extends Action {
         $record = M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->find();
         
         if (empty($record)) {
-            $this->ajaxReturn(null, '没找到该考试记录');
+            $this->ajaxReturn(null, '没找到该作业记录');
         }
         
         M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total, 'is_grade'=>1));
         
-        $this->ajaxReturn(null, '阅卷成功');
+        $this->ajaxReturn(null, '批阅成功');
     }
     
     public function schedule() {
@@ -396,7 +396,7 @@ class AdminAction extends Action {
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         
         if (empty($homework)) {
-            $this->ajaxReturn(null, '试卷不存在');
+            $this->ajaxReturn(null, '作业不存在');
         }
         
         $class = M('weiba')->where(array('weiba_id'=>$weiba_id, 'is_del'=>0))->find();
@@ -410,7 +410,7 @@ class AdminAction extends Action {
         
         M('homework_schedule')->add($data);
         
-        $this->ajaxReturn(null, '考试安排成功');
+        $this->ajaxReturn(null, '考试作业成功');
     }
     
 }

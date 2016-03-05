@@ -1,11 +1,11 @@
 <?php
 
-class IndexAction extends Action {
+class HomeIndexAction extends Action {
     
     public function detail() {
         $id = intval($_REQUEST['id']);
         
-        $query = array("type"=>0, 'id'=>$id, "is_del"=>0);//type=1,作业; type=0, 考试
+        $query = array("type"=>1, 'id'=>$id, "is_del"=>0);//type=1,作业; type=0, 考试
         $homework = M('homework')->where($query)->find();
         
         $hid = $homework['id'];
@@ -49,7 +49,7 @@ class IndexAction extends Action {
     public function hlist() {
         //参数 p=currentPage
         $pageSize = 20;
-        $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
+        $result = M("homework")->where(array('type'=>1,'is_del'=>0))->order('id desc')->findPage($pageSize);
         
         $h_ids = array();
         
@@ -119,7 +119,7 @@ class IndexAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'score'=>0);
         M('homework_record')->add($data);
-        $this->ajaxReturn(null, "交卷成功，等待批阅！");
+        $this->ajaxReturn(null, "提交成功，等待批阅！");
     }
     
 }
