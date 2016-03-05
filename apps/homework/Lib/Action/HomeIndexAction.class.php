@@ -47,13 +47,25 @@ class HomeIndexAction extends Action {
     }
     
     public function hlist() {
+        $weibas = M("weiba_follow")->where(array('follower_uid'=>$this->mid))->findAll();
+        
+        $weiba_ids = array();
+        foreach ($weibas as $weiba) {
+            array_push($weiba_ids, $weiba['weiba_id']);
+        }
+        
+        $ids = implode(',', $weiba_ids);
+        
+        $sql = "SELECT h.* from ts_homework_schedule hs LEFT JOIN ts_homework h ON hs.hw_id = h.id WHERE hs.type =1 AND hs.class_id IN (".$ids.")";
+        
+        $homeworks = M("homework_schedule")->query($sql);
+        
         //参数 p=currentPage
-        $pageSize = 20;
-        $result = M("homework")->where(array('type'=>1,'is_del'=>0))->order('id desc')->findPage($pageSize);
+//         $pageSize = 20;
+//         $result = M("homework_schedule")->where(array('type'=>1,'class_id'=>array("IN", $weiba_ids)))->findPage($pageSize);
+//         $result = M("homework")->where(array('type'=>1,'is_del'=>0))->order('id desc')->findPage($pageSize);
         
         $h_ids = array();
-        
-        $homeworks = $result['data'];
         
         foreach ($homeworks as $homework) {
             array_push($h_ids, $homework['id']);
@@ -74,7 +86,7 @@ class HomeIndexAction extends Action {
         }
         
         $this->assign("homeworks", $homeworks);
-        $this->assign("page", $result['html']);
+//         $this->assign("page", $result['html']);
         $this->display("homework_list");
     }
     

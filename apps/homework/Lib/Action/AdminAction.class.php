@@ -393,7 +393,7 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, '结束时间必须大于开始时间');
         }
         
-        $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
+        $homework = M('homework')->where(array('id'=>$hw_id, 'type'=>1,'is_del'=>0))->find();
         
         if (empty($homework)) {
             $this->ajaxReturn(null, '试卷不存在');

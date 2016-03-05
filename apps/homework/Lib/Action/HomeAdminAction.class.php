@@ -393,7 +393,7 @@ class HomeAdminAction extends Action {
             $this->ajaxReturn(null, '结束时间必须大于开始时间');
         }
         
-        $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
+        $homework = M('homework')->where(array('id'=>$hw_id, 'type'=>1, 'is_del'=>0))->find();
         
         if (empty($homework)) {
             $this->ajaxReturn(null, '作业不存在');
@@ -405,7 +405,7 @@ class HomeAdminAction extends Action {
             $this->ajaxReturn(null, '班级不存在');
         }
         
-        $data = array('hw_id'=>$hw_id, 'class_id'=>$weiba_id, 
+        $data = array('hw_id'=>$hw_id, 'class_id'=>$weiba_id, 'type'=>1,
             'start_date'=>$startDate, 'end_date'=>$endDate, 'ctime'=>time());
         
         M('homework_schedule')->add($data);
