@@ -21,7 +21,7 @@ class IndexAction extends Action {
         $page = $p->show();
         $this->resource = $result['data'];
         $this->page = $page;
-        $this->role = $this->user['group_id'];
+        $this->role = $group_id;
         $this->display();
     }
     /**

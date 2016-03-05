@@ -1,0 +1,54 @@
+<include file="__THEME__/public_header_new" />
+<script type="text/javascript" src="__APP__/weiba.js"></script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>-<a href="{:U('weiba/Index/notice_list')}">通知公告</a>-<span class="color-gre">公告发布</span></div>
+                <div class="clearfix notice-publish">
+                	<form method="post" action="{:U('weiba/Index/doPostNotice')}" model-node='notice_post' onsubmit="return setcontent();" name="weibaPost">
+	                    <ul class="ul-form">
+	                        <li class="clearfix">
+	                            <span class="clearfix fl item-name">选择班级：</span>
+	                            <select class="input-text" onchange="selectChange(this)">
+	                            	<option value="0">请选择班级</option>
+	                            	<php>foreach( $list as $v ){</php>
+	                            	<option value="{$v.weiba_id}">{$v['weiba_name']|getShort=8}</option>
+	                            	<php>}</php>
+	                            </select>
+	                            <input id="weiba_id" type="hidden" value="" name="weiba_id" />
+	                        </li>
+	                        <li class="clearfix">
+	                            <span class="clearfix fl item-name">标题：</span>
+	                            <input type="text" class="fl input-text w-l" name="title" id="title" onkeydown="if(event.keyCode==13){return false;}" />
+	                        </li>
+	                        <li class="clearfix">
+	                            <span class="clearfix fl item-name">内容：</span>
+	                            <div class="fl">
+	                            {:W('UM', array('type'=>'weiba','contentName'=>'content','content'=>'','width'=>'558','tpl'=>'weiba'))}
+	                            </div>
+	                        </li>
+	                        <li class="clearfix">
+	                            <span class="clearfix fl item-name">附件：</span>
+	                            <!-- <a href="javascript:;" class="fl mr10"><img src="images/select_btn.jpg"/></a>
+	                            <span class="fl text">未选择任何文件</span> -->
+	                            {:W('Upload', array('urlquery'=>'attach_type=weiba_attach'))}
+	                        </li>
+	                    </ul>
+	                    <div class="mt10 btn-box clearfix">
+	                        <a href="javascript:;" class="btn-org fl" event-node="submit_btn" event-args="editor=true"><span class="fl">确定</span></a>
+	                        <a href="{:U('weiba/Index/index')}" class="btn-gray fl"><span class="fl">取消</span></a>
+	                    </div>
+	                </form>
+                </div>
+
+            </div>
+	</div>
+</div>
+<script>
+function selectChange(obj){
+		var weiba_id = $(obj).val();
+		$('#weiba_id').val(weiba_id);
+}
+</script> 
+<include file="__THEME__/public_footer_new" /> 

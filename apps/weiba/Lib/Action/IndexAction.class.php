@@ -685,6 +685,90 @@ class IndexAction extends Action {
 			$this->error('发布失败，等待返回修改发布',$type);
 		}
 	}
+	
+	/**
+	 * 执行发布帖子
+	 * @return void
+	 */
+	public function doPostNotice(){
+	    if($_GET['post_type']=='index'){
+	        $type = false;
+	    }else{
+	        $type = true;
+	    }
+	    $weibaid = intval($_POST['weiba_id']);
+	    if( !CheckPermission('weiba_normal','notice_post') ){
+	        $this->error('对不起，您没有权限进行该操作！',$type);
+	    }
+	    if ( !$weibaid ){
+	        $this->error('请选择班级，等待返回选择班级',$type);
+	    }
+	    $checkContent = str_replace('&nbsp;', '', $_POST['content']);
+	    $checkContent = str_replace('<br />', '', $checkContent);
+	    $checkContent = str_replace('<p>', '', $checkContent);
+	    $checkContent = str_replace('</p>', '', $checkContent);
+	    $checkContents = preg_replace('/<img(.*?)src=/i','img',$checkContent);
+	    $checkContents = preg_replace('/<embed(.*?)src=/i','img',$checkContents);
+	    if(strlen(t($_POST['title']))==0) $this->error('通知标题不能为空，等待返回添加标题',$type);
+	    if(strlen(t($checkContents))==0) $this->error('通知内容不能为空，等待返回添加内容',$type);
+	    preg_match_all('/./us', t($_POST['title']), $match);
+	    if(count($match[0])>25){     //汉字和字母都为一个字
+	        $this->error('通知标题不能超过25个字，等待返回修改标题',$type);
+	    }
+	
+	
+	    /* # 帖子内容 */
+	    $content = h($_POST['content']);
+	    if (get_str_length($content) >= 20000) {
+	        $this->error('通知内容过长！无法发布！');
+	    }
+	    unset($content);
+	
+	
+	    if ( $_POST['attach_ids'] ){
+	        $attach = explode('|', $_POST['attach_ids']);
+	        foreach ( $attach as $k=>$a){
+	            if ( !$a ){
+	                unset($attach[$k]);
+	            }
+	        }
+	        $attach = array_map( 'intval' , $attach);
+	        $data['attach'] =  serialize($attach);
+	    }
+	    $data['weiba_id'] = $weibaid;
+	    $data['title'] = t($_POST['title']);
+	    $data['content'] = h($_POST['content']);
+	    $data['post_uid'] = $this->mid;
+	    $data['post_time'] = time();
+	    $data['last_reply_uid'] = $this->mid;
+	    $data['last_reply_time'] = $data['post_time'];
+	
+	
+	    $filterTitleStatus = filter_words($data['title']);
+	    if (!$filterTitleStatus['status']) {
+	        $this->error($filterTitleStatus['data'],$type);
+	    }
+	    $data['title'] = $filterTitleStatus['data'];
+	
+	    $filterContentStatus = filter_words($data['content']);
+	    if (!$filterContentStatus['status']) {
+	        $this->error($filterContentStatus['data'],$type);
+	    }
+	    $data['content'] = $filterContentStatus['data'];
+	
+	    $res = D('Notice')->add($data);
+	    if($res){
+	        $result['id'] = $res;
+	        if($_GET['post_type']=='index'){
+	            $this->success ( "发布成功" );
+	        }else{
+	            return $this->ajaxReturn($result, '发布成功', 1);
+	        }
+	        	
+	    }else{
+	        $this->error('发布失败，等待返回修改发布',$type);
+	    }
+	}
 
 	/**
 	 * 帖子详情页
@@ -2051,5 +2135,96 @@ class IndexAction extends Action {
 		} else {
 			echo 0;
 		}
+	}
+	/**
+	 * 通知公告--通知列表
+	 */
+	public function notice_list(){
+	    $map = array();
+	    $map['group_id'] = $this->user['group_id'];
+	    $map['weiba_id'] = $this->user['weiba_id'];
+	    $limit = 10;//分页大小
+	    $map['limit'] = $limit;
+	    $result = M('Notice')->getList($map);
+	    $data = $result['data'];
+	    $totalRows = $result['totalRows'];
+	    $p = new Page($totalRows,$limit);
+	    $page = $p->show();
+	    $this->notice = $result['data'];
+	    $this->totalnum = $totalRows;
+	    $this->page = $page;
+	    $this->role = $this->user['group_id'];
+	    $this->display();
+	}
+	/**
+	 * 通知公告--通知详细页面
+	 */
+	public function notice_detail(){
+	    $id = $_GET['id'];
+	    if(!isset($id)){
+	        $this->error("通知id不能为空");
+	    }
+	    $map['id'] = $id;
+	    $notice = D('Notice')->where($map)->findAll();
+	    if(empty($notice)){
+	        $this->error("该通知不存在");
+	    }else{
+	        $notice = $notice[0];
+	    }
+	    if($notice['is_del'] == 1){
+	        $this->error("该通知已删除");
+	    }
+	    //非发布者增加浏览量
+	    if($notice['post_uid'] != $this->mid){
+	        D('Notice')->where ('id='.$id)->setInc('read_count');
+	    }
+	    if ( $notice['attach'] ){
+	        $attachids = unserialize( $notice['attach'] );
+	        $attachinfo = model('Attach')->getAttachByIds( $attachids );
+	        foreach($attachinfo as $ak => $av) {
+	            $_attach = array(
+	                'attach_id'   => $av['attach_id'],
+	                'attach_name' => $av['name'],
+	                'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
+	                'extension'   => $av['extension'],
+	                'size'		  => $av['size']
+	            );
+	            $notice['attachInfo'][$ak] = $_attach;
+	        }
+	    }
+	    $notice['content'] = html_entity_decode($notice['content'], ENT_QUOTES, 'UTF-8');
+	    $this->assign("notice",$notice);
+	    $this->display();
+	}
+	/**
+	 * 通知公告--发布通知
+	 */
+	public function notice_post() {
+	    if( !CheckPermission('weiba_normal','notice_post') ){
+	        $this->error('对不起，您没有权限进行该操作！');
+	    }
+	    //查询某个人关注的所有班级,并且自己是班主任才可发通知
+	    $map['admin_uid'] = $this->uid;
+	    $map['is_del'] = 0;
+	    $map['status'] = 1;
+	    $list = D('Weiba')->where($map)->field('weiba_id,weiba_name')->findAll();
+	    $this->assign('list' , $list);
+	    $this->display();
+	}
+	/**
+	 * 删除通知
+	 */
+	function ajaxDel() {
+	    $id = $_POST['nid'];//通知id
+	    if(!isset($id)){
+	        echo '{"status":0,"msg":"通知id不能为空"}';
+	    }
+	    $map['id'] = $id;
+	    $res = D('Notice')->where($map)->save(array('is_del'=>1));
+	    if($res){
+	        echo '{"status":1,"msg":"删除成功"}';
+	    }else{
+	        echo '{"status":0,"msg":"删除失败"}';
+	    }
 	}
 }

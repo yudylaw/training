@@ -20,7 +20,7 @@ var ajaxSubmit = function(form) {
         				}
         			}
         		} else {
-        			ui.error(txt.info);
+        			alert(txt.info);
         		}
             }
         };
@@ -104,7 +104,15 @@ M.addModelFns({
 				location.href = U('weiba/Index/detail')+'&weiba_id='+txt.data;
 			}, 1500);
 		}
-	}
+	},
+	notice_post:{  //发布通知
+		callback:function(txt){
+			alert('发布成功');
+			setTimeout(function() {
+				location.href = U('weiba/Index/notice_list');
+			}, 1500);
+		}
+	},
 });
 
 M.addEventFns({
