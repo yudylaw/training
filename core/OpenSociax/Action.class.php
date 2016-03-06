@@ -77,12 +77,12 @@ abstract class Action
             $GLOBALS['time_run_detail']['action_init_site_logo'] = microtime(true);
 
             //默认登录后首页
-            if(intval($this->site['home_page'])){
-                $appInfo = model('App')->where('app_id='.intval($this->site['home_page']))->find();
-                $this->site['home_url'] = U($appInfo['app_name'].'/'.$appInfo['app_entry']);
-            }else{
-                $this->site['home_url'] = U('public/Index/index');
-            }
+//             if(intval($this->site['home_page'])){
+//                 $appInfo = model('App')->where('app_id='.intval($this->site['home_page']))->find();
+//                 $this->site['home_url'] = U($appInfo['app_name'].'/'.$appInfo['app_entry']);
+//             }else{
+            $this->site['home_url'] = U('weiba/Index/notice_list');//网站默认首页
+//             }
 
             $GLOBALS['time_run_detail']['action_init_site_homepage'] = microtime(true);
 
