@@ -12,6 +12,8 @@ class IndexAction extends Action {
 	 * @return void
 	 */
 	public function index() {
+	    //通知公告为默认首页
+	    redirect(U('weiba/Index/notice_list'));
 		/* # 微吧和频道开关检测 */
 		$weibaIfOpen   = model('App')->getAppByName('weiba');
 		$weibaIfOpen   = $weibaIfOpen['status'];
