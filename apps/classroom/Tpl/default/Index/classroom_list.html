@@ -1,0 +1,42 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;班级中心</div>
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th width="40%">班级名称</th>
+                            <th width="10%">学科</th>
+                            <th width="20%">班级管理员</th>
+                            <th width="10%">成员数</th>
+                            <th width="20%">创建时间</th>
+                        </tr>
+                        <volist name='classroomList' id='classroom'>
+                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                            <td><span class="tab-ell w-l"><a class="color-gre" href="{:U('homework/Index/detail', array('id'=>$homework['id']))}">{$classroom['weiba_name']}</a></span></td>
+                            <td><span>{$ts['_subjects'][$classroom['subject']]}</span></td>
+                            <td><span>{$classroom['uname']}</span></td>
+                            <td><span>{$classroom['follower_count']}</span></td>
+                            <td><span><php>echo date("Y-m-d", $classroom['ctime']);</php></span></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+                <!-- 
+                <div id="page" class="page" style="">{$page}</div>
+                 -->
+				<div class="comment-page tc">
+				{$page}
+					<!-- 
+                    <a href="javascript:;" class="clearfix">首页</a>
+                    <a href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
+                     -->
+                </div>
+            </div>
+        </div>
+    </div>
+<include file="__THEME__/public_footer_new" />
