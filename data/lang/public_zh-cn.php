@@ -859,7 +859,7 @@ return array(
 'PUBLIC_SUM_TO_TALL'=>'共{num}条对话',
 'PUBLIC_METO'=>'我和',
 'PUBLIC_SAY'=>'说',
-'PUBLIC_APPNAME_CHANNEL'=>'频道',
+'PUBLIC_APPNAME_CLASSROOM'=>'班级',
 'PUBLIC_LANG_SET'=>'语言设置',
 'PUBLIC_SHARE_FAILED'=>'转发失败',
 'PUBLIC_SHARE_TOUSE_EMPTY'=>'转发接受人不能为空',

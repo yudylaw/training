@@ -857,7 +857,7 @@ return array(
 'PUBLIC_SUM_TO_TALL'=>'共{num}條對話',
 'PUBLIC_METO'=>'我和',
 'PUBLIC_SAY'=>'說',
-'PUBLIC_APPNAME_CHANNEL'=>'頻道',
+'PUBLIC_APPNAME_CLASSROOM'=>'',
 'PUBLIC_LANG_SET'=>'語言設置',
 'PUBLIC_SHARE_FAILED'=>'轉發失敗',
 'PUBLIC_SHARE_TOUSE_EMPTY'=>'轉發接受人不能为空',

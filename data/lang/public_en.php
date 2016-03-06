@@ -857,7 +857,7 @@ return array(
 'PUBLIC_SUM_TO_TALL'=>'A total of {num} Article dialogue',
 'PUBLIC_METO'=>'Dialogue between me with',
 'PUBLIC_SAY'=>'says',
-'PUBLIC_APPNAME_CHANNEL'=>'Channel',
+'PUBLIC_APPNAME_CLASSROOM'=>'Classroom',
 'PUBLIC_LANG_SET'=>'Language Setting',
 'PUBLIC_SHARE_FAILED'=>'Share Failed',
 'PUBLIC_SHARE_TOUSE_EMPTY'=>'Share to accept a person cannot be empty',
