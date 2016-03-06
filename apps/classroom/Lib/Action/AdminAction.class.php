@@ -236,4 +236,28 @@ class AdminAction extends Action {
         $this->display();
     }
     
+    public function create() {
+        $this->display();
+    }
+    
+    public function add() {
+        $name = $_REQUEST['name'];
+        $subject = intval($_REQUEST['subject']);
+        
+        global $ts;
+        
+        if(empty($ts['_subjects'][$subject])) {
+            $this->ajaxReturn(null, "学科不存在", -1);
+        }
+        
+        if (empty($name)) {
+            $this->ajaxReturn(null, "班级名称不能为空", -1);
+        }
+        
+        $data = array('weiba_name'=>$name, 'uid'=>$this->mid,'subject'=>$subject, 'ctime'=>time());
+        
+        M('weiba')->add($data);
+        $this->ajaxReturn(null, "创建成功");
+    }
+    
 }

@@ -1,0 +1,79 @@
+<include file="__THEME__/public_header_new" />
+<style>
+.ct_line {
+    width: 300px;
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.style3 {
+    float: left;
+    display: inline;
+    margin-left: 7px;
+}
+.ct_line select {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+<script>
+$(document).ready(function() {
+	
+
+	
+	$("#create").click(function() {
+		var subject = $('#subjects').val();
+		var name = $('#className').val();
+		
+		if(name == "") {
+			alert("班级名称不能为空");
+			return;
+		}
+		  $.post("{:U('classroom/Admin/add')}", {'subject':subject, 'name':name}, 
+			  function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.reload();
+				  } else {
+					  alert(obj.info);
+				  }
+		  });
+	});
+	
+});
+</script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;
+				<a href="{:U('classroom/Admin/classroom_list')}">班级中心</a>&gt;<span class="color-gre">创建班级</span>
+			</div>
+			<div class="clearfix lesson-add">
+                    <ul class="ul-form">
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">班级名称：</span>
+                            <input type="text" id="className" class="fl input-text width-m" />
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">学科：</span>
+                           	<select style="font-size:14px;height:26px;" id="subjects">
+                           		<volist name="ts['_subjects']" id="subject">
+                           			<option value="{$key}">{$subject}</option>
+                           		</volist>
+                           	</select>
+                        </li>
+                    </ul>
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">创建班级</span></a></div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />
