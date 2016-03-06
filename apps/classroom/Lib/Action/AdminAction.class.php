@@ -202,22 +202,32 @@ class AdminAction extends Action {
         }
     }
     
-    public function classlist() {
+    public function classroom_list() {
         //参数 p=currentPage
         $pageSize = 20;
-        $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
+        $result = M("weiba")->where(array('is_del'=>0))->order('weiba_id desc')->findPage($pageSize);
     
-        $h_ids = array();
+        $adminIds = array();
     
-        $homeworks = $result['data'];
+        $classroomList = $result['data'];
     
-        foreach ($homeworks as $homework) {
-            array_push($h_ids, $homework['id']);
+        foreach ($classroomList as $classroom) {
+            array_push($adminIds, $classroom['admin_uid']);
         }
-    
-        $this->assign("homeworks", $homeworks);
+        
+        $users = M('user')->where(array('uid'=>array('IN', $adminIds), 'is_del'=>0))->findAll();
+        
+        foreach ($classroomList as &$classroom) {
+            foreach ($users as $user) {
+                if ($classroom['admin_uid'] == $user['uid']) {
+                    $classroom['uname'] = $user['uname'];
+                }
+            }
+        }
+        
+        $this->assign("classroomList", $classroomList);
         $this->assign("page", $result['html']);
-        $this->display("homework_list");
+        $this->display();
     }
     
 }
