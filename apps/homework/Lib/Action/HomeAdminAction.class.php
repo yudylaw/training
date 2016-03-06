@@ -390,19 +390,25 @@ class HomeAdminAction extends Action {
         $endDate = $_REQUEST['endDate'];
         
         if ($endDate <= $startDate) {
-            $this->ajaxReturn(null, '结束时间必须大于开始时间');
+            $this->ajaxReturn(null, '结束时间必须大于开始时间', -1);
         }
         
         $homework = M('homework')->where(array('id'=>$hw_id, 'type'=>1, 'is_del'=>0))->find();
         
         if (empty($homework)) {
-            $this->ajaxReturn(null, '作业不存在');
+            $this->ajaxReturn(null, '作业不存在', -1);
         }
         
         $class = M('weiba')->where(array('weiba_id'=>$weiba_id, 'is_del'=>0))->find();
         
         if (empty($class)) {
-            $this->ajaxReturn(null, '班级不存在');
+            $this->ajaxReturn(null, '班级不存在', -1);
+        }
+        
+        $record = M('homework_schedule')->where(array('hw_id'=>$hw_id, 'class_id'=>$weiba_id))->find();
+        
+        if(!empty($record)) {
+            $this->ajaxReturn(null, '不能重复安排作业', -1);
         }
         
         $data = array('hw_id'=>$hw_id, 'class_id'=>$weiba_id, 'type'=>1,
@@ -410,7 +416,7 @@ class HomeAdminAction extends Action {
         
         M('homework_schedule')->add($data);
         
-        $this->ajaxReturn(null, '考试作业成功');
+        $this->ajaxReturn(null, '安排作业成功');
     }
     
 }
