@@ -315,6 +315,8 @@ class AdminAction extends Action {
     public function redo() {
         $uid = intval($_REQUEST['uid']);
         $hw_id = intval($_REQUEST['hw_id']);
+        //清除答题记录
+        M("homework_answer")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->delete();
         M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->delete();
         $this->ajaxReturn(null, '退回成功');
     }
