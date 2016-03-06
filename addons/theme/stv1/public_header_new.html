@@ -47,10 +47,10 @@
                 	</if>
                 </nosession>
                 <session name="mid">
-                	<a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a>
+                	<!-- <a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a> -->
                 	<!-- <a href="javascript:;" class="user-msg fl">消息<em class="two">12</em></a>
                 	<a href="javascript:;" class="user-msg fl">消息<em class="three">123</em></a> -->
-                	<a href="javascript:;" class="user-nick fl">欢迎你,{$user['uname']}</a>
+                	<a href="{:U('public/Account/index')}" class="user-nick fl">{$user['uname']}</a>
                 	<a href="{:U('public/Passport/logout')}" class="user-nick fl">退出</a>
                 	<script type="text/javascript">
 						core.plugFunc('dropnotify',function(){
