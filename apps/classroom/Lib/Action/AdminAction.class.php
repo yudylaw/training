@@ -202,6 +202,12 @@ class AdminAction extends Action {
         }
     }
     
+    public function delete() {
+        $weiba_id = intval($_REQUEST['class_id']);
+        M('weiba')->save(array('weiba_id'=>$weiba_id, 'is_del'=>1));
+        $this->ajaxReturn(null, "删除成功");
+    }
+    
     public function classroom_list() {
         //参数 p=currentPage
         $pageSize = 20;
