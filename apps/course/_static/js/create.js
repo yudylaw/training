@@ -19,11 +19,30 @@ Course.init = function(){
 		if(coursedata.title == ""){
 			alert("课程标题不允许为空");
 			return;
+		}else{
+			if(coursedata.subject == "0"){
+				alert("请选择学科");
+				return;
+			}else{
+				$.ajax({
+					type: "POST",
+					url: 'index.php?app=course&mod=Admin&act=ajaxCreate',
+					data:coursedata,
+					dataType: "json",
+					async:false,
+					success:function(msg){
+						if(msg.status == 1){
+							window.location.href="index.php?app=course&mod=Index&act=index";
+						}
+					},
+					error:function(msg){
+						alert("创建失败");
+						return;
+					}
+				});
+			}
 		}
-		if(coursedata.subject == ""){
-			alert("请选择学科");
-			return;
-		}
+		
 		/*if(coursedata.resourceids == "0"){
 			var r=confirm("您还没上传资源，确认直接创建课程吗?")
 			if(r != true)
@@ -31,21 +50,6 @@ Course.init = function(){
 			    return;
 			}
 		}*/
-		$.ajax({
-			type: "POST",
-			url: 'index.php?app=course&mod=Admin&act=ajaxCreate',
-			data:coursedata,
-			dataType: "json",
-			async:false,
-			success:function(msg){
-				if(msg.status == 1){
-					window.location.href="index.php?app=course&mod=Index&act=index";
-				}
-			},
-			error:function(msg){
-				alert("创建失败");
-				return;
-			}
-		});
+		
 	});
 }
