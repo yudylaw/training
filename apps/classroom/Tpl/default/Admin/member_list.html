@@ -1,0 +1,55 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;班级中心&gt;{$classroom['weiba_name']}</div>
+                <div class="test-box mt20 clearfix">
+                	<div class="fr mt10"><a href="{:U('classroom/Admin/add_member')}" class="btn-green fl"><span class="fl">添加成员</span></a></div>
+                </div>
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th width="20%">姓名</th>
+                            <th width="30%">区域</th>
+                            <th width="20%">电话</th>
+                            <th width="20%">性别</th>
+                            <th width="10%">删除</th>
+                        </tr>
+                        <volist name='members' id='member'>
+                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                            <td><span class="tab-ell w-l">{$member['uname']}</a></td>
+                            <td><span>{$member['location']}</span></td>
+                            <td><span>{$member['phone']}</span></td>
+                            <td><span><php>if($member['sex'] == 1) echo "男";else echo "女";</php></span></td>
+                            <td><a class="color-gre" href="javascript:deleteClassRoom({$member['weiba_id']}, {$member['follower_uid']});void(0);">删除</a></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+				<div class="comment-page tc">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    
+    //删除班级
+    function deleteClassRoom(classroomId) {
+		  if(confirm("是否确认删除班级")){
+			  $.get("{:U('classroom/Admin/delete')}", {'class_id':classroomId}, function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.reload();
+				  }
+			  });
+		  }
+    }
+	  
+	</script>
+<include file="__THEME__/public_footer_new" />

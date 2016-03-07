@@ -1,0 +1,98 @@
+<include file="__THEME__/public_header_new" />
+<style>
+.ct_line {
+    width: 300px;
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.style3 {
+    float: left;
+    display: inline;
+    margin-left: 7px;
+}
+.ct_line select {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+<script>
+$(document).ready(function() {
+	
+
+	
+	$("#create").click(function() {
+		var class_id = {$classroom['weiba_id']};
+		var gender = $('#genders').val();
+		var name = $('#uname').val();
+		var phone = $('#phone').val();
+		var region = $('#regions').val();
+		
+		if(phone == "") {
+			alert("手机号码不能为空");
+			return;
+		}
+		
+		if(name == "") {
+			alert("姓名不能为空");
+			return;
+		}
+		  $.post("{:U('classroom/Admin/addMember')}", {'class_id':class_id, 'gender':gender, 'name':name, 'phone':phone, 'region':region}, 
+			  function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.reload();
+				  } else {
+					  alert(obj.info);
+				  }
+		  });
+	});
+	
+});
+</script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="javascript:;">首页</a>&gt;
+				<a href="{:U('classroom/Admin/classroom_list')}">班级中心</a>&gt;<span class="color-gre">{$classroom['weiba_name']}</span>
+			</div>
+			<div class="clearfix lesson-add">
+                    <ul class="ul-form">
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">所属学校：</span>
+                           	<select style="font-size:14px;height:26px;" id="regions">
+                           		<volist name="regions" id="region">
+                           			<option value="{$region['area_id']}">{$region['title']}</option>
+                           		</volist>
+                           	</select>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">成员姓名：</span>
+                            <input type="text" id="uname" class="fl input-text width-m" />
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">手机号码：</span>
+                            <input type="text" id="phone" class="fl input-text width-m" />
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">性别：</span>
+                           	<select style="font-size:14px;height:26px;" id="genders">
+                        		<option value="1">男</option>
+                        		<option value="2">女</option>
+                           	</select>
+                        </li>
+                    </ul>
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">添加成员</span></a></div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />

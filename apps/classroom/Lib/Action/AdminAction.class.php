@@ -236,7 +236,111 @@ class AdminAction extends Action {
         $this->display();
     }
     
+    public function member_list() {
+        $class_id = intval($_REQUEST['class_id']);
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+        
+        $sql = "SELECT wf.*, u.uname, u.location, u.phone, u.sex from ts_weiba_follow wf LEFT JOIN ts_user u ON wf.follower_uid = u.uid";
+        $sql .=" WHERE wf.weiba_id = ".$class_id;
+        $members = M('weiba_follow')->query($sql);
+        
+        $this->assign('classroom', $classroom);
+        $this->assign('members', $members);
+        $this->display();
+    }
+    
     public function create() {
+        $class_id = intval($_REQUEST['class_id']);
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+        
+        $this->assign('classroom', $classroom);
+        $this->display();
+    }
+    
+    public function addMember() {
+        
+        $class_id = intval($_REQUEST['class_id']);
+        $name = $_REQUEST['name'];
+        $phone = $_REQUEST['phone'];
+        $gender = intval($_REQUEST['gender']);
+        $region = intval($_REQUEST['region']);
+        
+        if (empty($name)) {
+            $this->ajaxReturn(null, "姓名不能为空", -1);
+        }
+        
+        if (empty($phone)) {
+            $this->ajaxReturn(null, "电话不能为空", -1);
+        }
+        
+        if (empty($phone)) {
+            $this->ajaxReturn(null, "手机号码不能为空", -1);
+        }
+        
+        //TODO 手机号码检查
+        if ($phone < 12000000000) {
+            $this->ajaxReturn(null, "手机号码格式不对", -1);
+        }
+        
+        $area = M('area')->where(array('area_id'=>$region))->find();
+        
+        if (empty($area)) {
+            $this->ajaxReturn(null, "所属学校不存在", -1);
+        }
+        
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+        
+        if (empty($classroom)) {
+            $this->ajaxReturn(null, "班级不存在", -1);
+        }
+        
+        $user = M('user')->where(array('phone'=>$phone))->find();
+        
+        $uid = - 1;
+        $tips = "添加成功";
+        if (empty($user)) {
+            //添加用户
+            $data = array('uname'=>$name, 'phone'=>$phone, 
+                'area'=>$region,
+                'sex'=>$gender, 'ctime'=>time(), 
+                'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1, 
+                'area'=>0, 'province'=>3308, 'city'=>3310,
+                'location'=>$area['title']);
+            //保存
+            $uid = M('user')->add($data);
+        } else {
+            $uid = $user['uid'];
+            $tips = "该用户已经存在，加入班级成功";
+        }
+        
+        if ($uid < 0) {
+            $this->ajaxReturn(null, "保存用户信息失败", -1);
+        } else {
+            $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->find();
+            if (!empty($follower)) {
+                $this->ajaxReturn(null, "用户已经加入该班级，无法重复加入", -1);
+            }
+        }
+        
+        $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>1);
+        M('weiba_follow')->add($data);
+        
+        $this->ajaxReturn(null, $tips);
+        
+    }
+    
+    public function add_member() {
+        $class_id = intval($_REQUEST['class_id']);
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+        
+        if(empty($classroom)) {
+            $this->error("班级不存在");
+        }
+        
+        $regions = M('area')->query("select * from ts_area where pid > 0");
+        
+        $this->assign('classroom', $classroom);
+        $this->assign('regions', $regions);
         $this->display();
     }
     
