@@ -264,4 +264,17 @@ class AdminAction extends Action {
     public function preview(){
         
     }
+    /**
+     * 删除课程
+     */
+    public function  delCourse(){
+       $id = $_POST['course_id']; //课程id
+       $map['id'] = $id;
+       $res = model('Course')->where($map)->save(array('is_del'=>1));
+       if($res){
+           echo '{"status":1,"msg":"操作成功"}';
+       }else{
+           echo '{"status":0,"msg":"操作失败"}';
+       }
+    }
 }
