@@ -82,7 +82,7 @@ class CourseModel extends Model {
         $page = !empty($param['page']) ? $param['page'] : 1;
         $limit = !empty($param['limit']) ? $param['limit'] : 5;
         //教师只展示开始的课程，不展示结束课程
-        if(isset($param['group_id']) && $param['group_id'] ==3){
+        if(isset($param['group_id']) && $param['group_id'] ==Role::TEACHER){
             $map['status'] = 1;
         }
         $result = $this->where($map)->order('ctime desc')->findPage($limit);

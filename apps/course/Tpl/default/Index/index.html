@@ -42,6 +42,29 @@
 			}
 		});
 	}
+	function delCourse(id){
+		id = parseInt(id);
+		if(confirm("确定删除此课程吗?")){
+			$.ajax({
+				type: "POST",
+				url: 'index.php?app=course&mod=Admin&act=delCourse',
+				data:{"course_id":id},
+				dataType: "json",
+				async:false,
+				success:function(msg){
+					if(msg.status == 1){
+						window.location.href="index.php?app=course&mod=Index&act=index";
+					}else{
+						alert(msg.msg);
+					}
+				},
+				error:function(msg){
+					alert("操作失败");
+					return;
+				}
+			});
+		}
+	}
 </script>
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
@@ -58,11 +81,18 @@
 				<table>
 					<tr>
 						<th width="40%" style="padding-left:0px;text-align:center;">名称</th>
-						<th width="15%">创建时间</th>
+						<php>if($user['group_id'] == Role::TEACHER) {</php>
+							<th width="15%">创建时间</th>
+						<php>} else {</php>
+							<th width="10%">创建时间</th>
+						<php> } </php>
 						<!-- <th width="15%">结束时间</th> -->
 						<th width="10%">学时/学分</th>
 						<th width="10%">进度</th>
 						<th width="10%">操作</th>
+						<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
+							<th width="5%">删除</th>
+						<php> } </php>
 						<th width="15%">学习记录</th>
 					</tr>
 					<volist name="resource" id="res">
@@ -89,14 +119,23 @@
 											<a href="javascript:void(0);">未开始</a>
 									</if>
 								<else />
-										<if condition="$res['status'] eq 0">
-											<a href="javascript:;" onclick="startcourse({$res['id']});" class="color-gre" id="start_course_{$res['id']}" code="{$res['id']}">开始</a>
-										<else />	
-											<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
-										</if>
+										<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
+											<if condition="$res['status'] eq 0">
+												<a href="javascript:;" onclick="startcourse({$res['id']});" class="color-gre" id="start_course_{$res['id']}" code="{$res['id']}">开始</a>
+											<else />	
+												<a href="javascript:;" onclick="endcourse({$res['id']});" class="color-gre" id="end_course_{$res['id']}" code="{$res['id']}">结束</a>
+											</if>
+										<php> } </php>
 								</if>
 								</span>
 								</td>
+								<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
+									<td>
+									  <span class="color-roseo">
+									  	<a href="javascript:delCourse({$res['id']});" class="color-gre">删除</a>
+									  </span>
+									</td>
+								<php> } </php>
 								<td>
 									<span class="color-roseo">
 										<if condition="$res['status'] eq 0">
@@ -112,43 +151,9 @@
 								</td>
 						</tr>
 					</volist>
-					<!-- <tr>
-						<td><span class="tab-ell w-l">完全平方公式与平方差公式～简单美观风格(八年级数学)</span></td>
-						<td><span>2015.01.20-2015.01.23</span></td>
-						<td><span>200/40</span></td>
-						<td><span>98%</span></td>
-						<td><span class="color-roseo">开始</span></td>
-					</tr>
-					<tr class="special">
-						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
-						<td><span>2015.01.20-2015.01.23</span></td>
-						<td><span>200/40</span></td>
-						<td><span>98%</span></td>
-						<td><span class="color-gre">继续</span></td>
-					</tr>
-					<tr>
-						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
-						<td><span>2015.01.20-2015.01.23</span></td>
-						<td><span>200/40</span></td>
-						<td><span>98%</span></td>
-						<td><span class="color-red">已完成</span></td>
-					</tr>
-					<tr class="special">
-						<td><span class="tab-ell w-l">完全平方公式与平方差公式～</span></td>
-						<td><span>2015.01.20-2015.01.23</span></td>
-						<td><span>200/40</span></td>
-						<td><span>100%</span></td>
-						<td><span>未完成</span></td>
-					</tr> -->
 				</table>
 			</div>
 			<div class="comment-page tc">
-				<!-- <a href="javascript:;" class="clearfix">首页</a> <a
-					href="javascript:;" class="clearfix"><em class="arr-lt"></em><span>上一页</span></a>
-				<a href="javascript:;" class="clearfix">1</a> <a href="javascript:;"
-					class="clearfix">2</a> <a href="javascript:;" class="clearfix">3</a>
-				<a href="javascript:;" class="clearfix"><span>下一页</span><em
-					class="arr-rt"></em></a> <a href="javascript:;" class="clearfix">末页</a> -->
 					{$page}
 			</div>
 		</div>
