@@ -62,7 +62,8 @@
 						<!-- <th width="15%">结束时间</th> -->
 						<th width="10%">学时/学分</th>
 						<th width="10%">进度</th>
-						<th width="25%" colspan="2">操作</th>
+						<th width="10%">操作</th>
+						<th width="15%">学习记录</th>
 					</tr>
 					<volist name="resource" id="res">
 						<tr <if condition="$i % 2 == 1">class="special"</if>>
@@ -73,7 +74,7 @@
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td>
 								<span class="color-roseo">
-								<if condition="$user['group_id'] eq 3"><!-- 教师角色有学习权限 -->
+								<if condition="$user['group_id'] eq Role::TEACHER"><!-- 教师角色有学习权限 -->
 									<if condition="$res['status'] eq 1">
 										<if condition="$res['percent'] eq 100">
 											<a href="{:U('course/Index/detail',array(id=>$res['id']))}" class="color-gre">完成学习</a>
@@ -95,18 +96,20 @@
 										</if>
 								</if>
 								</span>
-								<span class="color-roseo">
-									<if condition="$res['status'] eq 0">
-										<if condition="$user['group_id'] eq 3">
-											<a href="javascript:void(0);">学习记录</a>
+								</td>
+								<td>
+									<span class="color-roseo">
+										<if condition="$res['status'] eq 0">
+											<if condition="$user['group_id'] eq Role::TEACHER">
+												<a href="javascript:void(0);">学习记录</a>
+											<else />
+												<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">学习记录</a>
+											</if>
 										<else />
 											<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">学习记录</a>
 										</if>
-									<else />
-										<a href="{:U('course/Admin/learnlist',array('cid'=>$res['id']))}" class="color-gre">学习记录</a>
-									</if>
-								</span>
-							</td>
+									</span>
+								</td>
 						</tr>
 					</volist>
 					<!-- <tr>
