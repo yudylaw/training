@@ -696,11 +696,12 @@ class IndexAction extends Action {
 	    }else{
 	        $type = true;
 	    }
-	    $weibaid = intval($_POST['weiba_id']);
+	    //super_admin代表超级管理员，超级管理员发的通知全部班级可以收到，不具体到班级
+	    $weibaid != 'super_admin' && $weibaid = intval($_POST['weiba_id']);
 	    if( !CheckPermission('weiba_normal','notice_post') ){
 	        $this->error('对不起，您没有权限进行该操作！',$type);
 	    }
-	    if ( !$weibaid ){
+	    if ($weibaid != 'super_admin' && !$weibaid ){
 	        $this->error('请选择班级，等待返回选择班级',$type);
 	    }
 	    $checkContent = str_replace('&nbsp;', '', $_POST['content']);
@@ -735,7 +736,13 @@ class IndexAction extends Action {
 	        $attach = array_map( 'intval' , $attach);
 	        $data['attach'] =  serialize($attach);
 	    }
-	    $data['weiba_id'] = $weibaid;
+	    if ($weibaid == 'super_admin'){
+	        $data['weiba_id'] = 0;
+	        $data['type'] = 1;
+	    }else{
+	        $data['weiba_id'] = $weibaid;
+	        $data['type'] = 0;
+	    }
 	    $data['title'] = t($_POST['title']);
 	    $data['content'] = h($_POST['content']);
 	    $data['post_uid'] = $this->mid;
@@ -2143,7 +2150,7 @@ class IndexAction extends Action {
 	    $map = array();
 	    $map['group_id'] = $this->user['group_id'];
 	    $map['weiba_id'] = $this->user['weiba_id'];
-	    $limit = 10;//分页大小
+	    $limit = 5;//分页大小
 	    $map['limit'] = $limit;
 	    $result = M('Notice')->getList($map);
 	    $data = $result['data'];
