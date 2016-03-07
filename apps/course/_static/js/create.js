@@ -18,9 +18,11 @@ Course.init = function(){
 		var coursedata = _getData();
 		if(coursedata.title == ""){
 			alert("课程标题不允许为空");
+			return;
 		}
 		if(coursedata.subject == ""){
 			alert("请选择学科");
+			return;
 		}
 		/*if(coursedata.resourceids == "0"){
 			var r=confirm("您还没上传资源，确认直接创建课程吗?")
