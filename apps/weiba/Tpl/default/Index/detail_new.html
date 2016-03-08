@@ -56,7 +56,13 @@
 	                                    </span>
 	                                </p>
 	                            </dt>
-	                            <dd class="fr clearfix"><span class="color-gre fl">浏览（{$vo.read_count|default=0}）</span><span class="color-red fl">回复（{$vo.reply_count|default=0}）</span></dd>
+	                            <dd class="fr clearfix">
+	                            	<span class="color-gre fl">浏览（{$vo.read_count|default=0}）</span>
+	                            	<span class="color-gre fl">回复（{$vo.reply_count|default=0}）</span>
+	                            	<php>if(CheckWeibaPermission( $weiba_admin , 0 , 'weiba_del' ) || $post_detail['post_uid'] == $GLOBALS['ts']['mid'] || $user['group_id'] == Role::SUPER_ADMIN){</php>
+	                            		<a class="color-gre fl" event-node="post_del2" event-args='post_id={$vo['post_id']}&weiba_id={$vo['weiba_id']}&log=1'>删除</a>
+	                            	<php>}</php>
+	                            </dd>
 	                        </dl>
                         </volist>
                     </div>

@@ -366,6 +366,25 @@ M.addEventFns({
 			ui.confirm(this,L('PUBLIC_DELETE_THISNEWS'),post_del);
 		}
 	},
+	post_del2:{//修改 by sjzhao
+		click:function(){
+			var attrs = M.getEventArgs(this);
+			var _this = this;
+			var post_del = function(){
+				$.post(U('weiba/Index/postDel'),{post_id:attrs.post_id,weiba_id:attrs.weiba_id,log:attrs.log},function(res){
+				if(res == 1){
+					alert('删除成功');
+					location.href=U('weiba/Index/detail') + '&weiba_id='+ attrs.weiba_id;
+				}else{
+					alert('删除失败');
+				}
+				});
+			}
+			if(confirm(L('PUBLIC_DELETE_THISNEWS'))){
+				post_del();
+			}
+		}
+	},
 	post_set:{
 		click:function(){
 			var attrs = M.getEventArgs(this);
