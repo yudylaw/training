@@ -316,12 +316,9 @@ class AdminAction extends Action {
             $tips = "该用户已经存在，加入班级成功";
         }
         
-        if ($uid < 0) {
+        if ($uid < 1) {
             $this->ajaxReturn(null, "保存用户信息失败", -1);
         } else {
-            $follower_count = $classroom['follower_count'] + 1;
-            //更新成员计数
-            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
             $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->find();
             if (!empty($follower)) {
                 $this->ajaxReturn(null, "用户已经加入该班级，无法重复加入", -1);
@@ -330,6 +327,10 @@ class AdminAction extends Action {
         
         $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>1);
         M('weiba_follow')->add($data);
+        
+        $follower_count = $classroom['follower_count'] + 1;
+        //更新成员计数
+        M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
         
         $this->ajaxReturn(null, $tips);
         
