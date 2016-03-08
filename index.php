@@ -1,10 +1,10 @@
 <?php
 //设置错误级别
-// error_reporting(0);
-ini_set('display_errors',true);
-error_reporting(E_ALL); 
-set_time_limit(0);
-define('DEBUG',	true);
+error_reporting(0);
+// ini_set('display_errors',true);
+// error_reporting(E_ALL); 
+// set_time_limit(0);
+// define('DEBUG',	true);
 
 /* # 检查PHP版本是否符合运行要求 */
 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
