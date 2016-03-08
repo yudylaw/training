@@ -277,4 +277,17 @@ class AdminAction extends Action {
            echo '{"status":0,"msg":"操作失败"}';
        }
     }
+    /**
+     * 删除资源
+     */
+    public function delResource() {
+        $res_id = $_POST['resid'];
+        $map['id'] = $res_id;
+        $res = model('CourseResource')->where($map)->save(array('is_del'=>1));
+        if($res){
+            echo '{"status":1,"msg":"操作成功"}';
+        }else{
+            echo '{"status":0,"msg":"操作失败"}';
+        }
+    }
 }
