@@ -7,7 +7,7 @@
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;班级中心&gt;{$classroom['weiba_name']}</div>
                 <div class="test-box mt20 clearfix">
-                	<div class="fr mt10"><a href="{:U('classroom/Admin/add_member')}" class="btn-green fl"><span class="fl">添加成员</span></a></div>
+                	<div class="fr mt10"><a href="{:U('classroom/Admin/add_member', array('class_id'=>$classroom['weiba_id']))}" class="btn-green fl"><span class="fl">添加成员</span></a></div>
                 </div>
 				<div class="id-table">
                     <table>

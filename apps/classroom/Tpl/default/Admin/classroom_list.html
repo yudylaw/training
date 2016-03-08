@@ -22,7 +22,7 @@
                         </tr>
                         <volist name='classroomList' id='classroom'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
-                            <td><span class="tab-ell w-l"><a class="color-gre" href="javascript:;">{$classroom['weiba_name']}</a></span></td>
+                            <td><span class="tab-ell w-l"><a class="color-gre" href="{:U('classroom/Admin/member_list', array('class_id'=>$classroom['weiba_id']))}">{$classroom['weiba_name']}</a></span></td>
                             <td><span>{$ts['_subjects'][$classroom['subject']]}</span></td>
                             <td><span>{$classroom['uname']}</span></td>
                             <td><span>{$classroom['follower_count']}</span></td>

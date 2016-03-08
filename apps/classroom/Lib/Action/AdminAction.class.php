@@ -300,14 +300,17 @@ class AdminAction extends Action {
         $tips = "添加成功";
         if (empty($user)) {
             //添加用户
-            $data = array('uname'=>$name, 'phone'=>$phone, 
+            $setuser = array('uname'=>$name, 'phone'=>$phone, 
                 'area'=>$region,
                 'sex'=>$gender, 'ctime'=>time(), 
                 'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1, 
                 'area'=>0, 'province'=>3308, 'city'=>3310,
                 'location'=>$area['title']);
+            //初始化密码
+            $setuser['login_salt'] = rand(10000, 99999);
+            $setuser['password'] = md5(md5($phone).$setuser['login_salt']);//密码默认是手机号
             //保存
-            $uid = M('user')->add($data);
+            $uid = M('user')->add($setuser);
         } else {
             $uid = $user['uid'];
             $tips = "该用户已经存在，加入班级成功";
@@ -316,6 +319,9 @@ class AdminAction extends Action {
         if ($uid < 0) {
             $this->ajaxReturn(null, "保存用户信息失败", -1);
         } else {
+            $follower_count = $classroom['follower_count'] + 1;
+            //更新成员计数
+            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
             $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->find();
             if (!empty($follower)) {
                 $this->ajaxReturn(null, "用户已经加入该班级，无法重复加入", -1);
