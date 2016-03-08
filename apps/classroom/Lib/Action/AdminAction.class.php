@@ -216,7 +216,7 @@ class AdminAction extends Action {
         $adminIds = array();
     
         $classroomList = $result['data'];
-    
+        
         foreach ($classroomList as $classroom) {
             array_push($adminIds, $classroom['admin_uid']);
         }
@@ -240,6 +240,10 @@ class AdminAction extends Action {
         $class_id = intval($_REQUEST['class_id']);
         $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
         
+        if(empty($classroom)) {
+            $this->error("班级不存在");
+        }
+        
         $sql = "SELECT wf.*, u.uname, u.location, u.phone, u.sex from ts_weiba_follow wf LEFT JOIN ts_user u ON wf.follower_uid = u.uid";
         $sql .=" WHERE wf.weiba_id = ".$class_id;
         $members = M('weiba_follow')->query($sql);
@@ -253,12 +257,15 @@ class AdminAction extends Action {
         $class_id = intval($_REQUEST['class_id']);
         $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
         
+        if(empty($classroom)) {
+            $this->error("班级不存在");
+        }
+        
         $this->assign('classroom', $classroom);
         $this->display();
     }
     
     public function addMember() {
-        
         $class_id = intval($_REQUEST['class_id']);
         $name = $_REQUEST['name'];
         $phone = $_REQUEST['phone'];
@@ -270,15 +277,10 @@ class AdminAction extends Action {
         }
         
         if (empty($phone)) {
-            $this->ajaxReturn(null, "电话不能为空", -1);
-        }
-        
-        if (empty($phone)) {
             $this->ajaxReturn(null, "手机号码不能为空", -1);
         }
         
-        //TODO 手机号码检查
-        if ($phone < 12000000000) {
+        if (!preg_match("/^1[0-9]{2}[0-9]{8}$/", $phone)) {
             $this->ajaxReturn(null, "手机号码格式不对", -1);
         }
         
