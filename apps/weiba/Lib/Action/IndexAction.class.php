@@ -356,7 +356,7 @@ class IndexAction extends Action {
 			$this->assign('order','reply_time');
 		}
 		$maps['weiba_id'] = $weiba_id;
-		$list = D('weiba_post')->where($maps)->order($order)->findpage(20); 
+		$list = D('weiba_post')->where($maps)->order($order)->findpage(10); 
 		$post_uids = getSubByKey($list['data'], 'post_uid');
 		$reply_uids = getSubByKey($list['data'], 'last_reply_uid');
 		!$weiba_admin_uids && $weiba_admin_uids = array();

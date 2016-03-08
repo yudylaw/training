@@ -51,7 +51,7 @@
 	                                <p class="fl notice-content">
 	                                    <span class="txt-ell"><a href="{:U('weiba/Index/postDetail',array('post_id'=>$vo['post_id']))}">{$vo.title|getShort=20}</a></span>
 	                                    <span class="mt10">
-	                                        <em>{$user_info[$vo['post_uid']]['space_link']}/{$vo.post_time|friendlyDate}发布</em>
+	                                        <em>{$user_info[$vo['post_uid']]['uname']}/{$vo.post_time|friendlyDate}发布</em>
 	                                        <em>最后回复{$vo.last_reply_time|friendlyDate}</em>
 	                                    </span>
 	                                </p>
