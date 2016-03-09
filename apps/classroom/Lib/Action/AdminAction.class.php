@@ -330,12 +330,30 @@ class AdminAction extends Action {
         $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>1);
         M('weiba_follow')->add($data);
         
+        //添加组
+        $group_link = array('uid'=>$uid, 'user_group_id'=>Role::TEACHER);
+        M('user_group_link')->add($group_link);
+        
         $follower_count = $classroom['follower_count'] + 1;
         //更新成员计数
         M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
         
         $this->ajaxReturn(null, $tips);
         
+    }
+    
+    public function deleteMember() {
+        $class_id = intval($_REQUEST['class_id']);
+        $uid = intval($_REQUEST['uid']);
+        
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+        
+        if (empty($classroom)) {
+            $this->ajaxReturn(null, "班级不存在", -1);
+        }
+        
+        $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->delete();
+        $this->ajaxReturn(null, "删除成功");
     }
     
     public function add_member() {
