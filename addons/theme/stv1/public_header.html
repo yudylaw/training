@@ -1,4 +1,19 @@
 <include file="__THEME__/_header" />
+<style type="text/css">
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+.header-wrap  .user-nick{
+    margin: 9px 0 0 20px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 14px;
+    color: #fff;
+}
+</style>
 <!--手机APP下载-->
 <div id="app_download">
   <a class="app_download" href="javascript:;"></a>
@@ -11,6 +26,12 @@
   <nosession name="mid">
     <div class="header-wrap">
       <div class="head-bd"> 
+      	<h1 class="fl logo"><a title="">霍邱师范教师培训平台</a></h1>
+		<div class="fr">
+				<if condition="ACTION_NAME neq login"> <a
+					href="{:U('public/Passport/login')}" class="user-nick fl">登录</a>
+				</if> 
+		</div>
       </div>
     </div>
   </nosession>
@@ -18,7 +39,12 @@
   <session name="mid">
     <div class="header-wrap">
       <div class="head-bd"> 
-        <eq name='user.is_init' value='0'>
+      	<h1 class="fl logo"><a title="">霍邱师范教师培训平台</a></h1>
+		<div class="fr">
+				<a href="{:U('public/Account/index')}" class="user-nick fl">{$user['uname']}</a>
+				<a href="{:U('public/Passport/logout')}" class="user-nick fl">退出</a>
+		</div>
+					<!-- <eq name='user.is_init' value='0'>
           <div class="person">
             <ul>
               <li class="dorp-right"><a href="{:U('public/Passport/logout')}" class="app name">退出</a></li>
@@ -28,9 +54,9 @@
           <else />
           <div class="person">
             <ul class="clearfix">
-              <li model-node="search" class="dorp-right"> 
+                 <li model-node="search" class="dorp-right"> 
                   <a href="javascript:void(0);" class="app search-btn"><img src="__THEME__/image/ico-search.png" /></a>
-                  <!--<div class="search" model-node="drop_menu_list">-->
+                  <div class="search" model-node="drop_menu_list">
                   <div class="search">
                   <div id="mod-search" model-node="drop_search">
                     <form name="search_feed" id="search_feed" method="get" action="{:U('public/Search/index')}">
@@ -91,7 +117,7 @@
                        //     };
                 </script> 
               </li>
-              <!-- <li model-node="person" class="dorp-right"> <a href="{$user['space_url']}" class="username">{$user['uname']|getShort=6}</a> </li> -->
+              <li model-node="person" class="dorp-right"> <a href="{$user['space_url']}" class="username">{$user['uname']|getShort=6}</a> </li>
               <li model-node="account" class="dorp-right"><a href="javascript:void(0);" class="app" rel="account-btn"><img rel="account-btn" src="__THEME__/image/ico-set.png" /></a>
                 <div model-node="drop_menu_list" class="dropmenu" style="opacity:0;display:none;width:100px"> <i class="arrow-mes"></i>
                   <dl class="acc-list">
@@ -109,9 +135,9 @@
                     <dd><a href="{:U('public/Invite/invite')}"><i class="ico-invite"></i>{:L('PUBLIC_INVITE_COLLEAGUE')}</a></dd>
                     <php>endif;</php>
                     
-                    <!-- <dd><a href="{:U('public/SmallTools/weiboShare')}">小工具</a></dd> --> 
+                    <dd><a href="{:U('public/SmallTools/weiboShare')}">小工具</a></dd> 
                     
-                    <!-- 个人设置菜单钩子 --> 
+                    个人设置菜单钩子 
                     {:Addons::hook('header_account_dropmenu')}
                     <php>if(CheckPermission('core_admin','admin_login')){</php>
                     <dd><a href="{:U('admin')}"><i class="ico-systemmanage"></i>{:L('PUBLIC_SYSTEM_MANAGEMENT')}</a></dd>
@@ -141,7 +167,7 @@
             </ul>
             <a href="javascript:void(0)" onclick="core.dropnotify.closeParentObj()" class="ico-close1"></a> </div>
           <php>endif;</php>
-        </eq>
+        </eq> -->
       </div>
     </div>
     <php>if(MODULE_NAME != 'Search'):</php>
