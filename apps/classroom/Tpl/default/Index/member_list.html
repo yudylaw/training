@@ -1,0 +1,34 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
+<div id="main-body" class="mt20">
+        <div class="content clearfix">
+			<include file="__THEME__/public_left_new" />
+            <div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="javascript:;">首页</a>&gt;班级中心&gt;{$classroom['weiba_name']}</div>
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th width="25%">姓名</th>
+                            <th width="30%">区域</th>
+                            <th width="25%">电话</th>
+                            <th width="20%">性别</th>
+                        </tr>
+                        <volist name='members' id='member'>
+                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                            <td><span class="tab-ell w-l">{$member['uname']}</a></td>
+                            <td><span>{$member['location']}</span></td>
+                            <td><span>{$member['phone']}</span></td>
+                            <td><span><php>if($member['sex'] == 1) echo "男";else echo "女";</php></span></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+				<div class="comment-page tc">
+                </div>
+            </div>
+        </div>
+    </div>
+<include file="__THEME__/public_footer_new" />
