@@ -1615,3 +1615,27 @@ a.color-aa:hover,
 a:focus{
     outline: none;
 }
+
+
+/*add*/
+.file-down{
+    padding: 0 0 10px;
+    line-height: 30px;
+}
+.file-down strong{
+    font-weight: bold;
+    font-size: 14px;
+    color: #535353;
+}
+.file-down .txt-ell{
+    width: 400px;
+}
+.file-direction{
+    line-height: 20px;
+    color: #535353;
+    font-weight: bold;
+    font-size: 14px;
+}
+.select_box{
+    background-position: right -70px;
+}
