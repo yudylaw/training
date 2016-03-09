@@ -25,7 +25,7 @@
                             <td><span>{$member['location']}</span></td>
                             <td><span>{$member['phone']}</span></td>
                             <td><span><php>if($member['sex'] == 1) echo "男";else echo "女";</php></span></td>
-                            <td><a class="color-gre" href="javascript:deleteClassRoom({$member['weiba_id']}, {$member['follower_uid']});void(0);">删除</a></td>
+                            <td><a class="color-gre" href="javascript:deleteMember({$member['weiba_id']}, {$member['follower_uid']});void(0);">删除</a></td>
                         </tr>
                         </volist>
                     </tbody>
@@ -38,10 +38,10 @@
     </div>
     <script type="text/javascript">
     
-    //删除班级
-    function deleteClassRoom(classroomId) {
-		  if(confirm("是否确认删除班级")){
-			  $.get("{:U('classroom/Admin/delete')}", {'class_id':classroomId}, function(data) {
+    //删除成员
+    function deleteMember(classroomId, uid) {
+		  if(confirm("是否确认删除该成员")){
+			  $.get("{:U('classroom/Admin/deleteMember')}", {'class_id':classroomId, 'uid':uid}, function(data) {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
 					  alert(obj.info);
