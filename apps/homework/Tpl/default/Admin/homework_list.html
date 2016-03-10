@@ -78,11 +78,12 @@
     		queueID: 'fileQueue',
     		overrideEvents: ['onSelectError', 'onDialogClose'],
     		onUploadSuccess : function(file, data, response) {
-    			//console.log($.parseJSON(data));
-    			// 解析JSON数据
     			var jsondata = $.parseJSON(data);
-    			console.log(data);
-    			if (jsondata.status === 1) {
+    			if (jsondata.status == -1) {
+    				alert(jsondata.info);
+    			} else {
+    				alert("上传成功，已经自动生成试卷！");
+    				window.location.reload();
     			}
     		},
     		onSelectError: function (file, errorCode, errorMsg) {
@@ -108,7 +109,6 @@
     			
     		},
     		onQueueComplete:function(){
-    			alert("上传OK");
     		}
     	});
     });

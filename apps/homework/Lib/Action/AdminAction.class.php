@@ -60,13 +60,16 @@ class AdminAction extends Action {
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
             $filepath = $default_options['save_path'].$data['save_name'];
+            
+            try{
             //生成试卷
-            $this->createPaper($filepath);
-            // 输出信息
-            $return['status'] = true;
-            $return['info']   = '{"status":1}';
-            // 上传成功，返回信息
-            return $return;
+                $this->createPaper($filepath);
+            } catch(Exception $e) {
+                Log::write($e->getMessage(), Log::ERR);
+                $this->ajaxReturn(null, "读取试卷模板失败，请检测试卷模板填写是否正确！", -1);
+            }
+            
+            $this->ajaxReturn(null, "OK");
         }
     }
     
@@ -95,7 +98,7 @@ class AdminAction extends Action {
     public function createPaper($filename) {
         // Check
         if (!file_exists($filename)) {
-            exit("not found ".$filename);
+            $this->ajaxReturn(null, "试卷模板上传失败！", -1);
         }
         
         /** PHPExcel_IOFactory */
@@ -114,10 +117,12 @@ class AdminAction extends Action {
         if(C('LOG_RECORD')) {
             if(empty($title)) {
                 Log::write("试卷名称不能为空", Log::ERR);
+                $this->ajaxReturn(null, "试卷名称不能为空", -1);
                 return;
             }
             if(!is_numeric($totalScore) || !is_numeric($passScore)) {
                 Log::write($title.'--'.$totalScore. " AND " . $passScore . '必须同时为整数', Log::ERR);
+                $this->ajaxReturn(null, $title.'--'.$totalScore. " AND " . $passScore . '必须同时为整数', -1);
                 return;
             }
         }
