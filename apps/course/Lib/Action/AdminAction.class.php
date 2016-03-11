@@ -87,11 +87,18 @@ class AdminAction extends Action {
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
             if(C('KS3_ENABLE')) {
-                Log::write("start upload to ks3", Log::INFO);
-                $filepath = $default_options['save_path'].$data['save_name'];
-                Log::write("path=".$filepath, Log::INFO);
-                $url = putObjectByFile($filepath);
-                Log::write($url, Log::INFO);
+                $ext = "";
+                $filename = "";
+                foreach($upload_info as $u) {
+                    $ext = strtolower($u['extension']);
+                    $filename = $u['savename'];
+                    break;
+                }
+                $filepath = $default_options['save_path'].$filename;
+                Log::write("start path=".$filepath, Log::INFO);
+                $url = putObjectByFile($filepath, $ext);
+                Log::write("end path=".$filepath, Log::INFO);
+                Log::write("end url=".$url, Log::INFO);
             }
             // 输出信息
             $return['status'] = true;
