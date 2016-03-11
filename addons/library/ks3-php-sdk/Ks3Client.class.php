@@ -127,7 +127,7 @@ class Ks3Client{
 		return $result;
 	}
 	private function invoke($method,$args=array(),$holder,$location=NULL){
-		$api = API::$API[$method];
+		$api = KS3_API::$API[$method];
 		if(!$api){
 			throw new Ks3ClientException($method." Not Found API");
 		}
@@ -138,7 +138,7 @@ class Ks3Client{
 			$args = $args[0];
 		}
 		if(isset($api["redirect"])){
-			$api = API::$API[$api["redirect"]];
+			$api = KS3_API::$API[$api["redirect"]];
 		}
 		$request = new Ks3Request();
 		if(empty($args["Bucket"])){

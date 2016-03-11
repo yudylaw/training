@@ -7,7 +7,7 @@ needObject：是否需要object
 signer：请求构造链
 handler：结果处理链
 */
-class API{
+class KS3_API{
 	public static $API = array(
 		"getService"=>array(
 			"redirect"=>"listBuckets"

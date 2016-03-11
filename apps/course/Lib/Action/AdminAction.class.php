@@ -6,7 +6,17 @@
  */
 // 加载上传操作类
 require_once SITE_PATH.'/addons/library/UploadFile.class.php';
+require_once SITE_PATH.'/addons/library/Ks3Upload.php';
 class AdminAction extends Action {
+    
+    public function test() {
+        //         $filepath = $default_options['save_path'].$data['save_name'];
+        $filepath = "/home/yudylaw/yudy/share/user.txt";
+        $url = putObjectByFile($filepath);
+        Log::write($url, Log::INFO);
+        echo $url;
+    }
+    
     /**
      * 创建课程学习
      */
@@ -77,7 +87,9 @@ class AdminAction extends Action {
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
             if(C('KS3_ENABLE')) {
+                Log::write("start upload to ks3", Log::INFO);
                 $filepath = $default_options['save_path'].$data['save_name'];
+                Log::write("path=".$filepath, Log::INFO);
                 $url = putObjectByFile($filepath);
                 Log::write($url, Log::INFO);
             }
