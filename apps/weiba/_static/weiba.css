@@ -38,7 +38,7 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .group-info .content{color:#333;line-height:23px;word-break:break-all;}
 .group-info .content span{color:#333;font-weight:bold;}
 .weiba-sort a{padding:5px;}
-.weiba-sort .current{ color:#0096e6;}
+.weiba-sort .current{ color:#2EB398;}
 /*创建群组*/
 .add_group li{padding:10px 0;line-height:20px; overflow:hidden;*zoom:1;}
 .add_group li .c1{float:left;width:120px;height:40px;line-height:40px;text-align:right;margin-right:20px;}
@@ -136,11 +136,11 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 #group-feed-lists .feed_img_lists .small li{width:100px;height:100px;float:left;margin:0 10px 0 0;}
 /**圈中掌柜|圈中达人**/
 .circle-person{font-size:16px; font-family:"微软雅黑"; display:block;}
-.circle-person .active{ color:#0096e6;}
+.circle-person .active{ color:#2EB398;}
 
 /*******************************************************************************************************************************/
 .weiba-location{font-size:14px;margin-bottom:20px;}
-#weiba-tab ul .current a{ color:#0096e6;}
+#weiba-tab ul .current a{ color:#2EB398;}
 .weiba-manage{ background:#fff; border:#e5e6e7 1px solid;padding:40px;font-size:14px;}
 .member-list dt,.member-list dd{width:100%; float:left;margin:0 0 10px 0; border-bottom:#e5e6e7 1px dotted;line-height:30px;padding:0 0 10px 0;}
 .member-list .c1,.member-list .c2,.member-list .c3{ float:left;}
@@ -162,8 +162,8 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .weiba-com dd{ margin-left:70px;}
 .send_weibo{padding-bottom:30px;margin-bottom:30px; border-bottom:#e5e6e7 1px solid;}
 .weiba-com .list{ border-bottom:#eef0f1 1px solid;padding-bottom:12px;margin-bottom:12px;}
-.weiba-com .floor{ color:#0096e6; float:right;}
-.weiba-com .floor em{ color:#0096e6;}
+.weiba-com .floor{ color:#2EB398; float:right;}
+.weiba-com .floor em{ color:#2EB398;}
 .weiba-com .date{ color:#888;font-size:14px;}
 
 
@@ -197,3 +197,5 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .content .send_weibo .regular-checkbox + span{vertical-align: middle;}
 
 .ico-minus{background-position:0 -224px;}
+
+/* 颜色修改记录#0096e6->#2EB398 by sjzhao-20160311*/
