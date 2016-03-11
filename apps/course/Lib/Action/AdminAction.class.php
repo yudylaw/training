@@ -94,11 +94,15 @@ class AdminAction extends Action {
                     $filename = $u['savename'];
                     break;
                 }
-                $filepath = $default_options['save_path'].$filename;
-                Log::write("start path=".$filepath, Log::INFO);
-                $url = putObjectByFile($filepath, $ext);
-                Log::write("end path=".$filepath, Log::INFO);
-                Log::write("end url=".$url, Log::INFO);
+                try {
+                    $filepath = $default_options['save_path'].$filename;
+                    Log::write("start path=".$filepath, Log::INFO);
+                    $url = putObjectByFile($filepath, $ext);
+                    Log::write("end url=".$url, Log::INFO);
+                    Log::write("end path=".$filepath, Log::INFO);
+                } catch(Exception $e) {
+                    Log::write("failed upload to ks3: error:".$e->getMessage(), Log::INFO);
+                }
             }
             // 输出信息
             $return['status'] = true;
