@@ -36,7 +36,7 @@ class CourseResourceModel extends Model {
         }
         $page = !empty($param['page']) ? $param['page'] : 1;
         $limit = !empty($param['limit']) ? $param['limit'] : 5;
-        $result = $this->where($map)->findPage($limit);
+        $result = $this->where($map)->order('utime desc')->findPage($limit);
         $resdata = $result['data'];
         $coursemodel = model('Course');
         $courselearningmodel = model('CourseResourceLearning');
