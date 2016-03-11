@@ -2,8 +2,10 @@
 
 require_once ADDON_PATH."/library/ks3-php-sdk/Ks3Client.class.php";
 
-function putObjectByFile($file, $ext){
+function putObjectByFile($filepath, $ext){
 
+    $file = fopen($filepath,"r");
+    
     $client = new Ks3Client("h8JH8Vay5+Lt471kMbJM","password", "kssws.ks-cdn.com");
     
     $md5 = md5(time());
