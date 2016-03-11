@@ -76,6 +76,11 @@ class AdminAction extends Action {
             $upload_info = $upload->getUploadFileInfo();
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
+            if(C('KS3_ENABLE')) {
+                $filepath = $default_options['save_path'].$data['save_name'];
+                $url = putObjectByFile($filepath);
+                Log::write($url, Log::INFO);
+            }
             // 输出信息
             $return['status'] = true;
             $return['info']   = $data;
