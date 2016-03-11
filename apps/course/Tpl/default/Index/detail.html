@@ -7,8 +7,8 @@
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="{:U('public/Index/index')}">首页</a>&gt;<a href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">{$course['title']}</span></div>
                 <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>	
+					<div id="fileQueue" class="fl"></div>
                 	<div class="fr" style="margin-top:2px;">
-                		<div id="fileQueue"></div>
                     	<input id="file_upload" name="file_upload" type="file" multiple="true">
                 	</div>
                 <php> } </php>
@@ -79,7 +79,7 @@ function delResource(id){
 }
 jQuery(document).ready(function(){
 	$('#file_upload').uploadify({
-		//auto:false,
+		auto:false,
     	fileTypeExts: "*.flv;*.xls;*.xlsx;*.ppt;*.pptx",
 		swf: '__THEME__/js/uploadify/uploadify.swf',
 		uploader: "{:U('course/Admin/upload')}",
