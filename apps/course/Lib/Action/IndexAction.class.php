@@ -9,7 +9,7 @@ class IndexAction extends Action {
      * 课程学习首页
      */
     public function index() {
-        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
+        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 20;//分页大小
         $con['page'] = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
         $con['uid'] = $this->uid;
         $group_id = $this->user['group_id'];
@@ -42,7 +42,7 @@ class IndexAction extends Action {
         $data = $courseresource['data'];
         $this->courseresource = $data;
         $totalRows = $courseresource['totalRows'];
-        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;//分页大小
+        $con['limit'] = !empty($_REQUEST['limit']) ? $_REQUEST['limit'] : 20;//分页大小
         $p = new Page($totalRows,$con['limit']);
         $page = $p->show();
         $this->page = $page;
