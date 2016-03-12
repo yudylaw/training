@@ -3,14 +3,22 @@
 <meta charset="UTF-8">
 </head>
 <script src="http://qzonestyle.gtimg.cn/open/qcloud/js/vod/sdk/uploaderh5.js" charset="utf-8"></script>
-<input type="button" id="upBtnId" value="添加文件" />
-<button id="start_upload" type="button">开始上传</button>
-<button id="stop_upload" type="button">取消上传</button>
-<button id="re_upload" type="button">重新上传</button>
+<div>
+	<input type="button" id="upBtnId" value="添加文件" />
+	<button id="start_upload" type="button">开始上传</button>
+	<button id="stop_upload" type="button">取消上传</button>
+	<button id="re_upload" type="button">重新上传</button>
+</div>
+<div class="result" id="result" style="width:400px;height: 100px;"></div>
+<div class="count" id="count" style="width:400px;height: 100px;"></div>
+<div class="out" id="error" style="color: red;width: 400px;height: 100px;text-align: left;"></div>
 <script>
   var ErrorCode = qcVideo.get('ErrorCode')
   var JSON = qcVideo.get('JSON');
   var Log = qcVideo.get('Log');
+  var Code = qcVideo.get('Code');
+  var Version = qcVideo.get('Version');
+  var util = qcVideo.get('util');
   
   ErrorCode.UN_SUPPORT_BROWSE !== qcVideo.uploader.init(
         //1: 上传基础条件
@@ -19,21 +27,7 @@
             upBtnId: "upBtnId", //上传按钮ID（任意页面元素ID）
             isTranscode: "1",//是否转码
             secretId: "{$secretId}", // 云api secretId
-            //secretKey: "7SBiZVIjVWVxsKIxf5G1EyC4BWbScOjp", //云api secretKey: <选填参数> （secretKey不能暴露给外部用户，建议只在内部系统使用该参数）
-            /*
-                @desc 获取签名的方法  <选填参数>
-                server端实现逻辑
-                1:首先 secretKey 做sha1 加密 argStr 得到结果 result
-                2:最后 将result做base64后返回
-                附nodejs样例
-                    crypto.createHmac('sha1', '你的secretKey').update(argStr).digest().toString('base64');
-                附php实例实现
-                    base64_encode(hash_hmac('sha1', $argStr, $secretKey, true));
-                附java示例实现 感谢 更深的蓝 友情赞助
-                    http://video.qcloud.com/sdk/GetSKeyServlet.java.txt
-            */
             getSignature: function(argStr, done){
-                //注意：出于安全考虑， 服务端接收argStr这个参数后，需要校验其中的Action参数是否为 "MultipartUploadVodFile",用来证明该参数标识上传请求
                 $.ajax({
                     'dataType': 'json',
                     'url': "{:U('course/Admin/signature')}&args=" + encodeURIComponent(argStr),
@@ -56,6 +50,27 @@
             * @param args { id: 文件ID, size: 文件大小, name: 文件名称, status: 状态, percent: 进度,speed: 速度, errorCode: 错误码 }
             */
             onFileUpdate: function (args) {
+                var $line = $('#' + args.id);
+                if (!$line.get(0)) {
+                    $('#result').append('<div class="line" id="' + args.id + '"></div>');
+                    $line = $('#' + args.id);
+                }
+
+                var finalFileId = '';
+
+                if(args.code == Code.UPLOAD_DONE){
+                    finalFileId = '文件ID>>'+args.serverFileId
+                }
+
+                $line.html(''
+                        + '文件名：' + args.name
+                        + ' >> 大小：' + util.getHStorage(args.size)
+                        + ' >> 状态：' + util.getFileStatusName(args.status) + ''
+                        + ( args.percent ? ' >> 进度：' + args.percent + '%' : '')
+                        + ( args.speed ? ' >> 速度：' + args.speed + '' : '')
+                        + '<span data-act="del" class="delete">删除</span>'
+                        + finalFileId
+                );
                 Log.debug("onFileUpdate-->" + args);
             },
             /**
@@ -63,6 +78,7 @@
             * @param info  { done: 完成数量 , fail: 失败数量 , sha: 计算SHA或者等待计算SHA中的数量 , wait: 等待上传数量 , uploading: 上传中的数量 }
             */
             onFileStatus: function (info) {
+            	$('#count').text('各状态总数-->' + JSON.stringify(info));
                 Log.debug('onFileStatus-->' , JSON.stringify(info));
             },
             /**
@@ -70,6 +86,8 @@
             * @param args {code:{-1: 文件类型异常,-2: 文件名异常} , message: 错误原因 ， solution: 解决方法 }
             */
             onFilterError: function (args) {
+                var msg = 'message:' + args.message + (args.solution ? (';solution==' + args.solution) : '');
+                $('#error').html(msg);
                 Log.debug('onFilterError-->' + args.message + (args.solution ? (';solution==' + args.solution) : ''));
             }
         }
@@ -88,6 +106,16 @@
   $('#re_upload').on('click', function () {
       //@api 恢复上传（错误文件重新）
       qcVideo.uploader.reUpload();
+  });
+  $('#result').on('click', '[data-act="del"]', function (e) {
+      var $line = $(this).parent();
+      var fileId = $line.get(0).id;
+
+      Log.debug('delete', fileId);
+
+      $line.remove();
+      //@api 删除文件
+      qcVideo.uploader.deleteFile(fileId);
   });
 </script>
 </html>
