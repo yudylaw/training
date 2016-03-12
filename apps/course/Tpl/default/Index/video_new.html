@@ -10,7 +10,7 @@
         </div>
 	</div>
 </div>
-<script type="text/javascript" src="__THEME__/js/h5connect.js"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8"></script>
 <script>
 	var video_id = "{$resource['video_id']}";//视频id,根据此id播放id对应的资源
 	var previewurl = '{$previewurl}';//播放地址
@@ -26,9 +26,10 @@
 					"file_id": video_id,
 					"app_id": "1251985012",//应用id,同一个账户下的视频该参数相同
 					"auto_play": "0",
-					"width": 640,
-					"height": 480,
+					"width": 698,
+					"height": 400,
 					//"stop_time": 60, //多久暂停, 暂停触发 playStatus
+					//"remember":1,
 					"disable_drag": 1 //是否允许拖动播放, 拖动触发 dragPlay
 				}, 
 				{
@@ -37,7 +38,10 @@
 						//ready,seeking,suspended,playing,playEnd,stop
 						switch(status){
 							case 'ready':
-								//alert("播放器已准备就绪");
+								player.resize(698,400);
+								var startpoint = Math.round((player.getDuration())*percent/100);
+								player.play(startpoint);
+								//player.play();
 								break;
 							case 'suspended':
 								//alert("视频暂停");
