@@ -1246,10 +1246,18 @@ class IndexAction extends Action {
 	}
 	
 	public function sha() {
-	    $argStr = $_REQUEST("argStr");
-	    $secretKey = $_REQUEST("secretKey");
-	    $action = $_REQUEST("Action");//MultipartUploadVodFile
+	    $argStr = $_REQUEST["args"];
+// 	    $action = $_REQUEST["Action"];//MultipartUploadVodFile
 	    
+	    if (empty($argStr)) {
+	        $this->ajaxReturn(null, "bad request", -1);
+	    }
+	    
+// 	    if ("MultipartUploadVodFile" != $action) {
+// 	        $this->ajaxReturn(null, "bad request", -1);	        
+// 	    }
+	    
+	    $secretKey = "7SBiZVIjVWVxsKIxf5G1EyC4BWbScOjp";
 	    $sha = base64_encode(hash_hmac('sha1', $argStr, $secretKey, true));
 	    $this->ajaxReturn(null, $sha);
 	}
