@@ -38,7 +38,7 @@
                     'dataType': 'json',
                     'url': "{:U('public/Index/sha')}&args=" + encodeURIComponent(argStr),
                     'success': function(d){
-                    	console.log("getSignature-->"d.info);
+                    	console.log("getSignature-->" + d.info);
                         done(d.info);
                     }
                 });
