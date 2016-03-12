@@ -10,8 +10,7 @@ return array (
 		'public/Passport/*' => true, // 登录
 		'public/Widget/*'	=> true, // 插件
 		'page/Index/index'	=> true, // 自定义页面
-	    'public/Index/sha'	=> true, // sha
-	    'classroom/Index/upload'	=> true, // sha
+	    'course/Admin/t_callback'	=> true, // 腾讯视频转码回调接口
 		'public/Tool/*' 	=> true, // 升级查询
 		'api/*/*' 			=> true, // API
 		'wap/*/*' 			=> true, // wap版

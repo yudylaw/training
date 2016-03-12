@@ -299,4 +299,39 @@ class AdminAction extends Action {
             echo '{"status":0,"msg":"操作失败"}';
         }
     }
+    
+    //腾讯视频上传
+    public function go_upload() {
+        $secretId = C('SECRET_ID');
+        
+        $this->assign("secretId", $secretId);
+        $this->display("upload");
+    }
+    
+    //签名
+    public function signature() {
+        $argStr = $_REQUEST["args"];
+        // 	    $action = $_REQUEST["Action"];//MultipartUploadVodFile
+         
+        if (empty($argStr)) {
+            $this->ajaxReturn(null, "bad request", -1);
+        }
+         
+        // 	    if ("MultipartUploadVodFile" != $action) {
+        // 	        $this->ajaxReturn(null, "bad request", -1);
+        // 	    }
+         
+        $secretKey = C('SECRET_KEY');
+        $sha = base64_encode(hash_hmac('sha1', $argStr, $secretKey, true));
+        $this->ajaxReturn(null, $sha);
+    }
+    
+    //腾讯视频转码成功后的回调
+    public function t_callback() {
+        $data = $_REQUEST;
+        foreach ($data as $key=>$value) {
+            Log::write($key.'<=>'.$value, Log::INFO);
+        }
+    }
+    
 }

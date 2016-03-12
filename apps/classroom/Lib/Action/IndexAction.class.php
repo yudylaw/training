@@ -41,8 +41,4 @@ class IndexAction extends Action {
         $this->display();
     }
     
-    public function upload() {
-        $this->display();
-    }
-    
 }
