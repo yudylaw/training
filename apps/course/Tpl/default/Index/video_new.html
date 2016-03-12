@@ -1,0 +1,124 @@
+<include file="__THEME__/public_header_new" />
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+                <div class="location"><span>当前位置：</span><a href="{:U('public/Index/index')}">首页</a>><a href="{:U('course/Index/index')}">课程学习</a>><span class="color-gre">{$resource['title']|getShort=20}</span></div>
+                <div class="paper-name tc">视频播放-{$resource['title']|getShort=10}</div>
+                <div class="video-box mt20" id='previewArea'>
+                </div>
+        </div>
+	</div>
+</div>
+<script type="text/javascript" src="__THEME__/js/h5connect.js"></script>
+<script>
+	var video_id = "{$resource['video_id']}";//视频id,根据此id播放id对应的资源
+	var previewurl = '{$previewurl}';//播放地址
+	var ext = '{$resource["ext"]}';//扩展名
+	var resid = '{$resource["id"]}';//资源id
+	var percent = '{$percent}';//视频播放进度
+	var timer = null;//此定时器用于定时弹出验证码
+	var timer2 = null;//此定时器用于定时记录播放进度
+	var player = null;//创建视频播放对象
+	jQuery(document).ready(function(){
+				player = new qcVideo.Player("previewArea", 
+				{
+					"file_id": video_id,
+					"app_id": "1251985012",//应用id,同一个账户下的视频该参数相同
+					"auto_play": "0",
+					"width": 640,
+					"height": 480,
+					//"stop_time": 60, //多久暂停, 暂停触发 playStatus
+					"disable_drag": 1 //是否允许拖动播放, 拖动触发 dragPlay
+				}, 
+				{
+					//播放状态改变
+					"playStatus": function(status) {
+						//ready,seeking,suspended,playing,playEnd,stop
+						switch(status){
+							case 'ready':
+								//alert("播放器已准备就绪");
+								break;
+							case 'suspended':
+								//alert("视频暂停");
+								clearInterval(timer);//清除计时器
+	   							clearInterval(timer2);//清除计时器
+								//播放进度写入数据库
+	   							$.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:player.getDuration(),time:player.getCurrentTime()},function(txt){
+  			
+  								});
+								break;
+							case 'seeking':
+								//alert("搜索");
+								break;
+							case 'playing':
+							   timer = setInterval(function(){
+									  player.pause();//暂停播放
+									  clearInterval(timer);//清除计时器
+									  $("#login_popup_new").css("display","block");//验证码输入正确继续播放
+									  $("#cover_id").css("display","block");
+							   },60000);
+							   //重新播放
+							   //定时保存播放进度,10s一次
+							   timer2 = setInterval(function(){
+								   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:player.getDuration(),time:player.getCurrentTime()},function(txt){
+										
+									});	  
+							   },10000);
+								break;
+							case 'playEnd':
+								//alert("播放结束");
+								//结束
+	   							clearInterval(timer);//清除计时器
+	   							$.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:player.getDuration(),time:player.getCurrentTime()},function(txt){
+ 			
+ 								});
+	   							//播放进度写入数据库，播放进度为100,表示已完成学习
+	   							clearInterval(timer2);//清除计时器
+								break;
+							case 'stop':
+								//alert("试看结束");
+								break;
+							
+						}
+					},
+					//拖动播放
+					"dragPlay": function(second) {
+						console.log(second);
+					}
+				});
+				//刷新验证码
+				   function changeverify(){
+				       var date = new Date();
+				       var ttime = date.getTime();
+				       var url = "__ROOT__/public/captcha.php";
+				       $('#verifyimg').attr('src',url+'?'+ttime);
+				   }
+				   //关闭弹出框
+				   function close_this(){
+				   		$("#login_popup_new").css("display","none");
+				   		$("#cover_id").css("display","none");
+				   }
+				   //提交验证码
+				   $("#submit_login_new").click(function(){
+				   		var verify = $.trim($('#val_verify').val());
+					   	if(verify != '') {
+					           //提交到后台验证
+					   		$.post('index.php?app=course&mod=Admin&act=verify',{verify:verify},function(txt){
+					   			txt = eval( '(' + txt + ')' );
+					   		    if(txt.status == 1){
+					   		    	$("#login_popup_new").css("display","none");//验证码输入正确继续播放
+					   				$("#cover_id").css("display","none");
+					   				player.resume();
+					   		    }else{
+					   		    	alert("验证码错误");
+					   		    }
+					   		    $("#val_verify").val("");
+					   		 	changeverify();
+					   		});
+					     }
+				   });
+	});
+</script>
+<include file="pop" />
+<include file="__THEME__/public_footer_new" />

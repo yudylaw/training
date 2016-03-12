@@ -82,7 +82,7 @@ class IndexAction extends Action {
                 if($percent == 100){
                     $this->display("video_admin");
                 }else{
-                    $this->display();
+                    $this->display("video_new");
                 }
             }else{
                 $this->display("video_admin");

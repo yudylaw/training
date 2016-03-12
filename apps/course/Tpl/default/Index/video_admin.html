@@ -6,13 +6,35 @@
 		<div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="{:U('public/Index/index')}">首页</a>><a href="{:U('course/Index/index')}">课程学习</a>><span class="color-gre">{$resource['title']|getShort=20}</span></div>
                 <div class="paper-name tc">视频播放-{$resource['title']|getShort=10}</div>
-                <div class="video-box mt20 flowplayer" data-ratio="0.6">
-                   <video>
-      					<source type="video/flash" src="{$previewurl}">
-   					</video>
+                <div class="video-box mt20" id='previewArea'>
                 </div>
         </div>
 	</div>
 </div>
-<script type="text/javascript" src="__THEME__/js/flowplayer-6.0.5/flowplayer.min.js"></script>
+<script type="text/javascript" src="__THEME__/js/h5connect.js"></script>
+<script>
+	var video_id = "{$resource['video_id']}";//视频id,根据此id播放id对应的资源
+	jQuery(document).ready(function(){
+				player = new qcVideo.Player("previewArea", 
+				{
+					"file_id": video_id,
+					"app_id": "1251985012",//应用id,同一个账户下的视频该参数相同
+					"auto_play": "0",
+					"width": 640,
+					"height": 480,
+					//"stop_time": 60, //多久暂停, 暂停触发 playStatus
+					"disable_drag": 1 //是否允许拖动播放, 拖动触发 dragPlay
+				}, 
+				{
+					//播放状态改变
+					"playStatus": function(status) {
+						//ready,seeking,suspended,playing,playEnd,stop
+					},
+					//拖动播放
+					"dragPlay": function(second) {
+						//console.log(second);
+					}
+				});
+	});
+</script>
 <include file="__THEME__/public_footer_new" />
