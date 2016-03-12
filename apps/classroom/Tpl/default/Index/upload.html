@@ -36,7 +36,7 @@
                 //注意：出于安全考虑， 服务端接收argStr这个参数后，需要校验其中的Action参数是否为 "MultipartUploadVodFile",用来证明该参数标识上传请求
                 $.ajax({
                     'dataType': 'json',
-                    'url': "http://localhost:8080/index.php?app=public&mod=Index&act=sha&args=" + encodeURIComponent(argStr),
+                    'url': "{:U('public/Index/sha')}?args=" + encodeURIComponent(argStr),
                     'success': function(d){
                     	console.log("getSignature");
                     	console.log(d);
@@ -45,7 +45,7 @@
                 });
             },
             after_sha_start_upload: false, //sha计算完成后，开始上传 (默认非立即上传)
-            sha1js_path: "http://localhost:8080/calculator_worker_sha1.js",
+            sha1js_path: "{:SITE_URL}/calculator_worker_sha1.js",
             disable_multi_selection: true, //禁用文件多选 ，默认不禁用
             transcodeNotifyUrl: "http://test.domain.com/on_transcode_done.serverfile", //(转码成功后的回调地址)isTranscode==true,时开启； 回调url的返回数据格式参考  http://www.qcloud.com/wiki/v2/MultipartUploadVodFile
             classId: null //视频分类的ID
