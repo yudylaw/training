@@ -6,7 +6,6 @@
  */
 // 加载上传操作类
 require_once SITE_PATH.'/addons/library/UploadFile.class.php';
-require_once SITE_PATH.'/addons/library/Ks3Upload.php';
 class AdminAction extends Action {
     
     public function test() {
@@ -86,24 +85,6 @@ class AdminAction extends Action {
             $upload_info = $upload->getUploadFileInfo();
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
-            if(C('KS3_ENABLE')) {
-                $ext = "";
-                $filename = "";
-                foreach($upload_info as $u) {
-                    $ext = strtolower($u['extension']);
-                    $filename = $u['savename'];
-                    break;
-                }
-                try {
-                    $filepath = $default_options['save_path'].$filename;
-                    Log::write("start path=".$filepath, Log::INFO);
-                    $url = putObjectByFile($filepath, $ext);
-                    Log::write("end url=".$url, Log::INFO);
-                    Log::write("end path=".$filepath, Log::INFO);
-                } catch(Exception $e) {
-                    Log::write("failed upload to ks3: error:".$e->getMessage(), Log::INFO);
-                }
-            }
             // 输出信息
             $return['status'] = true;
             $return['info']   = $data;

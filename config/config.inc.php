@@ -16,6 +16,5 @@ return array_merge(array(
 	'SECURE_CODE'   => '2258856947b638e73e',  // 数据加密密钥
 	'COOKIE_PREFIX' => 'TS4_',      // # cookie
 	'LOG_RECORD'    => true,
-    'KS3_ENABLE'    => false,
     'LOG_RECORD_LEVEL' => array('INFO')
 ), $conf);
