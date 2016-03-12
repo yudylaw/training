@@ -36,7 +36,7 @@
                 //注意：出于安全考虑， 服务端接收argStr这个参数后，需要校验其中的Action参数是否为 "MultipartUploadVodFile",用来证明该参数标识上传请求
                 $.ajax({
                     'dataType': 'json',
-                    'url': "{:U('public/Index/sha')}?args=" + encodeURIComponent(argStr),
+                    'url': "{:U('public/Index/sha')}&args=" + encodeURIComponent(argStr),
                     'success': function(d){
                     	console.log("getSignature");
                     	console.log(d);
