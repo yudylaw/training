@@ -1244,4 +1244,13 @@ class IndexAction extends Action {
 			$this->ajaxReturn(null,"操作失败",0);
 		}
 	}
+	
+	public function sha() {
+	    $argStr = $_REQUEST("argStr");
+	    $secretKey = $_REQUEST("secretKey");
+	    $action = $_REQUEST("Action");//MultipartUploadVodFile
+	    
+	    $sha = base64_encode(hash_hmac('sha1', $argStr, $secretKey, true));
+	    $this->ajaxReturn(null, $sha);
+	}
 }

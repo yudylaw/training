@@ -1,0 +1,27 @@
+<html>
+<script src="http://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8" ></script>
+<div id='previewArea'></div>
+<script>
+	var player = new qcVideo.Player("previewArea", 
+		{
+			"file_id": "14651978969256628828",
+			"app_id": "1251985012",
+			"auto_play": "0",
+			"width": 640,
+			"height": 480,
+			"stop_time": 60, //多久暂停, 暂停触发 playStatus
+			"disable_drag": 1 //是否允许拖动播放, 拖动触发 dragPlay
+		}, 
+		{
+			//播放状态改变
+			"playStatus": function(status) {
+				console.log(status);
+				//ready,seeking,suspended,playing,playEnd,stop
+			},
+			//拖动播放
+			"dragPlay": function(second) {
+				console.log(second);
+			}
+		});
+</script>
+</html>
