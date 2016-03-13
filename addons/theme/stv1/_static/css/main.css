@@ -1639,3 +1639,90 @@ a:focus{
 .select_box{
     background-position: right -70px;
 }
+
+/*add*/
+.w-m{
+    width: 140px;
+}
+.study-count .id-table{
+    margin-top: 10px;
+    border-bottom: 1px solid #a0ddca;
+}
+.study-count h3.color-gre{
+    padding: 15px 0;
+    font-size: 22px;
+    font-weight: normal;
+}
+.study-count-info span{
+    margin: 0 8px;
+    font-size: 14px;
+}
+.study-count .btn-green span{
+    width: 54px;
+}
+
+/*0313 add*/
+.video-upload{
+    padding-bottom: 10px;
+    border: 1px solid #dedede;
+}
+.video-upload ul{
+    height: 200px;
+}
+.video-upload ul li{
+    padding: 0 10px;
+    height: 30px;
+    border-bottom: 1px solid #dedede;
+    line-height: 30px;
+    vertical-align: middle;
+}
+.video-upload ul li span{
+    margin-left: 10px;
+    font-size: 14px;
+    color: #999;
+}
+.video-upload ul li span.txt-ell{
+    width: 185px;
+}
+.video-upload ul li span.size{
+    width: 125px;
+}
+.video-upload ul li a{
+    margin-top: 5px;
+    padding: 0 5px;
+    height: 20px;
+    background-color: #f86a52;
+    border-radius: 2px;
+    line-height: 18px;
+    color: #fff;
+}
+.video-upload ul li a:hover{
+    text-decoration: none;
+    background-color: #f98875;
+}
+.video-upload ul li span.process{
+    margin-top: 15px;
+    width: 170px;
+    height: 3px;
+    background-color: #dcdcdc;
+}
+.video-upload ul li span.process em{
+    height: 3px;
+    background-color: #2eb398;
+}
+.video-upload .upload-tip{
+    padding: 10px 0 0 20px;
+    color: #666;
+}
+.upload-btn{
+    padding: 0 170px;
+}
+.upload-btn a{
+    margin: 0 3px;
+}
+.upload-btn .btn-green span,
+.upload-btn .btn-gray span,
+.upload-btn .btn-org span{
+    width: 56px;
+    padding: 0 25px 0 15px;
+}
