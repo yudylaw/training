@@ -302,10 +302,11 @@ class AdminAction extends Action {
     
     //腾讯视频上传
     public function go_upload() {
+        $course_id = $_GET['cid'];//课程id
         $secretId = C('SECRET_ID');
-        
         $this->assign("secretId", $secretId);
-        $this->display("upload");
+        $this->assign("course_id", $course_id);
+        $this->display("upload_new");
     }
     
     //签名
@@ -331,6 +332,23 @@ class AdminAction extends Action {
         $data = $_REQUEST;
         foreach ($data as $key=>$value) {
             Log::write($key.'<=>'.$value, Log::INFO);
+        }
+    }
+    /**
+     * 将上传到腾讯视频云的资源信息保存到本地
+     */
+    public function saveResToLocal(){
+        $data['title'] = t($_POST['name']);
+        $data['utime'] = time();
+        $data['ext'] = 'flv';
+        $data['size'] = $_POST['size'];
+        $data['course_id'] = $_POST['course_id'];
+        $data['video_id'] = $_POST['id'];
+        $resource_id = model('CourseResource')->add($data);//保存到课程资源
+        if($resource_id){
+            echo '{"status":1,"msg":"上传成功"}';
+        }else{
+            echo '{"status":0,"msg":"上传失败"}';
         }
     }
     
