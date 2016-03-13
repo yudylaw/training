@@ -33,8 +33,6 @@
   util.getPercent = function(percent){
 	  if(percent){
 		  return percent+'%';
-	  }else if(percent == null){
-		  return '100%';
 	  }else{
 		  return 0;
 	  }
@@ -80,11 +78,20 @@
                 if($("#result li").length > 5){
                 	alert("一次最多上传5个文件");
                 	qcVideo.uploader.deleteFile(args.id);//从上传任务删除
-                	$('#' + args.id).remove();//删除html
+                	$('#'+ args.id).remove();//删除html
                 }
+                $line.html('<span class="fl txt-ell">文件名：'+args.name+'</span>'+
+                        '<span class="fl size">大小：'+util.getHStorage(args.size)+'</span>'+
+                        '<span class="fl">状态：</span>'+
+                        '<span class="fl process clearfix"><em id="'+args.id+'_em" class="fl" style="width: '+util.getPercent(args.percent)+'"></em></span>'+
+                        '<span class="fl">'+util.getFileStatusName(args.status)+'</span>'+
+                        '<a href="javascript:;" class="fr" data-act="del">删除</a>');
+                Log.debug("onFileUpdate-->percent=" + args.percent + ", speed=" + args.speed);
                 if(args.code == Code.UPLOAD_DONE){
                     finalFileId = '文件ID>>'+args.serverFileId;
                     Log.debug("upload_done, server file_id=" + args.serverFileId);
+                    //视频完成将进度条进度设置为100%
+                    $('#'+args.id+'_em').css("width","100%");
                    	//视频上传完成的时候存入数据库
                     $.ajax({
     					type: "POST",
@@ -105,13 +112,6 @@
     				});
                 }
 
-                $line.html('<span class="fl txt-ell">文件名：'+args.name+'</span>'+
-                        '<span class="fl size">大小：'+util.getHStorage(args.size)+'</span>'+
-                        '<span class="fl">状态：</span>'+
-                        '<span class="fl process clearfix"><em class="fl" style="width: '+util.getPercent(args.percent)+'"></em></span>'+
-                        '<span class="fl">'+util.getFileStatusName(args.status)+'</span>'+
-                        '<a href="javascript:;" class="fr" data-act="del">删除</a>');
-                Log.debug("onFileUpdate-->percent=" + args.percent + ", speed=" + args.speed);
             },
             /**
             * 文件状态发生变化
