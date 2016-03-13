@@ -1,6 +1,4 @@
 <include file="__THEME__/public_header_new" />
-<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
-<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
 <div id="main-body" class="mt20">
         <div class="content clearfix">
 			<include file="__THEME__/public_left_new" />
@@ -14,43 +12,31 @@
                         <li class="fl <if condition="ACTION_NAME eq test">active</if>"><a href="{:U('stat/Index/test')}">考试</a></li>
                         <li class="fl <if condition="ACTION_NAME eq index">active</if>"><a href="{:U('stat/Index/index')}">平台使用</a></li>
                     </ul>
-                    <div class="select_box z_index mt20">
-                        <span class="first_select">数学</span>
-                        <ul class="sub_select" style="display: none;">
-                            <li>全部</li>
-                            <li>语文</li>
-                        </ul>
+                    <div class="mt20">
+                        <select style="font-size:14px;height:26px;" id="homeworks">
+                        	<volist name="homeworks" id="homework">
+                        		<option value="{$homework['id']}" <php>if ($homework['id'] == $hw_id) echo 'selected="selected"';</php>>{$homework['name']}</option>
+                        	</volist>
+                        </select>
                     </div>
-                    <!-- 
-                    <div class="clearfix study-count-info mt20">
-                        <span class="fl color-78">平台登录次数：<em class=" color-org">54545</em></span>
-                        <span class="fr color-gre">回帖数：<em class=" color-org">54545</em></span>
-                        <span class="fr color-gre">发帖数：<em class=" color-org">54545</em></span>
-                    </div>
-                     -->
                     <div class="id-table">
                         <table>
                             <tbody><tr>
-                                <th width="20%">统计名称</th>
-                                <th width="20%">总人数</th>
-                                <th width="20%">完成人数</th>
-                                <th width="20%">完成率</th>
-                                <th width="20%">合格率</th>
+                                <th width="20%">姓名</th>
+                                <th width="20%">所属学校</th>
+                                <th width="20%">得分</th>
+                                <th width="20%">开始时间</th>
+                                <th width="20%">电话</th>
                             </tr>
-                            <tr>
-                                <td><span class="tab-ell w-m">课程统计</span></td>
-                                <td><span>50454</span></td>
-                                <td><span>50454</span></td>
-                                <td><span>100%</span></td>
-                                <td><span>100%</span></td>
+                            <volist name='records' id='record'>
+                            <tr <php>if($key%2==0) echo 'class="special"';</php> >
+                                <td><span class="tab-ell w-m">{$record['uname']}</span></td>
+                                <td><span>{$record['location']}</span></td>
+                                <td><span>{$record['score']}</span></td>
+                                <td><span><php>echo date("Y-m-d", $record['ctime']);</php></span></td>
+                                <td><span>{$record['phone']}</span></td>
                             </tr>
-                            <tr class="special">
-                                <td><span class="tab-ell w-m">作业统计</span></td>
-                                <td><span>50454</span></td>
-                                <td><span>50454</span></td>
-                                <td><span>100%</span></td>
-                                <td><span>100%</span></td>
-                            </tr>
+                            </volist>
                         </tbody></table>
                     </div>
                     <div class="clearfix mt10">
@@ -62,4 +48,14 @@
             </div>
         </div>
     </div>
+    <script>
+	    $(document).ready(function(){
+	        //选中课程
+	        $("#homeworks").change(function(){
+	        	var id = $(this).children('option:selected').val();
+	        	window.location.href = "{:U('stat/Index/homework')}&id=" + id;
+	        });
+	        
+	    });
+    </script>
 <include file="__THEME__/public_footer_new" />
