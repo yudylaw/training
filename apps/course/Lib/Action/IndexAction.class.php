@@ -64,6 +64,9 @@ class IndexAction extends Action {
         }
         $resource = model('CourseResource')->getResourceById($resid);
         $resource = $resource[0];
+        if($resource['trans_status'] == 0){
+            $this->error("该视频转码未完成,请稍后再试");
+        }
         $ext = $resource['ext'];
         $courseresourcelearning = model('CourseResourceLearning');
         if(in_array(strtolower($ext), array("xlsx","xls","pptx","ppt"))){//excel和ppt直接下载,表示已完成学习

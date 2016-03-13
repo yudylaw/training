@@ -330,6 +330,9 @@ class AdminAction extends Action {
     //腾讯视频转码成功后的回调
     public function t_callback() {
         $data = $_REQUEST;
+        if($data['task'] == "transcode"){//转码完成,转换状态置为1
+            model("CourseResource")->where(array('video_id'=>$data['vid']))->save(array('trans_status'=>1));
+        }
         foreach ($data as $key=>$value) {
             Log::write($key.'<=>'.$value, Log::INFO);
         }

@@ -57,7 +57,7 @@
             after_sha_start_upload: false, //sha计算完成后，开始上传 (默认非立即上传)
             sha1js_path: "{:SITE_URL}/calculator_worker_sha1.js",
             disable_multi_selection: true, //禁用文件多选 ，默认不禁用
-            transcodeNotifyUrl: "{:U('course/Admin/t_callback')}", //(转码成功后的回调地址)isTranscode==true,时开启； 回调url的返回数据格式参考  http://www.qcloud.com/wiki/v2/MultipartUploadVodFile
+            transcodeNotifyUrl: "http://120.55.86.91/index.php?app=course&mod=Admin&act=t_callback", //(转码成功后的回调地址)isTranscode==true,时开启； 回调url的返回数据格式参考  http://www.qcloud.com/wiki/v2/MultipartUploadVodFile
             classId: null //视频分类的ID
         }
         //2: 回调函数
