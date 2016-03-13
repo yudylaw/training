@@ -7,46 +7,7 @@
                 <div class="clearfix mt10"><a href="javascript:;" class="btn-green fr" id="upBtnId"><span class="fl">添加文件</span></a></div>
                 <div class="video-upload mt10">
                     <ul id="result">
-                        <!-- <li class="clearfix">
-                            <span class="fl txt-ell">文件名：test.flv</span>
-                            <span class="fl size">大小：10.02MB</span>
-                            <span class="fl">状态：</span>
-                            <span class="fl process clearfix"><em class="fl" style="width: 100%"></em></span>
-                            <span class="fl">上传完成</span>
-                            <a href="javascript:;" class="fr">删除</a>
-                        </li>
-                        <li class="clearfix">
-                            <span class="fl txt-ell">文件名：test.flv</span>
-                            <span class="fl size">大小：10.02MB</span>
-                            <span class="fl">状态：</span>
-                            <span class="fl process clearfix"><em class="fl" style="width: 60%"></em></span>
-                            <span class="fl">正在上传</span>
-                            <a href="javascript:;" class="fr">删除</a>
-                        </li>
-                        <li class="clearfix">
-                            <span class="fl txt-ell">文件名：test.flv</span>
-                            <span class="fl size">大小：10.02MB</span>
-                            <span class="fl">状态：</span>
-                            <span class="fl process clearfix"><em class="fl" style="width: 0"></em></span>
-                            <span class="fl">等待上传</span>
-                            <a href="javascript:;" class="fr">删除</a>
-                        </li>
-                        <li class="clearfix">
-                            <span class="fl txt-ell">文件名：test.flv</span>
-                            <span class="fl size">大小：10.02MB</span>
-                            <span class="fl">状态：</span>
-                            <span class="fl process clearfix"><em class="fl" style="width: 60%"></em></span>
-                            <span class="fl">正在上传</span>
-                            <a href="javascript:;" class="fr">删除</a>
-                        </li>
-                        <li class="clearfix">
-                            <span class="fl txt-ell">文件名：test.flv</span>
-                            <span class="fl size">大小：10.02MB</span>
-                            <span class="fl">状态：</span>
-                            <span class="fl process clearfix"><em class="fl" style="width: 0"></em></span>
-                            <span class="fl">等待上传</span>
-                            <a href="javascript:;" class="fr">删除</a>
-                        </li> -->
+                        
                     </ul>
                     <div class="upload-tip">已上传<em class="color-org" id="count">0</em>个文件</div>
 					<div class="upload-tip" id="error" style="display:none;"></div>
@@ -113,7 +74,12 @@
                 }
 
                 var finalFileId = '';
-
+				//限制一次上传文件个数为5个
+                if($("#result li").length > 5){
+                	alert("一次最多上传5个文件");
+                	qcVideo.uploader.deleteFile(args.id);//从上传任务删除
+                	$('#' + args.id).remove();//删除html
+                }
                 if(args.code == Code.UPLOAD_DONE){
                     finalFileId = '文件ID>>'+args.serverFileId;
                     Log.debug("upload_done, server file_id=" + args.serverFileId);
