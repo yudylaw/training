@@ -33,6 +33,8 @@
   util.getPercent = function(percent){
 	  if(percent){
 		  return percent+'%';
+	  }else if(percent == null){
+		  return '100%';
 	  }else{
 		  return 0;
 	  }
