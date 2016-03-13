@@ -1111,5 +1111,6 @@ Label class does not exist',
 <a href="{activeurl}" target="_blank">Click here to activate your account</a>',
 'PUBLIC_APPNAME_SQUARE'=>'Square',
 'PUBLIC_APPNAME_HOMEWORK'=>'Homework',
-'PUBLIC_APPNAME_COURSE'=>'Course'
+'PUBLIC_APPNAME_COURSE'=>'Course',
+'PUBLIC_APPNAME_STAT'=>'Stat'
 );

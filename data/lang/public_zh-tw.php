@@ -1108,5 +1108,6 @@ return array(
 <a href="{activeurl}" target="_blank">點此激活帳號</a> 。',
 'PUBLIC_APPNAME_SQUARE'=>'',
 'PUBLIC_APPNAME_HOMEWORK'=>'',
-'PUBLIC_APPNAME_COURSE'=>''
+'PUBLIC_APPNAME_COURSE'=>'',
+'PUBLIC_APPNAME_STAT'=>''
 );

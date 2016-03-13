@@ -1110,5 +1110,6 @@ return array(
 <a href="{activeurl}" target="_blank" style="text-decoration:none;" class="email_btn">激活帐号</a> ',
 'PUBLIC_APPNAME_SQUARE'=>'广场',
 'PUBLIC_APPNAME_HOMEWORK'=>'作业',
-'PUBLIC_APPNAME_COURSE'=>'课程'
+'PUBLIC_APPNAME_COURSE'=>'课程',
+'PUBLIC_APPNAME_STAT'=>'学情统计'
 );
