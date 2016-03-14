@@ -254,14 +254,6 @@ class AdminAction extends Action {
     }
     
     public function create() {
-        $class_id = intval($_REQUEST['class_id']);
-        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
-        
-        if(empty($classroom)) {
-            $this->error("班级不存在");
-        }
-        
-        $this->assign('classroom', $classroom);
         $this->display();
     }
     
