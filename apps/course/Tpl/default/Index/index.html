@@ -71,8 +71,8 @@
 		<include file="__THEME__/public_left_new" />
 		<div class="fr id-section">
 			<div class="location">
-				<span>当前位置：</span><a href="{:U('public/Index/index')}">首页</a>&gt;<a
-					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">课程列表</span>
+				<span>当前位置：</span><a href="{:U('public/Index/index')}" class="color-gre">首页</a>&gt;<a
+					href="{:U('course/Index/index')}" class="color-gre">课程学习</a>&gt;课程列表
 			</div>
 			<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
 				<div class="fr" style="margin-top:5px;margin-bottom:2px;"><a href="{:U('course/Admin/create')}" class="btn-green fl"><span class="fl">创建课程</span></a></div>
