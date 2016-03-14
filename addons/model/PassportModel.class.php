@@ -343,6 +343,8 @@ class PassportModel {
 
 		// 更新登陆时间
 		model('User')->setField('last_login_time', $_SERVER['REQUEST_TIME'], 'uid='.$uid );
+		// 更新登录数
+		D('UserData')->updateKey('login_count',1, true, $uid);
 		
 		// 记录登陆知识，首次登陆判断
 		empty($this->rel) && $this->rel	= D('')->table(C('DB_PREFIX').'login_record')->where("uid = ".$uid)->getField('login_record_id');

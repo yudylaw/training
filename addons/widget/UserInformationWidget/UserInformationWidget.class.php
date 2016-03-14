@@ -37,11 +37,9 @@ class UserInformationWidget extends Widget {
 		// 获取用户积分信息
 		$var['userCredit'] = model('Credit')->getUserCredit($var['uid']);
 		
-		$post_count = M('weiba_post')->query('SELECT count(1) as cnt from __TABLE__ where post_uid = '.$var['uid']);
-		$var['post_count'] = $post_count[0]['cnt'];
+		$var['post_count'] = $var['userData']['weiba_topic_count'];
 		
-		$reply_count = M('weiba_reply')->query('SELECT count(1) as cnt from __TABLE__ where uid = '.$var['uid']);
-		$var['reply_count'] = $reply_count[0]['cnt'];
+		$var['reply_count'] = $var['userData']['weiba_reply_count'];
 		
 		// Tab选中类型
 		$var['current'] = '';

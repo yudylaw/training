@@ -118,6 +118,9 @@ class WeibaReplyWidget extends Widget{
             //添加积分
             model('Credit')->setUserCredit(intval($_POST['post_uid']),'comment_topic');
             model('Credit')->setUserCredit($data['to_uid'],'commented_topic');
+            
+            //更新回帖数
+            D('UserData')->updateKey('weiba_reply_count',1);
 
             $map['last_reply_uid'] = $this->mid;
             $map['last_reply_time'] = $data['ctime'];
