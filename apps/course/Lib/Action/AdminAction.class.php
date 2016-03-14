@@ -207,7 +207,7 @@ class AdminAction extends Action {
             $this->error("课程id不能为空");
         }
         //普通教师预览课程资源学习记录
-        if($this->user['group_id'] == 3){
+        if($this->user['group_id'] == Role::TEACHER){
             $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
             $data = $result['data'];
             $course = model('Course')->where(array('id'=>$id))->select();

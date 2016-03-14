@@ -4,23 +4,23 @@
 		<include file="__THEME__/public_left_new" />
 		<div class="fr id-section">
 			<div class="location">
-				<span>当前位置：</span><a href="{:U('public/Index/index')}">首页</a>&gt;<a
-					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">学习记录</span>
+				<span>当前位置：</span><a href="{:U('public/Index/index')}" class="color-gre">首页</a>&gt;<a
+					href="{:U('course/Index/index')}" class="color-gre">课程学习</a>&gt;<a class="color-gre" href="{:U('course/Index/detail',array('id'=>$course['id']))}">{$course['title']}</a>&gt;<span>学习记录</span>
 			</div>
 			<div class="id-table les">
 				<table>
 					<tr>
-						<th width="40%">资源名称</th>
+						<th width="40%" style="padding-left:0;text-align:center;">资源名称</th>
 						<th width="30%">最近学习时间</th>
-						<th width="10%">所属课程</th>
-						<th width="10%">进度</th>
-						<th width="10%">学习人</th>
+						<!-- <th width="10%">所属课程</th> -->
+						<th width="15%">进度</th>
+						<th width="15%">学习人</th>
 					</tr>
 					<volist name="courselearning" id="res">
 						<tr <if condition="$i % 2 eq 1">class="special"</if>>
 							<td><span class="tab-ell w-l"><a href="{:U('course/Index/video',array(id=>$res['resourceid']))}" class="color-gre" >{$res['restitle']}</a></span></td>
 							<td><span><php>echo date("Y-m-d", $res['end_date']);</php></span></td>
-							<td><span>{$course['title']}</span></td>
+							<!-- <td><span>{$course['title']}</span></td> -->
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span class="color-roseo">{$res['uname']}</span></td>
 						</tr>
