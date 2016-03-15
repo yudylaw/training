@@ -34,6 +34,12 @@ class IndexAction extends Action {
         $this->assign('questions', $questions);
         
         if (empty($record)) {
+            //二级导航
+            if($this->user['group_id'] == Role::TEACHER) {
+                $this->assign('hlist_nav', U('homework/Index/hlist'));
+            } else {
+                $this->assign('hlist_nav', U('homework/Admin/hlist'));
+            }
             $this->display("answer_view");//答题页面
         } else {
             $this->assign('answers', $answers);
