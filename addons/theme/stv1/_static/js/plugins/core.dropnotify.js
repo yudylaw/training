@@ -80,7 +80,7 @@ core.dropnotify = {
 				}
 			},'json');*/
 
-			$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
+			/*$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
 				if ('undefined' == typeof msg.data || msg.status != 1) {
 					return false;
 				} else {
@@ -108,12 +108,12 @@ core.dropnotify = {
 					}
 
 				}
-			},'json');
+			},'json');*/
 	
 		};
-		loopCount = setInterval( getCount, 30000 );
+		//loopCount = setInterval( getCount, 30000 );
 		
-		getCount();
+		//getCount();
 
        
 	},
@@ -126,7 +126,7 @@ core.dropnotify = {
 			}else{
 				return;
 			}
-			setInterval(function(){
+			/*setInterval(function(){
 				var $unread_total = $('li[model-node="notice"]');
 				$unread_total.find('a.num').remove('a.num');
 				var re  = new RegExp(_CP+'unread_message=(\\d+)');
@@ -143,7 +143,7 @@ core.dropnotify = {
 				}else if(document.title != oldTitle){
 					$('title:first').html(oldTitle);
 				}
-			}, 1000);
+			}, 1000);*/
 		}catch(e){}
 	}
 };
