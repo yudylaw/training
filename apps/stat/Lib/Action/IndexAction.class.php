@@ -6,6 +6,19 @@ class IndexAction extends Action {
      * 平台使用统计
      */
     public function index() {
+        //统计登录次数, 发帖次数, 回帖次数
+        $sql = "SELECT stat.uid, stat.uname, stat.location, stat.phone, stat.sex, stat.value, 
+                MAX(stat.topic_count) topic_count, MAX(stat.reply_count) reply_count, MAX(stat.login_count) login_count FROM (
+                SELECT ud.uid, u.uname, u.location, u.phone, u.sex, ud.value,
+                CASE ud.key WHEN 'weiba_topic_count' THEN ud.value END AS topic_count,
+                CASE ud.key WHEN 'weiba_reply_count' THEN ud.value END AS reply_count,
+                CASE ud.key WHEN 'login_count' THEN ud.value END AS login_count
+                FROM ts_user_data ud LEFT JOIN ts_user u ON ud.uid = u.uid
+                WHERE ud.key in ('weiba_topic_count', 'weiba_reply_count', 'login_count')
+                ) AS stat GROUP BY stat.uid";
+        $records = M('user_data')->query($sql); //TODO 分页
+        
+        $this->assign('records', $records);
         $this->display();
     }
     
