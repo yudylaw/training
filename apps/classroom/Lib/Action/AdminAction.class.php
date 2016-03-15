@@ -302,7 +302,7 @@ class AdminAction extends Action {
                 'location'=>$area['title']);
             //初始化密码
             $setuser['login_salt'] = rand(10000, 99999);
-            $setuser['password'] = md5(md5($phone).$setuser['login_salt']);//密码默认是手机号
+            $setuser['password'] = md5(md5("12345678").$setuser['login_salt']);//密码默认是12345678
             //保存
             $uid = M('user')->add($setuser);
         } else {
