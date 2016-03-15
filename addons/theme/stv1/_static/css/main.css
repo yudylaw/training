@@ -1726,3 +1726,19 @@ a:focus{
     width: 56px;
     padding: 0 25px 0 15px;
 }
+
+/*add*/
+.lesson-add .ul-form{
+    padding-left: 50px;
+    *padding-bottom: 6px;
+}
+.li-tip{
+    padding: 0 5px;
+    font-size: 12px;
+    line-height: 32px;
+    background-color: #e4f3f0;
+    color: #999;
+}
+.ul-form li textarea{
+    width: 525px;
+}

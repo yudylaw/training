@@ -382,5 +382,68 @@ class AdminAction extends Action {
         M('weiba')->add($data);
         $this->ajaxReturn(null, "创建成功");
     }
+    /**
+     * 编辑班级成员
+     */
+    public function edit_member() {
+        $class_id = intval($_REQUEST['class_id']);
+        $mid = intval($_REQUEST['mid']);
+        if(empty($class_id)){
+            $this->error("班级id不能为空");
+        }
+        
+        if(empty($mid)){
+            $this->error("用户id不能为空");
+        }
+        
+        $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+    
+        if(empty($classroom)) {
+            $this->error("班级不存在");
+        }
+    
+        $regions = M('area')->query("select * from ts_area where pid > 0");
+        $edit_user = M('user')->where(array('uid'=>$mid))->find();
+        $this->assign('classroom', $classroom);
+        $this->assign('regions', $regions);
+        $this->assign("edit_user",$edit_user);
+        $this->display();
+    }
+    
+    public function editMember() {
+        $class_id = intval($_REQUEST['class_id']);
+        $name = $_REQUEST['name'];
+        $phone = $_REQUEST['phone'];
+        $gender = intval($_REQUEST['gender']);
+        $region = intval($_REQUEST['region']);
+        $uid = intval($_REQUEST['uid']);
+        if (empty($name)) {
+            $this->ajaxReturn(null, "姓名不能为空", -1);
+        }
+    
+        if (empty($phone)) {
+            $this->ajaxReturn(null, "手机号码不能为空", -1);
+        }
+    
+        if (!preg_match("/^1[0-9]{2}[0-9]{8}$/", $phone)) {
+            $this->ajaxReturn(null, "手机号码格式不对", -1);
+        }
+    
+        $area = M('area')->where(array('area_id'=>$region))->find();
+    
+        if (empty($area)) {
+            $this->ajaxReturn(null, "所属学校不存在", -1);
+        }
+        
+        $setuser = array('uname'=>$name, 'phone'=>$phone,'city'=>$region,'sex'=>$gender,'location'=>$area['title']);
+    
+        $result = M('user')->where(array('uid'=>$uid))->save($setuser);
+        if($result){
+            $this->ajaxReturn(null, "保存成功");
+        }else{
+            $this->ajaxReturn(null,"保存失败",-1);
+        }
+    
+    }
     
 }
