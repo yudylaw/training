@@ -87,7 +87,7 @@
 							<th width="10%">创建时间</th>
 						<php> } </php>
 						<!-- <th width="15%">结束时间</th> -->
-						<th width="10%">学时/学分</th>
+						<th width="10%">学时<!-- /学分 --></th>
 						<th width="10%">进度</th>
 						<th width="10%">操作</th>
 						<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
@@ -113,7 +113,7 @@
 							</td>
 							<td><span><php>echo date("Y-m-d", $res['ctime']);</php></span></td>
 							<!-- <td><span>{$res['end_date']|date="y-m-d",###}</span></td> -->
-							<td><span>{$res['course_hour']}/{$res['course_score']}</span></td>
+							<td><span>{$res['course_hour']}<!-- /{$res['course_score']} --></span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td>
 								<span class="color-roseo">

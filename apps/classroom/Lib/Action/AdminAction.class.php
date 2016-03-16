@@ -401,7 +401,11 @@ class AdminAction extends Action {
         if(empty($classroom)) {
             $this->error("班级不存在");
         }
-    
+        $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id))->field('follower_uid')->findAll();
+        $follower = getSubByKey($follower,'follower_uid');
+        if(!in_array($mid,$follower)){
+            $this->error("该用户不属于此班级");
+        }
         $regions = M('area')->query("select * from ts_area where pid > 0");
         $edit_user = M('user')->where(array('uid'=>$mid))->find();
         $this->assign('classroom', $classroom);
@@ -428,13 +432,24 @@ class AdminAction extends Action {
         if (!preg_match("/^1[0-9]{2}[0-9]{8}$/", $phone)) {
             $this->ajaxReturn(null, "手机号码格式不对", -1);
         }
-    
+        
+        $phone_user = M('user')->where(array('phone'=>$phone))->field('uid')->find();
+        
+        if($phone_user['uid'] != $uid){//手机号查出的用户不是该用户,则表示此号已被注册
+            $this->ajaxReturn(null, "该手机号已经被注册", -1);
+        }
+        
         $area = M('area')->where(array('area_id'=>$region))->find();
     
         if (empty($area)) {
             $this->ajaxReturn(null, "所属学校不存在", -1);
         }
         
+        $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id))->field('follower_uid')->findAll();
+        $follower = getSubByKey($follower,'follower_uid');
+        if(!in_array($uid,$follower)){
+            $this->ajaxReturn(null, "该用户不属于此班级", -1);
+        }
         $setuser = array('uname'=>$name, 'phone'=>$phone,'city'=>$region,'sex'=>$gender,'location'=>$area['title']);
     
         $result = M('user')->where(array('uid'=>$uid))->save($setuser);
