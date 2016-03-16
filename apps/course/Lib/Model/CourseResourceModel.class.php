@@ -35,7 +35,7 @@ class CourseResourceModel extends Model {
             $map['description'] = array('like','%'.$param['description'].'%');
         }
         $page = !empty($param['page']) ? $param['page'] : 1;
-        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $limit = !empty($param['limit']) ? $param['limit'] : 20;
         $result = $this->where($map)->order('utime desc')->findPage($limit);
         $resdata = $result['data'];
         $coursemodel = model('Course');

@@ -65,7 +65,7 @@ class CourseLearningModel extends Model {
         !empty($param['course_id']) && $map['course_id'] = $param['course_id'];
         !empty($param['uid']) && $map['uid'] = $param['uid'];
         !empty($param['class_id']) && $map['class_id'] = $param['class_id'];
-        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $limit = !empty($param['limit']) ? $param['limit'] : 20;
         $result = $this->where($map)->order('ctime desc')->findPage($limit);
         return $result;
     }
@@ -80,7 +80,7 @@ class CourseLearningModel extends Model {
         !empty($param['course_id']) && $map['course_id'] = $param['course_id'];
         !empty($param['uid']) && $map['uid'] = $param['uid'];
         !empty($param['class_id']) && $map['class_id'] = $param['class_id'];
-        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $limit = !empty($param['limit']) ? $param['limit'] : 20;
         $result = $this->where($map)->order('ctime desc')->select();
         return $result;
     }

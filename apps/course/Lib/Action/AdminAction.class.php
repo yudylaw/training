@@ -220,7 +220,7 @@ class AdminAction extends Action {
                 $val['restitle'] = $resource['title'];//资源名称
             }
             $totalRows = $result['totalRows'];
-            $p = new Page($totalRows,5);
+            $p = new Page($totalRows,20);
             $page = $p->show();
             $this->courselearning = $data;
             $this->course = $course[0];
@@ -240,7 +240,7 @@ class AdminAction extends Action {
             }
             $this->courselearning = $data;
             $totalRows = $result['totalRows'];
-            $p = new Page($totalRows,5);
+            $p = new Page($totalRows,20);
             $page = $p->show();
             $this->page = $page;
             $this->display("learnlist_admin");

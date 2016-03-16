@@ -62,8 +62,8 @@ class CourseResourceLearningModel extends Model {
             //根据资源获得所属的课程id
             $course_id = $courseresource->where($map2)->getField("course_id");
             $course_id = intval($course_id);
-            //根据课程id获得该课程所属的全部资源数
-            $totalresources = $courseresource->where(array('course_id'=>$course_id))->findAll();
+            //根据课程id获得该课程所属的全部资源数,不包括已删除资源
+            $totalresources = $courseresource->where(array('course_id'=>$course_id,'is_del'=>0))->findAll();
             $totalnum = count($totalresources);
             $resids = array();
             foreach ($totalresources as $val){
@@ -74,6 +74,7 @@ class CourseResourceLearningModel extends Model {
             $maps['percent'] = 100;
             !empty($param['class_id']) && $maps['classid'] = $param['class_id'];
             $maps['resourceid'] = array("IN",$resids);
+            $maps['is_del'] = 0;//已删除的资源不再统计学习记录
             $finishednum = model('CourseResourceLearning')->where($maps)->count();
             $percent = round(($finishednum / $totalnum) * 100);
             $data2['uid'] = $map['uid'];
@@ -101,7 +102,8 @@ class CourseResourceLearningModel extends Model {
         isset($param['class_id']) && $map['classid'] = $param['class_id'];
         isset($param['uid']) && $map['uid'] = $param['uid'];
         $map['resourceid'] = array('IN',$resids);
-        $result = $this->where($map)->findPage(5);
+        $map['is_del'] = 0;//删除资源则删除此资源的学习记录,学习记录不再展示
+        $result = $this->where($map)->findPage(20);
         return $result;
 //         return $this->getLastSql();
     }
