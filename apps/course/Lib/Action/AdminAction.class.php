@@ -280,6 +280,15 @@ class AdminAction extends Action {
        $id = $_POST['course_id']; //课程id
        $map['id'] = $id;
        $res = model('Course')->where($map)->save(array('is_del'=>1));
+       //删除课程则删除所有课程学习记录以及课程资源学习记录
+       model('CourseLearning')->where(array('course_id'=>$id))->delete();
+       $totalresources = model('CourseResource')->where(array('course_id'=>$id,'is_del'=>0))->findAll();
+       $resids = array();
+       foreach ($totalresources as $val) {
+           array_push($resids, $val['id']);
+       }
+       $con['resourceid'] = array('IN',$resids);
+       model('CourseResourceLearning')->where($con)->delete();//删除课程中所有资源学习记录
        if($res){
            echo '{"status":1,"msg":"操作成功"}';
        }else{
@@ -292,7 +301,45 @@ class AdminAction extends Action {
     public function delResource() {
         $res_id = $_POST['resid'];
         $map['id'] = $res_id;
-        $res = model('CourseResource')->where($map)->save(array('is_del'=>1));
+        $courseresource = model('CourseResource');
+        $res = $courseresource->where($map)->save(array('is_del'=>1));
+        //删除资源需要删除关于此资源的学习记录，并同时更新此资源所属课程的学习记录,资源记录为真删除
+        //删除所有此资源的学习记录
+        $map2['resourceid'] = $res_id;
+        //删除之前,记录原来学习记录
+        $courseresourcelearning = model('CourseResourceLearning');
+        $learn_record = $courseresourcelearning->where($map2)->findAll();
+        //删除
+        $courseresourcelearning->where($map2)->delete();
+        
+        //查出资源所属的课程id
+        $cid = $courseresource->where($map)->getField('course_id');
+        //统计该课程所有未删除资源数
+        $totalresources = $courseresource->where(array('course_id'=>$cid,'is_del'=>0))->findAll();
+        $totalnum = count($totalresources);
+        $resids = array();
+        foreach ($totalresources as $val) {
+            array_push($resids, $val['id']);
+        }
+        
+        $courseLearning = model('CourseLearning');
+        
+        foreach ($learn_record as $lr){
+            // 该课程中已完成的资源数量
+            $maps['uid'] = $lr['uid'];
+            $maps['percent'] = 100;
+            //! empty($param['class_id']) && $maps['classid'] = $param['class_id'];
+            $maps['resourceid'] = array("IN",$resids);
+            $finishednum = $courseresourcelearning->where($maps)->count();
+            echo $finishednum;die;
+            if($finishednum == 0){//此资源删除之后，该用户不存在已完成学习资源，则删除课程学习记录,表示课程已有资源没有一个完成学习
+                $courseLearning->where(array('uid'=>$lr['uid'],'course_id'=>$cid))->delete();
+            }else{
+                $percent = round(($finishednum / $totalnum) * 100);
+                $courseLearning->addCourseLearning(array('uid'=>$lr['uid'],'course_id'=>$cid,'percent'=>$percent));
+            }
+        }
+        //更新所有关于此资源的课程学习记录
         if($res){
             echo '{"status":1,"msg":"操作成功"}';
         }else{

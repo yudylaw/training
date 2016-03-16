@@ -80,7 +80,7 @@ class CourseModel extends Model {
         $map = array();
         $map['is_del'] = 0;//默认查询未删除的课程
         $page = !empty($param['page']) ? $param['page'] : 1;
-        $limit = !empty($param['limit']) ? $param['limit'] : 5;
+        $limit = !empty($param['limit']) ? $param['limit'] : 20;
         //教师只展示开始的课程，不展示结束课程
         if(isset($param['group_id']) && $param['group_id'] ==Role::TEACHER){
             $map['status'] = 1;
