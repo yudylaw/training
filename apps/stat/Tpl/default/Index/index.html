@@ -15,9 +15,9 @@
                         <li class="fl <if condition="ACTION_NAME eq index">active</if>"><a href="{:U('stat/Index/index')}">平台使用</a></li>
                     </ul>
                     <div class="clearfix study-count-info mt20">
-                        <span class="fl color-78">登录总数：<em class=" color-org">123</em></span>
-                        <span class="fr color-gre">回帖总数：<em class=" color-org">545</em></span>
-                        <span class="fr color-gre">发帖总数：<em class=" color-org">1545</em></span>
+                        <span class="fl color-78">登录总数：<em class=" color-org">{$stat['login_count']|default=0}</em></span>
+                        <span class="fr color-gre">回帖总数：<em class=" color-org">{$stat['reply_count']|default=0}</em></span>
+                        <span class="fr color-gre">发帖总数：<em class=" color-org">{$stat['topic_count']|default=0}</em></span>
                     </div>
                     <div class="id-table">
                         <table>

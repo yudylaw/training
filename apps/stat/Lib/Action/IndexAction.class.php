@@ -18,6 +18,19 @@ class IndexAction extends Action {
                 ) AS stat GROUP BY stat.uid";
         $records = M('user_data')->query($sql); //TODO 分页
         
+        $sql = "SELECT
+                SUM(CASE ud.key WHEN 'weiba_topic_count' THEN ud.value END) AS topic_count,
+                SUM(CASE ud.key WHEN 'weiba_reply_count' THEN ud.value END) AS reply_count,
+                SUM(CASE ud.key WHEN 'login_count' THEN ud.value END) AS login_count
+                FROM ts_user_data ud
+                WHERE ud.key in ('weiba_topic_count', 'weiba_reply_count', 'login_count')";
+        
+        $total = M('user_data')->query($sql);
+        if (!empty($total)) {
+            $stat = $total[0];
+            $this->assign('stat', $stat);
+        }
+        
         $this->assign('records', $records);
         $this->display();
     }
