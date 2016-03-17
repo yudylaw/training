@@ -46,6 +46,7 @@ class IndexAction extends Action {
         $p = new Page($totalRows,$con['limit']);
         $page = $p->show();
         $this->page = $page;
+        $this->curp = !empty($_REQUEST['p']) ? $_REQUEST['p'] : 1;
         $this->courseid = $id;
         $this->course = $course;
         $this->display();
@@ -68,6 +69,8 @@ class IndexAction extends Action {
             //$this->error("该视频转码未完成,请稍后再试");
         }
         $ext = $resource['ext'];
+        $cid = model('CourseResource')->where(array('id'=>$resid))->getField('course_id');
+        $coursetitle = model('Course')->where(array('id'=>$cid))->getField('title');
         $courseresourcelearning = model('CourseResourceLearning');
         if(in_array(strtolower($ext), array("xlsx","xls","pptx","ppt"))){//excel和ppt直接下载,表示已完成学习
             $uid = $this->uid;
@@ -79,6 +82,8 @@ class IndexAction extends Action {
             //获取视频学习进度，实现记忆播放
             $percent = $courseresourcelearning->where(array('resourceid'=>$resid,'uid'=>$this->uid))->getField('percent');
             $this->percent = $percent;
+            $this->cid = $cid;
+            $this->coursetitle = $coursetitle;
             //视频部分播放进度在前段js部分控制
             if($this->user['group_id'] == 3){
                 //当用户完成该资源学习时不再记录学习进度以及弹出验证码
