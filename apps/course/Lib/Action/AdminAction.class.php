@@ -331,7 +331,7 @@ class AdminAction extends Action {
             //! empty($param['class_id']) && $maps['classid'] = $param['class_id'];
             $maps['resourceid'] = array("IN",$resids);
             $finishednum = $courseresourcelearning->where($maps)->count();
-            echo $finishednum;die;
+            
             if($finishednum == 0){//此资源删除之后，该用户不存在已完成学习资源，则删除课程学习记录,表示课程已有资源没有一个完成学习
                 $courseLearning->where(array('uid'=>$lr['uid'],'course_id'=>$cid))->delete();
             }else{

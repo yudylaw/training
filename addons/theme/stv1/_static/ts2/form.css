@@ -25,7 +25,7 @@ a.btn_create{color:#fff}
 .btn_relation span{background-position:left -238px;height:28px;display:inline-block;line-height:26px;padding-left:19px;color:#999;font-size:12px}
 .btn_relation2{background-position:right -238px;margin-left:18px;_margin-left:9px;font-size:12px}
 .btn_relation2 span{background-position:0 -238px}
-.btn_b{ width:200px;height:40px; display:inline-block; text-align:center;line-height:40px;background:#0096e6; border-radius:2px; -webkit-border-radius:2px;-moz-border-radius:2px;font-size:20px;border:none; color:#fff; font-family:"微软雅黑"; cursor:pointer;}
+.btn_b{ width:200px;height:40px; display:inline-block; text-align:center;line-height:40px;background:#2EB398; border-radius:2px; -webkit-border-radius:2px;-moz-border-radius:2px;font-size:20px;border:none; color:#fff; font-family:"微软雅黑"; cursor:pointer;}
 .btn_w{ width:200px;height:40px; display:inline-block; text-align:center;line-height:40px;background:#e5e6e7; border-radius:2px; -webkit-border-radius:2px;-moz-border-radius:2px;font-size:20px;border:none; color:#333;}
 /*a.top_stick, a.top_stick:hover, a.top_stick:active, a.top_stick:visited 
 {background-image:url(images/btn_top.gif);background-position:0 0;background-repeat:no-repeat;color:#fff;display:inline-block;font-size:0;height:36px;line-height:3px;text-decoration:none;
