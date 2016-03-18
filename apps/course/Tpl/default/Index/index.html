@@ -75,7 +75,7 @@
 					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">课程列表</span>
 			</div>
 			<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
-				<div class="fr" style="margin-top:5px;margin-bottom:2px;"><a href="{:U('course/Admin/create')}" class="btn-green fl"><span class="fl">创建课程</span></a></div>
+				<div class="clearfix" style="margin-top:5px;margin-bottom:2px;"><a href="{:U('course/Admin/create')}" class="btn-green fr"><span class="fl">创建课程</span></a></div>
 			<php> } </php>
 			<div class="id-table les">
 				<table>

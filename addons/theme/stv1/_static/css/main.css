@@ -1742,3 +1742,19 @@ a:focus{
 .ul-form li textarea{
     width: 525px;
 }
+
+/*0318 add*/
+a,a span{
+    cursor: pointer;
+}
+.space-app li:hover,
+.space-app li.active{
+    background: url("../images/opacity_f.png");
+}
+.id-section{
+    min-height: 592px;
+}
+.simple dl dd.grade-box{
+    height: auto;
+    border: none;
+}
