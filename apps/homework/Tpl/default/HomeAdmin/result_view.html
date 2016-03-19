@@ -70,45 +70,4 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    //TODO
-    $(document).ready(function(){
-    	
-      //选择题
-	  $(".answer li").click(function(){
-		  $(this).toggleClass("active");
-	  });
-      
-      $(".answer-btn-1").click(function(){
-    	  var answer = "";
-    	  var qid = $(this).attr('qid');
-    	  var qtype = $(this).attr('qtype');
-    	  if (qtype != 3) {
-    		  //选择题
-    		  $(this).parent().prev().find(".answer .active").each(function(){
-    			  answer +=$(this).text() + ",";
-    		  });
-    		  if (answer.length > 0) {
-    			  answer = answer.substring(0, answer.length - 1);//删除尾部逗号
-    		  }
-    	  } else {
-    		  //简答题
-    		  answer = $(this).parent().prev().children(".jd_answer").val();
-    	  }
-      });
-      
-	  //提交试卷
-	  $(".sub-btn").click(function(){
-		  if(confirm("是否确认交卷")){
-			  $.get("{:U('homework/Index/submit', array('hw_id'=>$homework['id']))}", function(data) {
-				  var obj = $.parseJSON(data);
-				  if (obj.status == 1) {
-					  alert(obj.info);
-				  }
-			  });
-		  }
-	  });
-	  
-	});
-	</script>
 <include file="__THEME__/public_footer_new" />
