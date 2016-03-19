@@ -37,7 +37,7 @@
 	                            <td><span class="tab-ell <if condition='$cr["ext"] eq flv'>type-vid<else/>type-doc</if>"><if condition="$cr['ext'] eq flv">视频<else/>文档</if></span></td>
 	                            <td>
 	                            	<if condition="$user['group_id'] eq Role::TEACHER">
-	                            		<span><if condition="$cr['percent'] eq 100"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">完成</a><else /><if condition="$cr['percent'] eq 0"><a href="{:U('course/Index/video',array(id=>$cr['id']))}">进入学习</a><else /><a href="{:U('course/Index/video',array(id=>$cr['id']))}">继续</a></if></if></span>
+	                            		<span><if condition="$cr['percent'] eq 100">完成<else /><if condition="$cr['percent'] eq 0"><a href="{:U('course/Index/video',array(id=>$cr['id']))}" class="color-gre">进入学习</a><else /><a href="{:U('course/Index/video',array(id=>$cr['id']))}" class="color-gre">继续</a></if></if></span>
 	                            	<else />
 	                            		<span><a href="{:U('course/Index/video',array(id=>$cr['id']))}" class="color-gre">预览</a></span>
 	                            	</if>
