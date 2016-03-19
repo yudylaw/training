@@ -1,0 +1,24 @@
+<php>
+	header("Content-type:application/vnd.ms-excel");
+	header("Content-Disposition:attachment;filename=".$filename);
+</php>
+<table>
+    <tbody>
+    <tr>
+        <th width="20%">姓名</th>
+        <th width="20%">所属学校</th>
+        <th width="20%">得分</th>
+        <th width="20%">开始时间</th>
+        <th width="20%">电话</th>
+    </tr>
+    <volist name='records' id='record'>
+    <tr <php>if($key%2==0) echo 'class="special"';</php> >
+        <td><span class="tab-ell w-m">{$record['uname']}</span></td>
+        <td><span>{$record['location']}</span></td>
+        <td><span>{$record['score']}</span></td>
+        <td><span><php>echo date("Y-m-d", $record['ctime']);</php></span></td>
+        <td><span>{$record['phone']}</span></td>
+    </tr>
+    </volist>
+	</tbody>
+</table>

@@ -1,0 +1,30 @@
+<php>
+	header("Content-type:application/vnd.ms-excel");
+	header("Content-Disposition:attachment;filename=".$filename);
+</php>
+<div class="clearfix study-count-info mt20">
+    <span class="fl color-78">登录总数：<em class=" color-org">{$stat['login_count']|default=0}</em></span>
+    <span class="fr color-gre">回帖总数：<em class=" color-org">{$stat['reply_count']|default=0}</em></span>
+    <span class="fr color-gre">发帖总数：<em class=" color-org">{$stat['topic_count']|default=0}</em></span>
+</div>
+<table>
+    <tbody><tr>
+        <th width="20%">姓名</th>
+        <th width="30%">所属学校</th>
+        <th width="20%">电话</th>
+        <th width="10%">登录次数</th>
+        <th width="10%">发帖次数</th>
+        <th width="10%">回帖次数</th>
+    </tr>
+    <volist name='records' id='record'>
+    <tr <php>if($key%2==0) echo 'class="special"';</php> >
+        <td><span class="tab-ell w-m">{$record['uname']}</span></td>
+        <td><span>{$record['location']}</span></td>
+        <td><span>{$record['phone']}</span></td>
+        <td><span>{$record['login_count']|default=0}</span></td>
+        <td><span>{$record['topic_count']|default=0}</span></td>
+        <td><span>{$record['reply_count']|default=0}</span></td>
+    </tr>
+    </volist>
+</tbody>
+</table>
