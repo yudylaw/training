@@ -61,7 +61,7 @@ $(document).ready(function() {
 		<div class="fr id-section">
 			<div class="location">
 				<span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;
-				<a href="{:U('classroom/Admin/classroom_list')}">班级中心</a>&gt;<span class="color-gre">{$classroom['weiba_name']}</span>
+				<a href="{:U('classroom/Admin/classroom_list')}">班级中心</a>&gt;<a href="{:U('classroom/Admin/member_list', array('class_id'=>$classroom['weiba_id']))}">{$classroom['weiba_name']}</a>&gt;<span class="color-gre">添加成员</span>
 			</div>
 			<div class="clearfix lesson-add">
                     <ul class="ul-form">
