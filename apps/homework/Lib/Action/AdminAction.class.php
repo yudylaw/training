@@ -373,7 +373,7 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         
         //最近20个班级
-        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba ORDER BY ctime desc limit 0,20");
+        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba WHERE is_del=0 ORDER BY ctime desc limit 0,20");
         
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         
@@ -400,7 +400,7 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, '结束时间必须大于开始时间', -1);
         }
         
-        $homework = M('homework')->where(array('id'=>$hw_id, 'type'=>1,'is_del'=>0))->find();
+        $homework = M('homework')->where(array('id'=>$hw_id, 'type'=>0,'is_del'=>0))->find();
         
         if (empty($homework)) {
             $this->ajaxReturn(null, '试卷不存在', -1);

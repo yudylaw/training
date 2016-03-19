@@ -344,7 +344,19 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, "班级不存在", -1);
         }
         
-        $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->delete();
+        $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->find();
+        
+        if (empty($follower)) {
+            $this->ajaxReturn(null, "成员不存在");
+        }
+        
+        $row = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->delete();
+        if ($row > 0) {
+            $follower_count = $classroom['follower_count'] - 1;
+            $follower_count = $follower_count < 0 ? 0 : $follower_count;
+            //更新成员计数
+            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
+        }
         $this->ajaxReturn(null, "删除成功");
     }
     
