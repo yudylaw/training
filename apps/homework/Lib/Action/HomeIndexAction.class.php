@@ -62,7 +62,7 @@ class HomeIndexAction extends Action {
         
         $ids = implode(',', $weiba_ids);
         
-        $sql = "SELECT h.* from ts_homework_schedule hs LEFT JOIN ts_homework h ON hs.hw_id = h.id WHERE hs.type =1 AND hs.class_id IN (".$ids.")";
+        $sql = "SELECT h.* from ts_homework_schedule hs LEFT JOIN ts_homework h ON hs.hw_id = h.id WHERE hs.type =1 AND h.is_del=0 AND hs.class_id IN (".$ids.")";
         
         $homeworks = M("homework_schedule")->query($sql);
         
