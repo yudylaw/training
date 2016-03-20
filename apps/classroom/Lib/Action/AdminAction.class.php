@@ -307,8 +307,7 @@ class AdminAction extends Action {
             $uid = M('user')->add($setuser);
         } else {
             $uid = $user['uid'];
-            $group = M('user_group_link')->where(array('uid'=>$uid, 
-                'user_group_id'=>array('IN', array(Role::CLASS_ADMIN, Role::SUPER_ADMIN))))->findAll();
+            $group = M('user_group_link')->where(array('uid'=>$uid, 'user_group_id'=>Role::SUPER_ADMIN))->findAll();
             if (!empty($group)) {
                 $this->ajaxReturn(null, "该用户是管理员角色，无法加入班级", -1);
             }
