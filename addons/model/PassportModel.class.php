@@ -388,7 +388,11 @@ class PassportModel {
 		cookie('TSV3_LOGGED_USER', NULL);	// 注销cookie
 		
 		Addons::hook('passport_logout_local',array('login'=>$login,'password'=>$password));
-		
+		//退出后台登录
+		if($_SESSION['adminLogin']){
+		    unset($_SESSION['adminLogin']);
+		    session_destroy($_SESSION['adminLogin']);
+		}
 		//UC同步退出
 		if(UC_SYNC){
 			echo $this->ucLogout();
