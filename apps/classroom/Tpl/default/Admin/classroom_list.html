@@ -7,7 +7,9 @@
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<span class="color-gre">班级中心</span></div>
                 <div class="test-box mt20 clearfix">
-                	<div class="fr mt10"><a href="{:U('classroom/Admin/create')}" class="btn-green fl"><span class="fl">添加班级</span></a></div>
+                	<if condition="isManageGroup()">
+                		<div class="fr mt10"><a href="{:U('classroom/Admin/create')}" class="btn-green fl"><span class="fl">添加班级</span></a></div>
+                	</if>
                 </div>
 				<div class="id-table">
                     <table>
@@ -17,7 +19,9 @@
                             <th width="10%">学科</th>
                             <th width="20%">班级管理员</th>
                             <th width="10%">人数</th>
+                            <if condition="isManageGroup()">
                             <th width="10%">删除</th>
+                            </if>
                             <th width="20%">创建时间</th>
                         </tr>
                         <volist name='classroomList' id='classroom'>
@@ -26,7 +30,9 @@
                             <td><span>{$ts['_subjects'][$classroom['subject']]}</span></td>
                             <td><span>{$classroom['uname']}</span></td>
                             <td><span>{$classroom['follower_count']}</span></td>
+                            <if condition="isManageGroup()">
                             <td><a class="color-gre" href="javascript:deleteClassRoom({$classroom['weiba_id']});void(0);">删除</a></td>
+                            </if>
                             <td><span><php>echo date("Y-m-d", $classroom['ctime']);</php></span></td>
                         </tr>
                         </volist>

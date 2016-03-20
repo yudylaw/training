@@ -256,11 +256,15 @@ class HomeAdminAction extends Action {
         $this->assign('questions', $questions);
         $this->assign('answers', $answers);
         
-        if ($record['is_grade'] == 1) {
-            $this->assign('score', $record['score']);//得分
-            $this->display("result_view");//打分完成后的页面
+        if(!isManageGroup()) {
+            $this->display("preview_view");
         } else {
-            $this->display("pending_view");//待打分页面
+            if ($record['is_grade'] == 1) {
+                $this->assign('score', $record['score']);//得分
+                $this->display("result_view");//打分完成后的页面
+            } else {
+                $this->display("pending_view");//待打分页面
+            }
         }
     }
     

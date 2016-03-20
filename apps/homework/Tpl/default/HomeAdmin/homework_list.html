@@ -21,7 +21,9 @@
                     </ul>
                     <div id="fileQueue" style="float:left;"></div>
                     <div class="fr mt10">
+                    	<if condition="isManageGroup()">
                     	<input id="file_upload" name="file_upload" type="file" multiple="true">
+                    	</if>
                     </div>
                 </div>
 				<div class="id-table">
@@ -32,8 +34,10 @@
                             <th width="10%">总分</th>
                             <th width="10%">及格分</th>
                             <th width="10%">批阅</th>
+                            <if condition="isManageGroup()">
                             <th width="10%">删除作业</th>
                             <th width="10%">安排作业</th>
+                            </if>
                             <th width="10%">创建时间</th>
                         </tr>
                         <volist name='homeworks' id='homework'>
@@ -42,8 +46,10 @@
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/recordList', array('hw_id'=>$homework['id']))}">作业列表</a></span></td>
+                            <if condition="isManageGroup()">
                             <td><span><a class="color-gre" href="javascript:deleteTest({$homework['id']});void(0);">删除</a></span></td>
                             <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/schedule', array('hw_id'=>$homework['id']))}">安排</a></span></td>
+                            </if>
                             <td><span><php>echo date("Y-m-d", $homework['ctime']);</php></span></td>
                         </tr>
                         </volist>

@@ -9,17 +9,17 @@
       <ul>
           <li class="app-courses <if condition="APP_NAME eq course">active</if>"><a href="{:U('course/Index/index')}" class="clearfix"><span class="fl"></span><em class="fl">课程学习</em></a></li>
           <php>if($user['group_id'] == Role::TEACHER) {</php>
-          <li class="app-class <if condition="APP_NAME eq classroom">active</if>"><a href="{:U('classroom/Index/classroom_list')}" class="clearfix"><span class="fl"></span><em class="fl">我的班级</em></a></li>
+          <li class="app-class <if condition="APP_NAME eq classroom">active</if>"><a href="{:U('classroom/Index/classroom_list')}" class="clearfix"><span class="fl"></span><em class="fl">班级</em></a></li>
           <li class="app-examine <if condition="APP_NAME eq homework and MODULE_NAME eq Index">active</if>"><a href="{:U('homework/Index/hlist')}" class="clearfix"><span class="fl"></span><em class="fl">考试</em></a></li>
           <li class="app-work <if condition="APP_NAME eq homework and MODULE_NAME eq HomeIndex">active</if>"><a href="{:U('homework/HomeIndex/hlist')}" class="clearfix"><span class="fl"></span><em class="fl">作业</em></a></li>
           <php>} else {</php>
-          <li class="app-class <if condition="APP_NAME eq classroom">active</if>"><a href="{:U('classroom/Admin/classroom_list')}" class="clearfix"><span class="fl"></span><em class="fl">我的班级</em></a></li>
+          <li class="app-class <if condition="APP_NAME eq classroom">active</if>"><a href="{:U('classroom/Admin/classroom_list')}" class="clearfix"><span class="fl"></span><em class="fl">班级</em></a></li>
           <li class="app-examine <if condition="APP_NAME eq homework and MODULE_NAME eq Admin">active</if>"><a href="{:U('homework/Admin/hlist')}" class="clearfix"><span class="fl"></span><em class="fl">考试</em></a></li>
           <li class="app-work <if condition="APP_NAME eq homework and MODULE_NAME eq HomeAdmin">active</if>"><a href="{:U('homework/HomeAdmin/hlist')}" class="clearfix"><span class="fl"></span><em class="fl">作业</em></a></li>
+          <li class="app-count <if condition="APP_NAME eq stat">active</if>"><a href="{:U('stat/Index/index')}" class="clearfix"><span class="fl"></span><em class="fl">学情统计</em></a></li>
           <php> } </php>
           <li class="app-topic <if condition="APP_NAME eq weiba"><php>if(!in_array(ACTION_NAME,array('notice_list','notice_detail','notice_post'))) {</php>active<php> } </php></if>"><a href="{:U('weiba/Index/weibaList')}" class="clearfix"><span class="fl"></span><em class="fl">主题交流</em></a></li>
           <li class="app-notice <if condition="APP_NAME eq weiba"><php>if(in_array(ACTION_NAME,array('notice_list','notice_detail','notice_post'))) {</php>active<php> } </php></if>"><a href="{:U('weiba/Index/notice_list')}" class="clearfix"><span class="fl"></span><em class="fl">通知公告</em></a></li>
-          <li class="app-count <if condition="APP_NAME eq stat">active</if>"><a href="{:U('stat/Index/index')}" class="clearfix"><span class="fl"></span><em class="fl">学情统计</em></a></li>
       </ul>
   </div>
 </div>

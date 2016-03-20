@@ -2830,4 +2830,42 @@ function myGetImageSize($url, $type = 'curl', $isGetFilesize = false)
     if ($type == 'fread') fclose($handle); 
     
     return $result; 
-} 
+}
+
+/**
+ * 管理员组，超级管理员，班级管理员，区域管理员
+ * @param unknown $user
+ * @return boolean
+ */
+function isAdminGroup() {
+    $groups = $GLOBALS['ts']['user']['user_group'];
+    if (empty($groups)) {
+        return false;
+    }
+    foreach ($groups as $group) {
+        if (in_array($group['user_group_id'], array(Role::CLASS_ADMIN, Role::SUPER_ADMIN, Role::REGIN_ADMIN))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 拥有实际管理权限，超级管理员，班级管理员
+ * @param unknown $user
+ * @return boolean
+ */
+function isManageGroup() {
+    $groups = $GLOBALS['ts']['user']['user_group'];
+    if (empty($groups)) {
+        return false;
+    }
+    foreach ($groups as $group) {
+        if (in_array($group['user_group_id'], array(Role::CLASS_ADMIN, Role::SUPER_ADMIN))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+

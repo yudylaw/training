@@ -7,7 +7,9 @@
             <div class="fr id-section">
                 <div class="location"><span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<a href="{:U('classroom/Admin/classroom_list')}">班级中心</a>&gt;<span class="color-gre">{$classroom['weiba_name']}</span></div>
                 <div class="test-box mt20 clearfix">
-                	<div class="fr mt10"><a href="{:U('classroom/Admin/add_member', array('class_id'=>$classroom['weiba_id']))}" class="btn-green fl"><span class="fl">添加成员</span></a></div>
+                	<if condition="isManageGroup()">
+                		<div class="fr mt10"><a href="{:U('classroom/Admin/add_member', array('class_id'=>$classroom['weiba_id']))}" class="btn-green fl"><span class="fl">添加成员</span></a></div>
+                	</if>
                 </div>
 				<div class="id-table">
                     <table>
@@ -16,13 +18,11 @@
                             <th width="20%">姓名</th>
                             <th width="30%">区域</th>
                             <th width="20%">电话</th>
-                            <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
-                            	<th width="10%">性别</th>
-                            	<th width="10%">编辑</th>
-                            <php>} else {</php>
-                            	<th width="20%">性别</th>
-                            <php> } </php>
+                           	<th width="10%">性别</th>
+                            <if condition="isManageGroup()">
+                            <th width="10%">编辑</th>
                             <th width="10%">删除</th>
+                            </if>
                         </tr>
                         <volist name='members' id='member'>
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
@@ -30,10 +30,10 @@
                             <td><span>{$member['location']}</span></td>
                             <td><span>{$member['phone']}</span></td>
                             <td><span><php>if($member['sex'] == 1) echo "男";else echo "女";</php></span></td>
-                            <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
-                            	<td><a class="color-gre" href="{:U('classroom/Admin/edit_member', array('class_id'=>$classroom['weiba_id'],'mid'=>$member['follower_uid']))}">编辑</a></td>
-                            <php> } </php>
+                            <if condition="isManageGroup()">
+                            <td><a class="color-gre" href="{:U('classroom/Admin/edit_member', array('class_id'=>$classroom['weiba_id'],'mid'=>$member['follower_uid']))}">编辑</a></td>
                             <td><a class="color-gre" href="javascript:deleteMember({$member['weiba_id']}, {$member['follower_uid']});void(0);">删除</a></td>
+                            </if>
                         </tr>
                         </volist>
                     </tbody>
