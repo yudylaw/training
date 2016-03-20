@@ -1877,7 +1877,7 @@ a.btn-account:hover{background-position:-164px 0;}
 .pop_sync dd,.pop_sync dt{padding:10px 0 0 0}
 
 /*无换肤插件样式*/
-.btn-green-big,.btn-green-big:hover{background:#0096e5;color:#fff;width:90px;height:36px; display:inline-block;line-height:36px;text-align:center;border:none;font-size:18px;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;-khtml-border-radius:2px;cursor: pointer;font-family: "微软雅黑";}
+.btn-green-big,.btn-green-big:hover{background:#2EB398;color:#fff;width:90px;height:36px; display:inline-block;line-height:36px;text-align:center;border:none;font-size:18px;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;-khtml-border-radius:2px;cursor: pointer;font-family: "微软雅黑";}
 .btn-green-big span,.btn-green-small span{color:#fff;}
 .btn-green-small,.btn-green-small:hover{background:#2EB398;width:80px;height:30px; border:#2EB398 1px solid;display:inline-block;line-height:30px;font-size:14px;color:#fff;text-align:center;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;-khtml-border-radius:2px;} 
 /*.btn-cancel:hover,.btn-cancel:hover span,.channel-tab-menu .btn-cancel.current,.channel-tab-menu .btn-cancel.current span{background:#39B5EE;font-size:12px;color:#fff;text-align:center;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;-khtml-border-radius:2px;}
@@ -1922,7 +1922,7 @@ a.btn-account:hover{background-position:-164px 0;}
 .photo-preview .info .detail{margin:0 -20px;padding:10px 20px;line-height:20px; background:#fff;}
 .photo-preview .info .more-actions{margin:0 -20px;background:#fff;padding:0 20px 10px 20px; border-bottom:1px solid #DFDFDF; box-shadow:0 1px 1px rgba(0,0,0,.1)}
 .photo-preview .info .more-actions a:link,.photo-preview .info .more-actions a:visited{cursor:pointer; color:#888;}
-.photo-preview .info .more-actions a.current{color:#0096E5}
+.photo-preview .info .more-actions a.current{color:#2EB398}
 .photo-preview .info .more-actions .vline{color:#AAA;}
 .photo-preview .info .repeat{border:none;padding:20px 0 0 0; margin:0;}
 .photo-preview .info .repeat .input_before1{ position:relative}
