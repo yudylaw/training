@@ -54,45 +54,12 @@ class IndexAction extends Action {
     
     public function hlist() {
         
-        $weibas = M("weiba_follow")->where(array('follower_uid'=>$this->mid))->findAll();
+        $sql = "SELECT h.id,h.name,h.pass_score,h.total_score,hr.ctime,hr.is_grade,hr.score from ts_homework_record hr";
+        $sql .= " LEFT JOIN ts_homework h ON hr.hw_id = h.id WHERE h.type = 0 AND h.is_del=0 AND hr.uid = ".$this->mid;
         
-        $weiba_ids = array();
-        foreach ($weibas as $weiba) {
-            array_push($weiba_ids, $weiba['weiba_id']);
-        }
-        
-        $ids = implode(',', $weiba_ids);
-        
-        $sql = "SELECT h.* from ts_homework_schedule hs LEFT JOIN ts_homework h ON hs.hw_id = h.id WHERE hs.type =0 AND h.is_del=0 AND hs.class_id IN (".$ids.")";
-        
-        $homeworks = M("homework_schedule")->query($sql);
-        
-        //参数 p=currentPage
-//         $pageSize = 20;
-//         $result = M("homework")->where(array('type'=>0,'is_del'=>0))->order('id desc')->findPage($pageSize);
-        
-        $h_ids = array();
-        
-        foreach ($homeworks as $homework) {
-            array_push($h_ids, $homework['id']);
-        }
-        
-
-        $records = M('homework_record')->where(array("hw_id"=>array("IN", $h_ids), 'uid'=>$this->mid))->findAll();
-        
-        foreach ($homeworks as &$homework) {
-            
-            foreach ($records as $record) {
-                if ($homework['id'] == $record['hw_id']) {
-                    $homework['is_grade'] = $record['is_grade'];
-                    $homework['y_score'] = $record['score'];
-                }
-            }
-            
-        }
+        $homeworks = M('homework_record')->query($sql);
         
         $this->assign("homeworks", $homeworks);
-//         $this->assign("page", $result['html']);
         $this->display("homework_list");
     }
     

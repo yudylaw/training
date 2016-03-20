@@ -15,7 +15,19 @@
     <tr <php>if($key%2==0) echo 'class="special"';</php> >
         <td><span class="tab-ell w-m">{$record['uname']}</span></td>
         <td><span>{$record['location']}</span></td>
-        <td><span>{$record['score']}</span></td>
+        <td>
+         <span>
+	       <php>
+	       if($record['is_grade']==0) {
+	       	echo "未开始";
+	       } else if($record['is_grade']==1) {
+	        echo "待审核";
+	       } else {
+	        echo $record['score'];
+	       }
+	       </php>
+	      </span>
+        </td>
         <td><span><php>echo date("Y-m-d", $record['ctime']);</php></span></td>
         <td><span>{$record['phone']}</span></td>
     </tr>

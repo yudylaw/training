@@ -87,14 +87,13 @@ class IndexAction extends Action {
         if ($id < 1 && !empty($homeworks)) {
             $id = $homeworks[0]['id'];//取第一个
         }
+
         
-        if ($id > 0) {
-            $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-            $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
-        
-            $records = M('homework')->query($sql);
-            $this->assign('records', $records);
-        }
+        $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+    
+        $records = M('homework')->query($sql);
+        $this->assign('records', $records);
         
         $this->assign('homeworks', $homeworks);
         $this->assign('hw_id', $id);
@@ -120,13 +119,11 @@ class IndexAction extends Action {
             $id = $homeworks[0]['id'];//取第一个
         }
         
-        if ($id > 0) {
-            $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-            $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
-        
-            $records = M('homework')->query($sql);
-            $this->assign('records', $records);
-        }
+        $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+    
+        $records = M('homework')->query($sql);
+        $this->assign('records', $records);
         
         $this->assign('homeworks', $homeworks);
         $this->assign('hw_id', $id);

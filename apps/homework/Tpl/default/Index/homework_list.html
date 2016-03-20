@@ -22,17 +22,14 @@
                             <td><span><php>echo date("Y-m-d H:i", $homework['ctime']);</php></span></td>
                             <td><span>
                             <php>
-                            if(isset($homework['is_grade'])) { 
-	                            if ($homework['is_grade'] == 0) {
-	                             	echo "待批阅";
-	                            } 
-	                            else {
-	                             	echo $homework['y_score'];
-	                             }
-                             } else {
-                             	echo "未完成";
-                             }
-                             </php>
+                            if($homework['is_grade']==0) {
+                            	echo "未开始";
+                            } else if($homework['is_grade']==1) {
+	                            echo "待审核";
+                            } else {
+	                            echo $homework['score'];
+                            }
+                            </php>
                              </span></td>
                         </tr>
                         </volist>

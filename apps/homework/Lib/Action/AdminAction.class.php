@@ -427,6 +427,15 @@ class AdminAction extends Action {
         
         M('homework_schedule')->add($data);
         
+        $members = M('weiba_follow')->where(array('weiba_id'=>$class['weiba_id']))->findAll();
+        
+        foreach ($members as $member) {
+            if ($member['level'] == 1) { //成员
+                $data = array('uid'=>$member['follower_uid'], 'hw_id'=>$hw_id, 'ctime'=>time());
+                M('homework_record')->add($data);
+            }
+        }
+        
         $this->ajaxReturn(null, '考试安排成功');
     }
     
