@@ -43,7 +43,7 @@ class IndexAction extends Action {
             $this->display("answer_view");//答题页面
         } else {
             $this->assign('answers', $answers);
-            if ($record['is_grade'] == 1) {
+            if ($record['is_grade'] == 2) {
                 $this->assign('score', $record['score']);//得分
                 $this->display("result_view");//打分完成后的页面
             } else {
@@ -102,7 +102,7 @@ class IndexAction extends Action {
      */
     public function submit() {
         $hw_id = intval($_REQUEST['hw_id']);
-        $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'score'=>0);
+        $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'is_grade'=>1, 'score'=>0);
         M('homework_record')->add($data);
         $this->ajaxReturn(null, "交卷成功，等待批阅！");
     }

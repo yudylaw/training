@@ -28,7 +28,17 @@
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">批阅</a></span></td>
                             <td><span><php>echo date("Y-m-d H:i", $record['ctime']);</php></span></td>
-                            <td><span>{$record['score']}</span></td>
+                            <td><span>
+                            <php>
+                            if($record['is_grade']==0) {
+                            	echo "未开始";
+                            } else if($record['is_grade']==1) {
+	                            echo "待审核";
+                            } else {
+	                            echo $record['score'];
+                            }
+                            </php>
+                             </span></td>
                         </tr>
                         </volist>
                         <!-- 

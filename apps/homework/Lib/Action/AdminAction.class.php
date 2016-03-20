@@ -264,7 +264,7 @@ class AdminAction extends Action {
         if(!isManageGroup()) {
             $this->display("preview_view");
         } else {
-            if ($record['is_grade'] == 1) {
+            if ($record['is_grade'] == 2) {
                 $this->assign('score', $record['score']);//得分
                 $this->display("result_view");//打分完成后的页面
             } else {
@@ -326,7 +326,7 @@ class AdminAction extends Action {
         $hw_id = intval($_REQUEST['hw_id']);
         //清除答题记录
         M("homework_answer")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->delete();
-        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->delete();
+        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('is_grade'=>0));
         $this->ajaxReturn(null, '退回成功');
     }
     
@@ -368,7 +368,7 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, '没找到该考试记录');
         }
         
-        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total, 'is_grade'=>1));
+        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('score'=>$total, 'is_grade'=>2));
         
         $this->ajaxReturn(null, '阅卷成功');
     }
