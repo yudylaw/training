@@ -35,7 +35,7 @@
 	                                </ul>
 	                                <div class="grade-box clearfix mt10">
 	                                	<span class="score">回答：<em>{$question['y_answer']}</em></span>
-                                    	<span class="score">得分：<em>{$question['y_score']}</em></span>
+                                    	<span class="score">得分：<em>{$question['y_score']|default=0}</em></span>
                                 	</div>
 	                            </dd>
 	                        </dl>
@@ -50,7 +50,7 @@
 		                            </dd>
 		                        </dl>
 	                                <div class="grade-box clearfix mt10">
-                                    	<span class="score">得分：<em>{$question['y_score']}</em></span>
+                                    	<span class="score">得分：<em>{$question['y_score']|default=0}</em></span>
                                 	</div>
 		                    </div>
 	                    <php>}</php>
