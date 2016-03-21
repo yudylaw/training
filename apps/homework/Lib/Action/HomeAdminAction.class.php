@@ -305,7 +305,7 @@ class HomeAdminAction extends Action {
         }
         $answer = M("homework_answer")->where(array('id'=>$id))->find();
         if (empty($answer)) {
-            $this->ajaxReturn(null, '回答不存在', 0);
+            $this->ajaxReturn(null, '打分成功', 0);
         }
         $question = M('homework_question')->where(array('id'=>$answer['qid']))->find();
         if (empty($question)) {
