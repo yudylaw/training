@@ -60,13 +60,16 @@ class HomeAdminAction extends Action {
             // 保存信息到附件表
             $data = $this->saveInfo($upload_info, $options);
             $filepath = $default_options['save_path'].$data['save_name'];
-            //生成试卷
-            $this->createPaper($filepath);
-            // 输出信息
-            $return['status'] = true;
-            $return['info']   = '{"status":1}';
-            // 上传成功，返回信息
-            return $return;
+            
+            try{
+                //生成作业
+                $this->createPaper($filepath);
+            } catch(Exception $e) {
+                Log::write($e->getMessage(), Log::ERR);
+                $this->ajaxReturn(null, "读取作业模板失败，请检测作业模板填写是否正确！", -1);
+            }
+            
+            $this->ajaxReturn(null, "OK");
         }
     }
     
