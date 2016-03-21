@@ -381,13 +381,13 @@ class HomeAdminAction extends Action {
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         
         
-        $schedules = M('homework_schedule')->query("SELECT wb.weiba_name, hs.start_date, hs.end_date 
+        $schedules = M('homework_schedule')->query("SELECT wb.weiba_name, hs.id, hs.start_date, hs.end_date 
             from ts_homework_schedule hs LEFT JOIN ts_weiba wb on class_id = wb.weiba_id where hs.hw_id=".$hw_id);
         
         $this->assign("schedules", $schedules);
         $this->assign("homework", $homework);
         $this->assign("classes", $classes);
-        $this->display("create");
+        $this->display();
     }
     
     /**
@@ -426,7 +426,41 @@ class HomeAdminAction extends Action {
         
         M('homework_schedule')->add($data);
         
+        $members = M('weiba_follow')->where(array('weiba_id'=>$class['weiba_id']))->findAll();
+        
+        foreach ($members as $member) {
+            if ($member['level'] == 1) { //成员
+                $data = array('uid'=>$member['follower_uid'], 'hw_id'=>$hw_id, 'class_id'=>$weiba_id, 'ctime'=>time());
+                M('homework_record')->add($data);
+            }
+        }
+        
         $this->ajaxReturn(null, '安排作业成功');
+    }
+    
+    /**
+     * 删除考试安排
+     */
+    public function del_schedule() {
+        $sid = intval($_REQUEST['sid']);
+        $record = M('homework_schedule')->where(array('id'=>$sid))->find();
+        
+        if (empty($record)) {
+            $this->ajaxReturn(null, '考试安排不存在', -1);
+        }
+        
+        $records = M('homework_record')->where(array('hw_id'=>$record['hw_id'], 
+            'class_id'=>$record['class_id'], 'is_grade'=>array('IN', array(1, 2))))->findAll();
+        
+        if (!empty($records)) {
+            $this->ajaxReturn(null, '已经有学员提交试卷,无法删除该考试安排', -1);
+        }
+        
+        M('homework_schedule')->where(array('id'=>$sid))->delete();
+        
+        M('homework_record')->where(array('hw_id'=>$record['hw_id'], 'class_id'=>$record['class_id']))->delete();
+        
+        $this->ajaxReturn(null, '删除成功');
     }
     
 }

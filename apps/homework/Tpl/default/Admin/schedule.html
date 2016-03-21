@@ -51,7 +51,7 @@ $(document).ready(function() {
 			alert("结束时间不能为空");
 			return;
 		}
-		  $.post("{:U('homework/HomeAdmin/schedule_test')}", {'hw_id':hw_id, 
+		  $.post("{:U('homework/Admin/schedule_test')}", {'hw_id':hw_id, 
 			  'weiba_id':class_id, 
 			  'startDate':startDate, 
 			  'endDate':endDate}, 
@@ -66,6 +66,21 @@ $(document).ready(function() {
 		  });
 	});
 	
+	$(".del_schedule").click(function() {
+		var sid = $(this).attr('sid');
+		  if(confirm("是否确认删除考试安排")){
+			  $.get("{:U('homework/HomeAdmin/del_schedule')}", {'sid':sid}, function(data) {
+				  var obj = $.parseJSON(data);
+				  if (obj.status == 1) {
+					  alert(obj.info);
+					  window.location.reload();
+				  } else {
+					  alert(obj.info);
+				  }
+			  });
+		  }
+	});
+	
 });
 </script>
 <div id="main-body" class="mt20">
@@ -74,7 +89,7 @@ $(document).ready(function() {
 		<div class="fr id-section">
 			<div class="location">
 				<span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;
-				<a href="{:U('homework/HomeAdmin/hlist')}">作业中心</a>&gt;<span class="color-gre">{$homework['name']}</span>
+				<a href="{:U('homework/Admin/hlist')}">考试中心</a>&gt;<span class="color-gre">{$homework['name']}</span>
 			</div>
 			<div class="clearfix lesson-add">
                     <ul class="ul-form">
@@ -97,15 +112,16 @@ $(document).ready(function() {
                     </ul>
                     <!-- <div id="fileQueue"></div>
                     <input id="file_upload" name="file_upload" type="file" multiple="true"> -->
-                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">安排作业</span></a><input type="hidden" id="resource_ids" value="0"></div>
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">安排考试</span></a><input type="hidden" id="resource_ids" value="0"></div>
                 </div>
                 <!-- schedules begin -->
 				<div class="id-table">
                     <table>
                         <tbody>
                         <tr>
-                        	<th width="40%">作业</th>
+                        	<th width="30%">试卷</th>
                             <th width="20%">班级</th>
+                            <th width="10%">操作</th>
                             <th width="20%">开始时间</th>
                             <th width="20%">结束时间</th>
                         </tr>
@@ -113,6 +129,7 @@ $(document).ready(function() {
                         <tr <php>if($key%2==0) echo 'class="special"';</php> >
                         	<td><span>{$homework['name']}</span></td>
                             <td><span>{$schedule['weiba_name']}</span></td>
+                            <td><span><a class="color-gre del_schedule" href="javascript:;" sid="{$schedule['id']}">删除</a></span></td>
                             <td><span>{$schedule['start_date']}</span></td>
                             <td><span>{$schedule['end_date']}</span></td>
                         </tr>
@@ -125,4 +142,18 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
+<script>
+//删除考试安排
+function deleteSchedule(sid) {
+	  if(confirm("是否确认删除考试安排")){
+		  $.get("{:U('homework/Admin/del_schedule')}", {'hw_id':hid}, function(data) {
+			  var obj = $.parseJSON(data);
+			  if (obj.status == 1) {
+				  alert(obj.info);
+				  window.location.reload();
+			  }
+		  });
+	  }
+}
+</script>
 <include file="__THEME__/public_footer_new" />
