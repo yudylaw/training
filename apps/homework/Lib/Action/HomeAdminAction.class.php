@@ -113,11 +113,13 @@ class HomeAdminAction extends Action {
         
         if(C('LOG_RECORD')) {
             if(empty($title)) {
-                Log::write("试卷名称不能为空", Log::ERR);
+                Log::write("作业名称不能为空", Log::ERR);
+                $this->ajaxReturn(null, "作业名称不能为空", -1);
                 return;
             }
             if(!is_numeric($totalScore) || !is_numeric($passScore)) {
                 Log::write($title.'--'.$totalScore. " AND " . $passScore . '必须同时为整数', Log::ERR);
+                $this->ajaxReturn(null, $title.'--'.$totalScore. " AND " . $passScore . '必须同时为整数', -1);
                 return;
             }
         }
