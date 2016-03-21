@@ -33,7 +33,7 @@ class IndexAction extends Action {
         $this->assign('homework', $homework);
         $this->assign('questions', $questions);
         
-        if (empty($record)) {
+        if ($record['is_grade'] == 0) {
             //二级导航
             if($this->user['group_id'] == Role::TEACHER) {
                 $this->assign('hlist_nav', U('homework/Index/hlist'));
@@ -41,14 +41,13 @@ class IndexAction extends Action {
                 $this->assign('hlist_nav', U('homework/Admin/hlist'));
             }
             $this->display("answer_view");//答题页面
-        } else {
+        } else if ($record['is_grade'] == 1) {
             $this->assign('answers', $answers);
-            if ($record['is_grade'] == 2) {
-                $this->assign('score', $record['score']);//得分
-                $this->display("result_view");//打分完成后的页面
-            } else {
-                $this->display("pending_view");//待打分页面
-            }
+            $this->display("pending_view");//待打分页面
+        } else if ($record['is_grade'] == 2) {
+            $this->assign('answers', $answers);
+            $this->assign('score', $record['score']);//得分
+            $this->display("result_view");//打分完成后的页面
         }
     }
     
