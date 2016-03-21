@@ -101,8 +101,8 @@ class IndexAction extends Action {
      */
     public function submit() {
         $hw_id = intval($_REQUEST['hw_id']);
-        $data = array('hw_id'=>$hw_id, 'uid'=>$this->mid, 'ctime'=>time(), 'is_grade'=>1, 'score'=>0);
-        M('homework_record')->add($data);
+        $data = array('is_grade'=>1, 'score'=>0);
+        M('homework_record')->where(array('hw_id'=>$hw_id, 'uid'=>$this->mid))->save($data);
         $this->ajaxReturn(null, "交卷成功，等待批阅！");
     }
     
