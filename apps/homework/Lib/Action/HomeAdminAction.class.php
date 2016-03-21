@@ -334,7 +334,7 @@ class HomeAdminAction extends Action {
             $this->ajaxReturn(null, '作业不存在');
         }
         
-        $count = M("homework_record")->where(array('hw_id'=>$hw_id))->count();
+        $count = M("homework_record")->where(array('hw_id'=>$hw_id, 'is_grade'=>array('IN', array(1, 2))))->count();
         
         if ($count > 0) {
             $this->ajaxReturn(null, '已结存在作业记录，无法删除');

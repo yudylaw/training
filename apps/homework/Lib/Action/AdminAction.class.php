@@ -340,7 +340,7 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, '作业或考试不存在');
         }
         
-        $count = M("homework_record")->where(array('hw_id'=>$hw_id))->count();
+        $count = M("homework_record")->where(array('hw_id'=>$hw_id, 'is_grade'=>array('IN', array(1, 2))))->count();
         
         if ($count > 0) {
             $this->ajaxReturn(null, '已结存在考试记录，无法删除');
@@ -437,10 +437,6 @@ class AdminAction extends Action {
         }
         
         $this->ajaxReturn(null, '考试安排成功');
-    }
-    
-    public function preview() {
-        
     }
     
 }
