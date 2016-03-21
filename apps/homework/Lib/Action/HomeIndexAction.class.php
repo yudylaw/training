@@ -36,9 +36,9 @@ class HomeIndexAction extends Action {
         if ($record['is_grade'] == 0) {
             //二级导航
             if($this->user['group_id'] == Role::TEACHER) {
-                $this->assign('hlist_nav', U('homework/Index/hlist'));
+                $this->assign('hlist_nav', U('homework/HomeIndex/hlist'));
             } else {
-                $this->assign('hlist_nav', U('homework/Admin/hlist'));
+                $this->assign('hlist_nav', U('homework/HomeAdmin/hlist'));
             }
             $this->display("answer_view");//答题页面
         } else if ($record['is_grade'] == 1) {
