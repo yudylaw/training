@@ -3,7 +3,7 @@
         <div class="content clearfix">
 			<include file="__THEME__/public_left_new" />
             <div class="fr id-section">
-                <div class="location"><span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<a href="{:U('homework/HomeAdmin/hlist')}">作业中心</a>&gt;<span class="color-gre">{$homework['name']}</span></div>
+                <div class="location"><span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<a href="{:U('homework/HomeAdmin/hlist')}">作业中心</a>&gt;<a href="{:U('homework/HomeAdmin/recordList', array('hw_id'=>$homework['id']))}">{$homework['name']}</a>&gt;<span class="color-gre">批阅</span></div>
                 <div class="paper-name tc">{$homework['name']}</div>
 				<div class="paper-info tc">
                     <span>考生姓名：<em class="color-78">{$user['uname']}</em></span>
