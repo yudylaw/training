@@ -16,7 +16,7 @@
                             <th width="10%">总分</th>
                             <th width="10%">及格分</th>
                             <th width="10%">操作</th>
-                            <th width="20%">提交时间</th>
+                            <th width="20%">更新时间</th>
                             <th width="10%">得分</th>
                         </tr>
                         <volist name='records' id='record'>
@@ -26,7 +26,11 @@
                         	<td><span>{$record['phone']}</span></td>
                             <td><span>{$homework['total_score']}</span></td>
                             <td><span>{$homework['pass_score']}</span></td>
-                            <td><span><a class="color-gre" href="{:U('homework/HomeAdmin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">批阅</a></span></td>
+                            <td>
+                            <if condition="$record['is_grade'] gt 0">
+                            	<span><a class="color-gre" href="{:U('homework/HomeAdmin/detail', array('hw_id'=>$homework['id'], 'uid'=>$record['uid']))}">批阅</a></span>
+                            </if>
+                            </td>
                             <td><span><php>echo date("Y-m-d H:i", $record['ctime']);</php></span></td>
                             <td><span>
                             <php>

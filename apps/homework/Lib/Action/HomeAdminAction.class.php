@@ -319,7 +319,7 @@ class HomeAdminAction extends Action {
         $uid = intval($_REQUEST['uid']);
         $hw_id = intval($_REQUEST['hw_id']);
         M("homework_answer")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->delete();
-        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('is_grade'=>0));
+        M("homework_record")->where(array('uid'=>$uid, 'hw_id'=>$hw_id))->save(array('is_grade'=>0, 'score'=>0, 'ctime'=>time()));
         $this->ajaxReturn(null, '退回成功');
     }
     
