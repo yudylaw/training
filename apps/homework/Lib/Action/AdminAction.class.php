@@ -15,12 +15,6 @@ class AdminAction extends Action {
     private function localUpload($options,$input_options=null){
     
         $system_default = model('Xdata')->get('admin_Config:attach');
-        if(empty($system_default['attach_path_rule']) || empty($system_default['attach_max_size']) || empty($system_default['attach_allow_extension'])) {
-            $system_default['attach_path_rule'] = 'Y/md/H/';
-            $system_default['attach_max_size'] = '100'; 		// 默认100M
-            $system_default['attach_allow_extension'] = 'flv';
-            model('Xdata')->put('admin_Config:attach', $system_default);
-        }
         // 载入默认规则
         $default_options = array();
         $default_options['custom_path']	= date($system_default['attach_path_rule']);					// 应用定义的上传目录规则：'Y/md/H/'
@@ -463,5 +457,16 @@ class AdminAction extends Action {
     
         $this->ajaxReturn(null, '删除成功');
     }
+    
+    private function createFailed($hw_id, $errorMsg) {
+        if(C('LOG_RECORD')) {
+            Log::write($errorMsg, Log::ERR);
+        }
+        //清除临时数据
+        M('homework')->where(array('id'=>$hw_id))->delete();
+        M('homework_question')->where(array('hw_id'=>$hw_id))->delete();
+        
+        $this->ajaxReturn(null, $errorMsg, -1);
+    } 
     
 }
