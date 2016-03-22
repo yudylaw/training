@@ -350,6 +350,10 @@ class AdminAction extends Action {
     //腾讯视频上传
     public function go_upload() {
         $course_id = $_GET['cid'];//课程id
+        $status = model('Course')->where(array('id'=>$course_id))->getField("status");
+        if($status == 1){
+            $this->error("课程已开始,不允许继续上传资源");
+        }
         $secretId = C('SECRET_ID');
         $this->assign("secretId", $secretId);
         $this->assign("course_id", $course_id);
