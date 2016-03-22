@@ -180,7 +180,7 @@ class AdminAction extends Action {
         $time = $_REQUEST['time'];//播放进度
         $data['class_id'] = $this->class_id;
         $data['uid'] = $this->uid;
-        $data['percent'] =  round(($time / $duration) * 100);
+        $data['percent'] =  round(($time / $duration) * 100) > 100 ? 100 : round(($time / $duration) * 100);
         $data['resourceid'] = $resid;
         $res = model('CourseResourceLearning')->addResLearning($data);
         echo json_encode($res);
