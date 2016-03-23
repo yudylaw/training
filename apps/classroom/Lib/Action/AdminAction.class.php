@@ -394,7 +394,7 @@ class AdminAction extends Action {
         }
         
         //cid = subject 分类
-        $data = array('weiba_name'=>$name, 'uid'=>$this->mid, 'cid'=>$subject, 'ctime'=>time());
+        $data = array('weiba_name'=>$name, 'uid'=>$this->mid, 'cid'=>$subject, 'status'=>1, 'ctime'=>time());
         
         M('weiba')->add($data);
         $this->ajaxReturn(null, "创建成功");
