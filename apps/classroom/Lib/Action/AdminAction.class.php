@@ -393,7 +393,8 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, "班级名称不能为空", -1);
         }
         
-        $data = array('weiba_name'=>$name, 'uid'=>$this->mid,'subject'=>$subject, 'ctime'=>time());
+        //cid = subject 分类
+        $data = array('weiba_name'=>$name, 'uid'=>$this->mid, 'cid'=>$subject,'subject'=>$subject, 'ctime'=>time());
         
         M('weiba')->add($data);
         $this->ajaxReturn(null, "创建成功");
