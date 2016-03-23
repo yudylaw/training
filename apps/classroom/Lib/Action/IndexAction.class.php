@@ -15,7 +15,7 @@ class IndexAction extends Action {
         
         $ids = implode(',', $classroomIds);
         
-        $sql = "SELECT w.weiba_name, w.weiba_id, w.ctime, w.`subject`, w.follower_count, u.uname ";
+        $sql = "SELECT w.weiba_name, w.weiba_id, w.ctime, w.cid, w.follower_count, u.uname ";
         $sql .="FROM ts_weiba w LEFT JOIN ts_user u ON w.admin_uid = u.uid WHERE w.is_del = 0 AND weiba_id IN (".$ids.")";
         
         $classroomList = M('weiba')->query($sql);
