@@ -116,7 +116,7 @@
 							<td><span>{$res['course_hour']}<!-- /{$res['course_score']} --></span></td>
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td>
-								<span class="color-roseo">
+								<span>
 								<if condition="$user['group_id'] eq Role::TEACHER"><!-- 教师角色有学习权限 -->
 									<if condition="$res['status'] eq 1">
 										<if condition="$res['percent'] eq 100">
