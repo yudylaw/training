@@ -230,6 +230,7 @@ class AdminAction extends Action {
             $this->display();
         }else{//管理员查看所有课程学习记录
             $result = model("CourseLearning")->getCourseLearningByCondition(array('course_id'=>$id));
+            $course = model('Course')->where(array('id'=>$id))->find();
             $data = $result['data'];
             $usermodel = model('User');
             $coursemodel = model('Course');
@@ -247,6 +248,7 @@ class AdminAction extends Action {
             $p = new Page($totalRows,20);
             $page = $p->show();
             $this->page = $page;
+            $this->assign("course",$course);
             $this->display("learnlist_admin");
         }
          

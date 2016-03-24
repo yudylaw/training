@@ -5,7 +5,7 @@
 		<div class="fr id-section">
 			<div class="location">
 				<span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<a
-					href="{:U('course/Index/index')}">课程学习</a>&gt;<volist name="courselearning" id="cour" length='1'><a href="{:U('course/Index/detail',array(id=>$cour['course_id']))}" class="color-gre">{$cour['coutitle']}</a></volist>&gt;<span class="color-gre">学习记录</span>
+					href="{:U('course/Index/index')}">课程学习</a>&gt;<a href="{:U('course/Index/detail',array(id=>$course['id']))}">{$course['title']}</a>&gt;<span class="color-gre">学习记录</span>
 			</div>
 			<div class="id-table les">
 				<table>
