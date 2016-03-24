@@ -215,6 +215,8 @@ class AdminAction extends Action {
             foreach ($data as &$val){
                 $user = $usermodel->getUserInfo($val['uid']);
                 $val['uname'] = $user['uname'];
+                $val['location'] = $user['location'];
+                $val['phone'] = $user['phone'];
                 $resource = model('CourseResource')->getResourceById($val['resourceid']);
                 $resource = $resource[0];
                 $val['restitle'] = $resource['title'];//资源名称
@@ -234,6 +236,8 @@ class AdminAction extends Action {
             foreach ($data as &$val){
                 $user = $usermodel->getUserInfo($val['uid']);
                 $val['uname'] = $user['uname'];
+                $val['location'] = $user['location'];
+                $val['phone'] = $user['phone'];
                 $course = $coursemodel->where(array('id'=>$val['course_id']))->select();
                 $course = $course[0];
                 $val['coutitle'] = $course['title'];//课程名称
