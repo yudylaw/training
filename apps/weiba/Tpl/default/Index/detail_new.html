@@ -11,7 +11,7 @@
                     <div class="clearfix subject-info mt10">
                         <dl class="clearfix">
                             <dt class="clearfix">
-                                <img src="{$weiba_detail['avatar_middle']}" class="fl"/>
+                                <!-- <img src="{$weiba_detail['avatar_middle']}" class="fl"/> -->
                                 <strong>{$weiba_detail['weiba_name']}</strong>
                                 <span>班级成员数：{$weiba_detail['follower_count']|default=0}<em>|</em>主题：{$weiba_detail['thread_count']|default=0}<em>|</em>帖子数：{$weiba_detail['tiezi_count']|default=0}</span>
                                 <span><volist name="weiba_admin" id="vo">
@@ -19,7 +19,7 @@
                 				</volist>
                 				</span>
                             </dt>
-                            <dd class="mt10">简介：{$weiba_detail['intro']|getShort=100}</dd>
+                            <!-- <dd class="mt10">简介：{$weiba_detail['intro']|getShort=100}</dd> -->
                         </dl>
                         <!-- <a href="javascript:;" class="btn-org fl"><span class="fl">+加入</span></a> -->
                     </div>
