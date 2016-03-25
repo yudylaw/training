@@ -10,19 +10,19 @@
 			<div class="id-table les">
 				<table>
 					<tr>
-						<th width="20%" style="padding-left:0;text-align:center;">姓名</th>
-						<th width="20%">所属学校</th>
-						<th width="20%">学习进度</th>
-						<th width="20%">开始时间</th>
-						<th width="20%">电话</th>
+						<th width="40%" style="padding-left:0;text-align:center;">资源名称</th>
+						<!-- <th width="20%">所属学校</th> -->
+						<th width="30%">学习进度</th>
+						<th width="30%">开始时间</th>
+						<!-- <th width="20%">电话</th> -->
 					</tr>
 					<volist name="courselearning" id="res">
 						<tr <if condition="$i % 2 eq 1">class="special"</if>>
-							<td><span>{$res['uname']}</span></td>
-							<td><span>{$res['location']}</span></td>
+							<td><span>{$res['restitle']}</span></td>
+							<!-- <td><span>{$res['location']}</span></td> -->
 							<td><span>{$res['percent']|default=0}%</span></td>
 							<td><span><php>echo date("Y-m-d", $res['start_date']);</php></span></td>
-							<td><span>{$res['phone']}</span></td>
+							<!-- <td><span>{$res['phone']}</span></td> -->
 						</tr>
 					</volist>
 				</table>

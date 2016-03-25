@@ -211,12 +211,12 @@ class AdminAction extends Action {
             $result = model("CourseResourceLearning")->getLearningList(array('course_id'=>$id,'uid'=>$this->uid));
             $data = $result['data'];
             $course = model('Course')->where(array('id'=>$id))->select();
-            $usermodel = model('User');
+            //$usermodel = model('User');
             foreach ($data as &$val){
-                $user = $usermodel->getUserInfo($val['uid']);
-                $val['uname'] = $user['uname'];
-                $val['location'] = $user['location'];
-                $val['phone'] = $user['phone'];
+                //$user = $usermodel->getUserInfo($val['uid']);
+                //$val['uname'] = $user['uname'];
+                //$val['location'] = $user['location'];
+                //$val['phone'] = $user['phone'];
                 $resource = model('CourseResource')->getResourceById($val['resourceid']);
                 $resource = $resource[0];
                 $val['restitle'] = $resource['title'];//资源名称
