@@ -53,3 +53,17 @@ a.add_atn:hover{text-decoration:none}
 .N_but{background:url(images/N_button_BG.gif) no-repeat;width:70px;height:24px;line-height:24px;text-align:center;color:#fff;font-size:12px;border:none}
 a.N_but{display:block;background:url(images/N_button_BG.gif) no-repeat;width:60px;height:24px;line-height:24px;text-align:center;color:#fff;font-size:12px;border:none}
 .setupTag_boxL em{color:#fff}
+
+/*add*/
+.text,
+.text2{
+  padding: 10px;
+  border-color: #ccc;
+}
+.btn_b,
+.btn_w{
+  width: 83px;
+  height: 37px;
+  line-height: 34px;
+  font-size: 14px;
+}
