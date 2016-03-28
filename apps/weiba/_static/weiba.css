@@ -199,3 +199,9 @@ html,body,input,select,div,tr,td{font-family:"微软雅黑";}
 .ico-minus{background-position:0 -224px;}
 
 /* 颜色修改记录#0096e6->#2EB398 by sjzhao-20160311*/
+
+
+/*add*/
+.add_group .weibo-file-list li{
+  padding-right: 35px;
+}
