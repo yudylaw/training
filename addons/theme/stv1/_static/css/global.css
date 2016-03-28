@@ -184,7 +184,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 /* .header-wrap .head-bd .logo{ width:115px; height:30px; margin-top:13px; float:left; position:relative}
 .header-wrap .head-bd .logo a{width:115px; height:30px;position:absolute;left:0;top:0;} *//* 原来样式 */
 .header-wrap .head-bd .logo{
-width: 285px;
+width: 360px;
 height: 60px;
 background: url("../images/logo.png") no-repeat;
 font-size: 0;
