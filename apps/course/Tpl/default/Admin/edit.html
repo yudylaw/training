@@ -1,0 +1,144 @@
+<include file="__THEME__/public_header_new" />
+<link rel="stylesheet" href="__THEME__/js/uploadify/uploadify.css?v={$site.sys_version}" type="text/css">
+<script type="text/javascript" src="__THEME__/js/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__APP__/js/edit.js"></script>
+<script type="text/javascript" src="__APP__/js/select.js"></script>
+<style>
+.ct_line {
+    width: 300px;
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.style3 {
+    float: left;
+    display: inline;
+    margin-left: 7px;
+}
+.ct_line select {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+<script>
+jQuery(document).ready(function(){
+	//初始化课程
+	Course.init();
+	/* $('#file_upload').uploadify({
+		//auto:false,
+    	fileTypeExts: "*.flv;*.xls;*.xlsx;*.ppt;*.pptx",
+		swf: '__THEME__/js/uploadify/uploadify.swf',
+		uploader: "{:U('course/Admin/upload')}",
+		width: 135,
+		height: 46,
+		buttonImage: '__APP__/images/local_btn.png',
+		queueSizeLimit: 5,
+		fileSizeLimit : '100MB',
+		queueID: 'fileQueue',
+		overrideEvents: ['onSelectError', 'onDialogClose'],
+		onUploadSuccess : function(file, data, response) {
+			// 解析JSON数据
+			var jsondata = $.parseJSON(data);
+			if (jsondata.status === 1) {
+				//data返回服务端各个参数
+				//alert("上传成功");
+				var ids = $("#resource_ids").val();
+				if(ids == "0"){
+					$("#resource_ids").val(jsondata.resource_id);
+				}else{
+					$("#resource_ids").val(ids+","+jsondata.resource_id);
+				}
+			}
+		},
+		onSelectError: function (file, errorCode, errorMsg) {
+			switch (errorCode) {
+				case -100:
+					alert('选择的上传数目超过，您还能上传'+errorMsg+'个视频');
+					break;
+				case -110:
+					alert("文件 [" + file.name + "] 大小超出系统限制的" + $('#upload').uploadify('settings', 'fileSizeLimit') + "大小100MB");
+					break;
+				case -120:
+					alert("文件 [" + file.name + "] 大小异常");
+					break;
+				case -130:
+					alert("文件 [" + file.name + "] 类型不正确");
+					break;
+			}
+		},
+		onFallback: function () {
+			alert('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
+		},
+		onUploadStart: function (file) {
+			
+		}
+	}); */
+});
+</script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;<a
+					href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">编辑课程</span>
+			</div>
+			<div class="clearfix lesson-add">
+                    <ul class="ul-form">
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">课程名称：</span>
+                            <input type="text" id="course_name" value="{$course['title']}" class="fl input-text"/>
+                            <input type="hidden" id="course_id" value="{$course['id']}"/>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">学</em><em class="fr">科：</em></span>
+                            <div class="select_box fl">
+                                <span class="first_select" id="course_subject" code="{$course['subject']}">{$course['subjectname']}</span>
+                                <ul class="sub_select" style="display: none;">
+                                    <li code="0">全部</li>
+                                    <volist name = "subject" id="sub">
+										<li code="{$sub['code']}">{$sub['name']}</li>
+									</volist>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">类</em><em class="fr">型：</em></span>
+                            <span class="fl radio-box clearfix" id="type">
+                                <input type="radio" id="type_yes" <if condition="$course['required'] eq 1">checked="checked"</if> name="type" value="1">
+                                <label name="type_xx" class="checked" for="type_yes">必修</label>
+                                <input type="radio" id="type_no" <if condition="$course['required'] eq 0">checked="checked"</if> name="type" value="0">
+                                <label name="type_bx" for="type_no">选修</label>
+                            </span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">学</em><em class="fr">时：</em></span>
+                            <input type="text" value="{$course['course_hour']}" id="course_hour" class="fl input-text width-m"/>
+                        </li>
+                        <!-- <li class="clearfix">
+                            <span class="clearfix fl item-name"><em class="fl">学</em><em class="fr">分：</em></span>
+                            <input type="text" value="" id="course_score" class="fl input-text width-m"/>
+                        </li> -->
+                        <input type="hidden" value="0" id="course_score" class="fl input-text width-m"/>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">课程描述：</span>
+                            <div class="margin-name">
+                                <textarea rows="" cols="" placeholder="此处添加课程描述的内容" class="fl" id="course_des" onfocus="this.placeholder=''">{$course['description']}</textarea>
+                                <!-- <a href="javascript:;"><img src="__THEME__/images/local_up.jpg"/></a> -->
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <div id="fileQueue"></div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="true"> -->
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">保存</span></a><input type="hidden" id="resource_ids" value="0"></div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />

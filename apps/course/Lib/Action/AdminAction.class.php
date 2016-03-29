@@ -29,6 +29,26 @@ class AdminAction extends Action {
         $this->assign("subject",$subjects);
         $this->display();
     }    
+    /**
+     * 编辑课程学习
+     */
+    public function edit(){
+        $id = $_REQUEST['id'];
+        if(empty($id)){
+            $this->error("课程id不能为空");
+        }
+        $course = model('Course')->where(array('id'=>$id,'is_del'=>0))->find();
+        $subject = C('subjects');
+        $subjects = array();
+        foreach ($subject as $key=>$val){
+            $subjects[$key]['code'] = $key;
+            $subjects[$key]['name'] = $val;
+        }
+        $this->assign("subject",$subjects);
+        $course['subjectname'] = $subjects[$course['subject']]['name'];
+        $this->assign("course",$course);
+        $this->display();
+    }
     
     public function upload() {
         //调用本地上传
@@ -142,7 +162,7 @@ class AdminAction extends Action {
         $data['course_score'] = t($_REQUEST['course_score']);//学分
         $data['description'] = t($_REQUEST['description']);//描述
         $data['ctime'] = time();
-        $resourceids = t($_REQUEST['resourceids']);
+        //$resourceids = t($_REQUEST['resourceids']);
         $result = Model('Course')->addCourse($data);
         if($result){
             //将上传资源归属到对应的课程
@@ -153,6 +173,28 @@ class AdminAction extends Action {
             echo '{"status":1,"msg":"创建成功"}';
         }else{
             echo '{"status":0,"msg":"创建失败"}';
+        }
+    }
+    
+    /**
+     * 编辑课程
+     */
+    public function ajaxSave(){
+        $data = array();
+        $id = $_POST['id'];
+        $data['title'] = t($_REQUEST['title']);
+        //$data['creator'] = $this->uid;
+        $data['subject'] = t($_REQUEST['subject']);//学科
+        $data['required'] = t($_REQUEST['required']);//必修与选修
+        $data['course_hour'] = t($_REQUEST['course_hour']);//学时
+        $data['course_score'] = t($_REQUEST['course_score']);//学分
+        $data['description'] = t($_REQUEST['description']);//描述
+        $data['update_date'] = time();
+        $result = Model('Course')->where(array('id'=>$id))->save($data);
+        if($result){
+            echo '{"status":1,"msg":"保存成功"}';
+        }else{
+            echo '{"status":0,"msg":"保存失败"}';
         }
     }
     /**
