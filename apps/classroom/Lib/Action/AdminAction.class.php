@@ -257,6 +257,102 @@ class AdminAction extends Action {
         $this->display();
     }
     
+    public function batch() {
+        
+        $myfile = fopen(SITE_PATH."/user5.log", "r") or die("Unable to open file!");
+        
+        while($line = fgets($myfile)) {
+            $line = trim($line);
+            $values = explode(" ", $line);
+            $name = $values[0];
+            $region = intval($values[1]);
+            $phone = $values[3];
+            $class_id = intval(trim($values[4]));
+            $gender = 1;
+        
+            if (empty($name)) {
+                Log::write("姓名不能为空 $phone", Log::ERR);
+                continue;
+            }
+            
+            if (empty($phone)) {
+                Log::write("手机号码不能为空 $name", Log::ERR);
+                continue;
+            }
+            
+            if (!preg_match("/^1[0-9]{2}[0-9]{8}$/", $phone)) {
+                Log::write("手机号码格式不对 $name $phone", Log::ERR);
+                continue;
+            }
+            
+            $area = M('area')->where(array('area_id'=>$region))->find();
+            
+            if (empty($area)) {
+                Log::write("所属学校不存在 $name $phone", Log::ERR);
+                continue;
+            }
+            
+            $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
+            
+            if (empty($classroom)) {
+                Log::write("班级不存在 $name $phone", Log::ERR);
+                continue;
+            }
+            
+            $user = M('user')->where(array('phone'=>$phone))->find();
+            
+            $uid = - 1;
+            $tips = "添加成功";
+            if (empty($user)) {
+                //添加用户
+                $setuser = array('uname'=>$name, 'phone'=>$phone,
+                    'area'=>$region,
+                    'sex'=>$gender, 'ctime'=>time(),
+                    'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1,
+                    'area'=>0, 'province'=>3308, 'city'=>3310,
+                    'location'=>$area['title']);
+                //初始化密码
+                $setuser['login_salt'] = rand(10000, 99999);
+                $setuser['password'] = md5(md5("12345678").$setuser['login_salt']);//密码默认是12345678
+                //保存
+                $uid = M('user')->add($setuser);
+            } else {
+                $uid = $user['uid'];
+                $group = M('user_group_link')->where(array('uid'=>$uid, 'user_group_id'=>Role::SUPER_ADMIN))->findAll();
+                if (!empty($group)) {
+                    Log::write("该用户是管理员角色，无法加入班级 $name $phone", Log::ERR);
+                    continue;
+                }
+                $tips = "该用户已经存在，加入班级成功";
+            }
+            
+            if ($uid < 1) {
+                Log::write("保存用户信息失败 $name $phone", Log::ERR);
+                continue;
+            } else {
+                $follower = M('weiba_follow')->where(array('weiba_id'=>$class_id, 'follower_uid'=>$uid))->find();
+                if (!empty($follower)) {
+                    Log::write("用户已经加入该班级，无法重复加入 $name $phone", Log::ERR);
+                    continue;
+                }
+            }
+            
+            $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>1);
+            M('weiba_follow')->add($data);
+            
+            //添加组
+            $group_link = array('uid'=>$uid, 'user_group_id'=>Role::TEACHER);
+            M('user_group_link')->add($group_link);
+            
+            $follower_count = $classroom['follower_count'] + 1;
+            //更新成员计数
+            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
+            
+            Log::write("添加成功, $name $phone", Log::INFO);
+        }
+        fclose($myfile);
+    }
+    
     public function addMember() {
         $class_id = intval($_REQUEST['class_id']);
         $name = $_REQUEST['name'];
