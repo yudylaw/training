@@ -306,10 +306,9 @@ class AdminAction extends Action {
             if (empty($user)) {
                 //添加用户
                 $setuser = array('uname'=>$name, 'phone'=>$phone,
-                    'area'=>$region,
                     'sex'=>$gender, 'ctime'=>time(),
                     'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1,
-                    'area'=>0, 'province'=>3308, 'city'=>3310,
+                    'area'=>0, 'province'=>3308, 'city'=>$region,
                     'location'=>$area['title']);
                 //初始化密码
                 $setuser['login_salt'] = rand(10000, 99999);
@@ -391,10 +390,9 @@ class AdminAction extends Action {
         if (empty($user)) {
             //添加用户
             $setuser = array('uname'=>$name, 'phone'=>$phone, 
-                'area'=>$region,
                 'sex'=>$gender, 'ctime'=>time(), 
                 'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1, 
-                'area'=>0, 'province'=>3308, 'city'=>3310,
+                'area'=>0, 'province'=>3308, 'city'=>$region,
                 'location'=>$area['title']);
             //初始化密码
             $setuser['login_salt'] = rand(10000, 99999);
