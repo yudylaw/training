@@ -33,7 +33,7 @@ Course.init = function(){
 					async:false,
 					success:function(msg){
 						if(msg.status == 1){
-							window.location.href="index.php?app=course&mod=Index&act=detail&id="+coursedata.id;
+							window.location.href="index.php?app=course&mod=Index&act=index";
 						}
 					},
 					error:function(msg){
