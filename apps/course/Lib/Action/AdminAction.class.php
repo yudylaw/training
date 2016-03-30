@@ -453,5 +453,18 @@ class AdminAction extends Action {
             echo '{"status":0,"msg":"上传失败"}';
         }
     }
+    /**
+     * 修改资源名称
+     */
+    public function editResName() {
+        $resname = $_POST['resname'];
+        $id = $_POST['id'];
+        $res = model('CourseResource')->where(array('id'=>$id))->save(array('title'=>t($resname)));
+        if($res){
+            echo '{"status":1,"msg":"修改成功"}';
+        }else{
+            echo '{"status":0,"msg":"修改失败"}';
+        }
+    }
     
 }

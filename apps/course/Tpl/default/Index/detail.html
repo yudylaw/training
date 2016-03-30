@@ -21,10 +21,15 @@
                     <table>
                         <tr>
                             <th width="20%">序号</th>
-                            <th width="40%">资源名称</th>
+                            <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
+                            	<th width="30%">资源名称</th>
+                            <php>} else {</php>
+                            	<th width="40%">资源名称</th>
+							<php> } </php> 
                             <th width="20%">资源类型</th>
                             <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
                             	<th width="10%">操作</th>
+                            	<th width="10%">编辑</th>
                             	<th width="10%">删除</th>
                             <php>} else {</php>
                             	<th width="20%">操作</th>
@@ -43,6 +48,9 @@
 	                            	</if>
 	                            </td>
 	                            <php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN,Role::CLASS_ADMIN))) {</php>
+	                            	<td>
+	                            		<span><a href="javascript:editResName({$cr['id']},'{$cr['title']}',{$cr['course_id']});" class="color-gre">编辑</a></span>
+	                            	</td>
 	                            	<td>
 	                            		<span><a href="javascript:delResource({$cr['id']});" class="color-gre">删除</a></span>
 	                            	</td>
@@ -150,5 +158,17 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+
+
+
+//编辑资源
+function editResName(id,resname,cid){
+	$("#login_popup_new").css("display","block");
+	$("#cover_id").css("display","block");
+	jQuery("#val_resname").val(resname);
+	jQuery("#val_resid").val(id);
+	jQuery("#val_courseid").val(cid);
+}
 </script>
+<include file="pop2" />
 <include file="__THEME__/public_footer_new" />

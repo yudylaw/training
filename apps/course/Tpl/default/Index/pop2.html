@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="__APP__/css/pop.css">
+<!-- 编辑资源名称-->
+<div class="black_overlay" style="display: none;" id="cover_id"></div>
+<div id="login_popup_new" href="#login_pop_new" class="login-app product" style="display: none;width:320px;">
+    <div class="app-con">
+        <a href="javascript:close_this();" class="app-close"></a>
+        <dl>
+            <dd class="mt10"><h3 class="clearfix"><span class="fl">输入新的资源名称</span></h3></dd>
+            <dd class="clearfix mt10">
+                <span class="login-border user fl">
+                    <input type="text" id="val_resname"/>
+                    <input type="hidden" id ="val_resid"/>
+                    <input type="hidden" id ="val_courseid"/>
+                    <!-- <label id="input_name">输入验证码</label> -->
+                </span>
+                <a href="javascript:void(0);" id="submit_resname_new" class="login-button fl">确&nbsp;认</a>
+            </dd>
+        </dl>
+    </div>
+</div>
+<!-- 弹出验证码框 -->
+<script type="text/javascript">
+//关闭弹出框
+function close_this(){
+	$("#login_popup_new").css("display","none");
+	$("#cover_id").css("display","none");
+}
+//提交新名称
+$("#submit_resname_new").click(function(){
+		var resname = $.trim($('#val_resname').val());
+		var id = parseInt($('#val_resid').val());
+		var course_id = parseInt($('#val_courseid').val());
+	   	if(resname != '') {
+	           //提交到后台验证
+	   		$.post('index.php?app=course&mod=Admin&act=editResName',{resname:resname,id:id},function(txt){
+	   			txt = eval( '(' + txt + ')' );
+	   		    if(txt.status == 1){
+	   		    	location.href="index.php?app=course&mod=Index&act=detail&id="+course_id;
+	   		    }else{
+	   		    	alert("修改失败");
+	   		    	$("#login_popup_new").css("display","none");//修改成功
+	   				$("#cover_id").css("display","none");
+	   		    }
+	   		});
+	     }else{
+	    	 alert("资源名称不能为空");
+	     }
+});
+</script>
