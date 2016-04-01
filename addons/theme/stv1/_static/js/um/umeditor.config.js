@@ -251,7 +251,7 @@
 			'b'   : {$:{}},
 			'i'   : {$:{}},
 			'u'   : {$:{}},
-			'font': {$:{'color':1,}},
+			'font': {$:{'color':1}},
 			'a'   : {$:{'href':1,'title':1,'target':1}},
 			'img' : {$:{'src':1,'title':1,'alt':1,'width':1,'height':1}}
 		}
