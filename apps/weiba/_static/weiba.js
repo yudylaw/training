@@ -112,7 +112,7 @@ M.addModelFns({
 				location.href = U('weiba/Index/notice_list');
 			}, 1500);
 		}
-	},
+	}
 });
 
 M.addEventFns({
