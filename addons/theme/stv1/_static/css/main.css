@@ -1289,7 +1289,7 @@ a.color-aa:hover,
     background: url("../images/circle_head.png") no-repeat;
 }
 .notice-list .list-item{
-    padding: 20px 15px;
+    padding: 5px 15px;
     border-bottom: 1px solid #f3f3f3;
 }
 .notice-list .list-con .list-item:first-child{
