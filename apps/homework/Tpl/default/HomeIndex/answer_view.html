@@ -86,7 +86,7 @@
     	  if (qtype != 3) {
     		  //选择题
     		  $(this).parent().prev().find(".answer .active").each(function(){
-    			  answer +=$(this).text() + ",";
+    			  answer +=$.trim($(this).text()) + ",";
     		  });
     		  if (answer.length > 0) {
     			  answer = answer.substring(0, answer.length - 1);//删除尾部逗号
@@ -94,7 +94,6 @@
     	  } else {
     		  //简答题
     		  answer = $(this).parent().prev().children(".jd_answer").val();
-    		  console.log(answer);
     	  }
 		  $.post("{:U('homework/HomeIndex/answer', array('hw_id'=>$homework['id']))}", {'qid':qid, 'answer':answer}, function(data){
 			  var obj = $.parseJSON(data);
