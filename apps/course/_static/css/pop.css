@@ -29,12 +29,13 @@
     position: absolute;
     right: 9px;
     top: 9px;
-    width: 16px;
-    height: 16px;
-    background: url("../images/login_pop.png") no-repeat 0 -90px;
+    width: 24px;
+    height: 24px;
+    /* background: url("../images/login_pop.png") no-repeat 0 -90px; */
+	background: url("../images/btn_close02.gif") no-repeat;
 }
 .login-app .app-con .app-close:hover{
-    background-position: 0 -106px;
+    /* background-position: 0 -106px; */
 }
 .login-app.product{
     width: 478px;
