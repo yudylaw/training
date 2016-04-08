@@ -6,7 +6,7 @@ return array_merge(array(
 	'DB_TYPE'       => 'mysql',       // 数据库类型
 
 	'DB_HOST'       => '120.55.86.91',    // 数据库服务器地址
-	'DB_NAME'       => 'sns',    // 数据库名
+	'DB_NAME'       => 'sns2',    // 数据库名
 	'DB_USER'       => 'root',// 数据库用户名
 	'DB_PWD'        => 'UO8EGk3Yms',// 数据库密码
 
