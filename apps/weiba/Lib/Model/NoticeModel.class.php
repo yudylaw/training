@@ -19,10 +19,10 @@ class NoticeModel extends Model {
      */
 	public function getList($param) {
 	    $map = array();
-	    //教师角色只能看到未删除的通知
-	    if(isset($param['group_id']) && $param['group_id'] == Role::TEACHER){
+	    //教师角色只能看到未删除的通知-->改为所有的人都看不到删除的内容
+	    //if(isset($param['group_id']) && $param['group_id'] == Role::TEACHER){
 	        $map['is_del'] = 0;
-	    }
+	    //}
 	    isset($param['limit']) ? $limit = $param['limit'] : 10;
 	    //教师和班级管理员只能看到自己班级的通知以及超级管理员发的通知
 	    if(($param['group_id'] == Role::CLASS_ADMIN) || ($param['group_id'] == Role::TEACHER)){
