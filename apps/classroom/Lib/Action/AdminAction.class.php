@@ -358,6 +358,7 @@ class AdminAction extends Action {
         $phone = $_REQUEST['phone'];
         $gender = intval($_REQUEST['gender']);
         $region = intval($_REQUEST['region']);
+        $role = intval($_REQUEST['role']);
         
         if (empty($name)) {
             $this->ajaxReturn(null, "姓名不能为空", -1);
@@ -377,10 +378,18 @@ class AdminAction extends Action {
             $this->ajaxReturn(null, "所属学校不存在", -1);
         }
         
+        if (!ClassroomRole::hasRole($role)) {//1:成员，3：班级管理员
+            $this->ajaxReturn(null, "角色不存在", -1);
+        }
+        
         $classroom = M('weiba')->where(array('weiba_id'=>$class_id, 'is_del'=>0))->find();
         
         if (empty($classroom)) {
             $this->ajaxReturn(null, "班级不存在", -1);
+        }
+        
+        if ($classroom['admin_uid'] > 0 && $role == ClassroomRole::CLASSROOM_ADMIN) {
+            $this->ajaxReturn(null, "该班级已经存在管理员", -1);
         }
         
         $user = M('user')->where(array('phone'=>$phone))->find();
@@ -417,16 +426,34 @@ class AdminAction extends Action {
             }
         }
         
-        $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>1);
+        $data = array('weiba_id'=>$class_id, 'follower_uid'=>$uid, 'level'=>$role);
         M('weiba_follow')->add($data);
         
-        //添加组
-        $group_link = array('uid'=>$uid, 'user_group_id'=>Role::TEACHER);
-        M('user_group_link')->add($group_link);
+        $group_link = M('user_group_link')->where(array('uid'=>$uid))->find();
+        
+        $group = ClassroomRole::getUserGroup($role);
+        
+        if (empty($group_link)) {
+            //添加组
+            $group_link = array('uid'=>$uid, 'user_group_id'=>$group);
+            M('user_group_link')->add($group_link);
+        } else {
+            //更新组
+            if ($group_link['user_group_id'] < $group) { //TODO 仅区分教师，班级管理员
+                $group_link = array('user_group_id'=>$group);
+                M('user_group_link')->where(array('uid'=>$uid))->save($group_link);
+            }
+        }
+        
+        $adminUid = 0; //默认 0
+        
+        if ($role == ClassroomRole::CLASSROOM_ADMIN) {
+            $adminUid = $uid;
+        }
         
         $follower_count = $classroom['follower_count'] + 1;
         //更新成员计数
-        M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
+        M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count, 'admin_uid'=>$adminUid));
         
         $this->ajaxReturn(null, $tips);
         
@@ -452,8 +479,13 @@ class AdminAction extends Action {
         if ($row > 0) {
             $follower_count = $classroom['follower_count'] - 1;
             $follower_count = $follower_count < 0 ? 0 : $follower_count;
+            $data = array('follower_count'=>$follower_count);
+            
+            if ($classroom['admin_uid'] == $uid) {
+                $data['admin_uid'] = 0; //删除管理员
+            }
             //更新成员计数
-            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save(array('follower_count'=>$follower_count));
+            M('weiba')->where(array('weiba_id'=>$classroom['weiba_id']))->save($data);
         }
         $this->ajaxReturn(null, "删除成功");
     }
