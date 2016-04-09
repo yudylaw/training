@@ -186,6 +186,7 @@ class IndexAction extends Action {
 						$list['data'][$k]['list'][$i]['new_count'] = 0;
 						D('Weiba')->setNewcount($v['weiba_id'],0);
 					}
+					$list['data'][$k]['list'][$i]['total_post'] = D('WeibaPost')->where(array('weiba_id'=>$v['weiba_id']))->count();
 				}
 			}
 			
