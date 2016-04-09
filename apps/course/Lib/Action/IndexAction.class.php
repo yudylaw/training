@@ -14,6 +14,7 @@ class IndexAction extends Action {
         $con['uid'] = $this->uid;
         $group_id = $this->user['group_id'];
         $con['group_id'] = $group_id;
+        $con['class'] = $this->user['class'];
         $result = model("Course")->getCourseList($con);
         $data = $result['data'];
         $totalRows = $result['totalRows'];

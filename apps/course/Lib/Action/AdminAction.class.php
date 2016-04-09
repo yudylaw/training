@@ -466,5 +466,42 @@ class AdminAction extends Action {
             echo '{"status":0,"msg":"修改失败"}';
         }
     }
+    /**
+     * 获取班级列表
+     */
+    public function list_class() {
+        $course_id = $_POST['cid'];//班级id
+        $classes = D('Weiba','weiba')->where(array('is_del'=>0))->findAll();
+        foreach ($classes as &$val){
+            if(D('CourseAssign')->where(array('classid'=>$val['weiba_id'],'courseid'=>$course_id))->count() > 0){
+                $val['is_assign'] = 1;//已分配
+            }else{
+                $val['is_assign'] = 0;
+            }
+        }
+        $this->assign("classes",$classes);
+        $this->display();
+    }
+    /**
+     * 课程分配
+     */
+    public function assignCourse(){
+        $course_id = intval($_POST['cid']);
+        $class_ids = $_POST['class_ids'];
+        $courseassign = D('CourseAssign');
+        foreach ($class_ids as $val){
+            $class_id = intval($val);
+            if($courseassign->where(array('classid'=>$class_id,'courseid'=>$course_id))->count() == 0){
+                $courseassign->add(array('classid'=>$class_id,'courseid'=>$course_id,'ctime'=>time()));
+                //获取该班级所有的人员同时产生课程记录
+                $users_inclass =  D('Weiba')->table ( "ts_weiba_follow" )->where(array('weiba_id'=>$class_id))->findAll();
+                $courselearning = D('CourseLearning');
+                foreach ($users_inclass as $val){
+                    $courselearning->addCourseLearning(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0));
+                }
+            }
+        }
+        echo json_encode(array("status"=>1));
+    }
     
 }

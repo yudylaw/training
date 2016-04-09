@@ -22,6 +22,7 @@
 	    	  return;
 	      }
 	}
+	//开始与结束课程
 	function updatetime(type,id){
 		$.ajax({
 			type: "POST",
@@ -42,6 +43,7 @@
 			}
 		});
 	}
+	//删除课程
 	function delCourse(id){
 		id = parseInt(id);
 		if(confirm("确定删除此课程吗?")){
@@ -100,7 +102,12 @@
 							<th width="5%">编辑</th>
 							<th width="5%">删除</th>
 						<php> } </php>
-						<th width="15%">学习记录</th>
+						<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN))) {</php>
+							<th width="5%">分配</th>
+							<th width="10%">学习记录</th>
+						<php>} else {</php>
+							<th width="15%">学习记录</th>
+						<php> } </php>
 					</tr>
 					<volist name="resource" id="res">
 						<tr <if condition="$i % 2 == 1">class="special"</if>>
@@ -162,6 +169,13 @@
 									  	<a href="javascript:delCourse({$res['id']});" class="color-gre">删除</a>
 									  </span>
 									</td>
+									<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN))) {</php>
+										<td>
+									  		<span class="color-roseo">
+									  			<a href="javascript:assignCourse({$res['id']});" class="color-gre">分配</a>
+									  		</span>
+										</td>
+									<php> } </php>
 								<php> } </php>
 								<td>
 									<span class="color-roseo">
@@ -186,4 +200,5 @@
 		</div>
 	</div>
 </div>
+<include file="pop_assign" />
 <include file="__THEME__/public_footer_new" />

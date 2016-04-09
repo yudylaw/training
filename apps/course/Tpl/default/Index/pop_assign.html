@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="__APP__/css/pop.css">
+<style type="text/css">
+.login-border2 input{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    /* background: url("../images/opacity.png"); */
+    border: none;
+    line-height: 20px;
+    color: #666;
+    z-index: 3;
+    outline: none;
+}
+.login-border2 span{
+	font-size:20px;
+	line-height:20px;
+	display:inline-block;
+	padding-top:5px;
+}
+</style>
+<!--分配课程-->
+<div class="black_overlay" style="display: none;" id="cover_assign"></div>
+<div id="login_popup_new" href="#login_pop_new" class="login-app product" style="display: none;width:440px;margin-left:-214px;">
+    <div class="app-con">
+        <a href="javascript:close_this();" class="app-close"></a>
+        <dl style="width:405px;">
+            <dd class="mt10"><h3 class="clearfix"><span class="fl">请选中需要分配至的班级</span></h3></dd>
+            <dd>
+            	<span class="login-border2" id="class_holder">
+            		
+            	</span>
+            </dd>
+            <dd class="clearfix mt10">
+                <a href="javascript:void(0);" id="submit_assign" class="login-button fl">确&nbsp;认</a>
+            </dd>
+        </dl>
+    </div>
+</div>
+<input type="hidden" val="0" id="course_id">
+<!-- 弹出验证码框 -->
+<script type="text/javascript">
+//分配课程
+function assignCourse(id){
+	jQuery("#course_id").val(id);
+	$.ajax({
+		type: "POST",
+		url: 'index.php?app=course&mod=Admin&act=list_class',
+		data:{cid:id},
+		async:false,
+		success:function(msg){
+				jQuery("#class_holder").html(msg);
+				jQuery("#cover_assign").css("display","block");
+				jQuery("#login_popup_new").css("display","block");
+		},
+		error:function(msg){
+			alert("操作失败");
+			return;
+		}
+	});
+}
+//关闭弹出框
+function close_this(){
+	$("#login_popup_new").css("display","none");
+	$("#cover_assign").css("display","none");
+}
+//提交新名称
+$("#submit_assign").click(function(){
+		var class_ids = [];//选中的班级id
+		var cid = jQuery("#course_id").val();//课程id
+		jQuery("input[name=class_input]").each(function(){
+			if(jQuery(this).attr('checked') == 'checked'){
+				class_ids.push($(this).val());
+			}
+		});
+	   	if(class_ids.length > 0) {
+	           //提交到后台验证
+	   		$.post('index.php?app=course&mod=Admin&act=assignCourse',{cid:cid,class_ids:class_ids},function(txt){
+	   			txt = eval( '(' + txt + ')' );
+	   		    if(txt.status == 1){
+	   		    	close_this();
+	   		    }else{
+	   		    	alert("分配失败");
+	   		    	close_this();
+	   		    }
+	   		});
+	     }else{
+	    	 alert("您未选中任何班级");
+	     }
+});
+</script>
