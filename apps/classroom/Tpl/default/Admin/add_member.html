@@ -31,6 +31,7 @@ $(document).ready(function() {
 		var name = $('#uname').val();
 		var phone = $('#phone').val();
 		var region = $('#regions').val();
+		var role = $('#roles').val();
 		
 		if(phone == "") {
 			alert("手机号码不能为空");
@@ -41,7 +42,8 @@ $(document).ready(function() {
 			alert("姓名不能为空");
 			return;
 		}
-		  $.post("{:U('classroom/Admin/addMember')}", {'class_id':class_id, 'gender':gender, 'name':name, 'phone':phone, 'region':region}, 
+		  $.post("{:U('classroom/Admin/addMember')}", {'class_id':class_id, 'gender':gender, 'name':name, 
+			  'phone':phone, 'region':region, 'role':role}, 
 			  function(data) {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
@@ -71,6 +73,13 @@ $(document).ready(function() {
                            		<volist name="regions" id="region">
                            			<option value="{$region['area_id']}">{$region['title']}</option>
                            		</volist>
+                           	</select>
+                        </li>
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">角色：</span>
+                           	<select style="font-size:14px;height:26px;" id="roles">
+                         		<option value="1" selected="selected">成员</option>
+                         		<option value="3">班级管理员</option>
                            	</select>
                         </li>
                         <li class="clearfix">
