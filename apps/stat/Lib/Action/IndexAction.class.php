@@ -16,7 +16,16 @@ class IndexAction extends Action {
                 FROM ts_user_data ud LEFT JOIN ts_user u ON ud.uid = u.uid
                 WHERE ud.key in ('weiba_topic_count', 'weiba_reply_count', 'login_count')
                 ) AS stat GROUP BY stat.uid";
-        $records = M('user_data')->query($sql); //TODO 分页
+        
+        $countSql = "SELECT count(DISTINCT uid) as total from ts_user_data 
+                    where `key` in ('weiba_topic_count', 'weiba_reply_count', 'login_count')";
+        
+        $data = M('user_data')->query($countSql);
+        $count = $data[0]['total'];
+        
+        $result = M('user_data')->findPageBySql($sql, $count, 20);
+        
+        $records = $result['data'];
         
         $sql = "SELECT
                 SUM(CASE ud.key WHEN 'weiba_topic_count' THEN ud.value END) AS topic_count,
@@ -31,6 +40,7 @@ class IndexAction extends Action {
             $this->assign('stat', $stat);
         }
         
+        $this->assign("page", $result['html']);
         $this->assign('records', $records);
         $this->display();
     }
@@ -56,11 +66,20 @@ class IndexAction extends Action {
         }
         
         if ($id > 0) {
+            
+            $countSql = "SELECT count(1) as total from ts_course_learning where course_id=".$id;
+            
+            $data = M('course_learning')->query($countSql);
+            $count = $data[0]['total'];
+            
             $sql = "SELECT cl.course_id, cl.percent, cl.ctime, u.uname, u.location,u.phone";
             $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id;
             
-            $records = M('course')->query($sql);
+            $result = M('course')->findPageBySql($sql, $count, 20);
+            
+            $records = $result['data'];
             $this->assign('records', $records);
+            $this->assign("page", $result['html']);
         }
         
         $this->assign('courses', $courses);
@@ -88,12 +107,18 @@ class IndexAction extends Action {
             $id = $homeworks[0]['id'];//取第一个
         }
 
+        $countSql = "SELECT count(1) as total from ts_homework_record where hw_id=".$id;
+        $data = M('homework_record')->query($countSql);
+        $count = $data[0]['total'];
         
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
     
-        $records = M('homework')->query($sql);
+        $result = M('homework')->findPageBySql($sql, $count, 20);
+        
+        $records = $result['data'];
         $this->assign('records', $records);
+        $this->assign("page", $result['html']);
         
         $this->assign('homeworks', $homeworks);
         $this->assign('hw_id', $id);
@@ -119,11 +144,18 @@ class IndexAction extends Action {
             $id = $homeworks[0]['id'];//取第一个
         }
         
+        $countSql = "SELECT count(1) as total from ts_homework_record where hw_id=".$id;
+        $data = M('homework_record')->query($countSql);
+        $count = $data[0]['total'];
+        
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
     
-        $records = M('homework')->query($sql);
+        $result = M('homework')->findPageBySql($sql, $count, 20);
+        
+        $records = $result['data'];
         $this->assign('records', $records);
+        $this->assign("page", $result['html']);
         
         $this->assign('homeworks', $homeworks);
         $this->assign('hw_id', $id);
