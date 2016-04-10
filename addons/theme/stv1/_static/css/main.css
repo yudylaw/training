@@ -59,17 +59,16 @@ body{
     color: #fff;
 }
 .header-wrap .user-msg{
+    margin-right: 5px;
     padding-left: 22px;
     background: url("../images/control_bg.png") no-repeat -66px -132px;
 }
-
 .id-slide{
     padding: 25px 15px;
     width: 208px;
     border: 1px solid #e9e9e9;
     background-color: #e5f6f3;
 }
-
 .user-head,
 .user-head img,
 .user-head span{
@@ -1582,7 +1581,7 @@ a.color-aa:hover,
 }
 .user-msg em{
     position: absolute;
-    left: 45px;
+    left: 43px;
     top: 1px;
     height: 18px;
     background: url("../images/control_bg.png") no-repeat;
@@ -1603,12 +1602,6 @@ a.color-aa:hover,
 .user-msg em.three{
     width: 30px;
     background-position: -195px -104px;
-}
-.header-wrap  .user-msg{
-    margin-left: 20px;
-}
-.header-wrap  .user-nick{
-    margin-left: 30px;
 }
 a:focus{
     outline: none;
@@ -1769,4 +1762,34 @@ a,a span{
 /*form add*/
 #js_login_input{
     text-align: center;
+}
+
+.id-help{
+    padding: 25px 70px 40px;
+    border: 1px solid #e1e1e1;
+    background-color: #fff;
+}
+.id-help h2{
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+.id-help h3{
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: normal;
+}
+.id-help p{
+    font-size: 14px;
+    line-height: 30px;
+    text-indent: 2em;
+}
+.sud-tip{
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    height: 37px;
+    line-height: 36px;
+    color: #f60;
 }

@@ -1245,4 +1245,8 @@ class IndexAction extends Action {
 		}
 	}
 	
+	public function help() {
+	    $this->display();
+	}
+	
 }
