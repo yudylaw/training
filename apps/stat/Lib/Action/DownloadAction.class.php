@@ -56,7 +56,11 @@ class DownloadAction extends Action {
         }
         
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id." AND hr.class_id=".$classid;
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
@@ -84,7 +88,11 @@ class DownloadAction extends Action {
         }
     
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id." AND hr.class_id=".$classid;
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
@@ -111,7 +119,11 @@ class DownloadAction extends Action {
         }
         
         $sql = "SELECT cl.course_id, cl.percent, cl.ctime, u.uname, u.location,u.phone";
-        $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id." AND cl.class_id=".$classid;
+        $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND cl.class_id=".$classid;
+        }
 
         $records = M('course')->query($sql);
         $this->assign('records', $records);

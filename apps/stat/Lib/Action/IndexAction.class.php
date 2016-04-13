@@ -92,7 +92,7 @@ class IndexAction extends Action {
             $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id;
             
             if ($classid > 0) {
-                $countSql .=" AND cl.class_id=".$classid;
+                $sql .=" AND cl.class_id=".$classid;
             }
             
             $result = M('course')->findPageBySql($sql, $count, 20);

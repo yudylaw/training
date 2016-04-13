@@ -77,18 +77,14 @@
 	        //选中课程
 	        $("#homeworks").change(function(){
 	        	var id = $("#homeworks").children('option:selected').val();
-	        	var classid = 0;
-	        	if ($("#classes").children().lengh > 0) {
-	        		classid = $("#classes").children('option:selected').val();
-	        	}
-	        	window.location.href = "{:U('stat/Index/test')}&id=" + id + "&classid=" + classid;
+	        	window.location.href = "{:U('stat/Index/test')}&id=" + id;
 	        });
 	        
 	        //选中班级
 	        $("#classes").change(function(){
 	        	var id = $("#homeworks").children('option:selected').val();
 	        	var classid = 0;
-	        	if ($("#classes").children().lengh > 0) {
+	        	if ($("#classes").children().length > 0) {
 	        		classid = $("#classes").children('option:selected').val();
 	        	}
 	        	window.location.href = "{:U('stat/Index/test')}&id=" + id + "&classid=" + classid;
