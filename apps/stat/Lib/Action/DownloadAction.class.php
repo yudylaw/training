@@ -41,6 +41,7 @@ class DownloadAction extends Action {
      */
     public function test() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
         
         $homework = M('homework')->where(array('id'=>$id, 'type'=>0, 'is_del'=>0))->find();
     
@@ -48,12 +49,22 @@ class DownloadAction extends Action {
             $this->error("考试不存在");
         }
         
+        $class = M('weiba')->where(array('weiba_id'=>$classid))->find();
+        
+        if (empty($class)) {
+            $this->error("班级不存在");
+        }
+        
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
-        $this->assign('filename', $homework['name'].'.xls');
+        $this->assign('filename', $homework['name'].'--'.$class['weiba_name'].'.xls');
         $this->display();
     }
     
@@ -62,19 +73,30 @@ class DownloadAction extends Action {
      */
     public function homework() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
     
         $homework = M('homework')->where(array('id'=>$id, 'type'=>1, 'is_del'=>0))->find();
     
         if (empty($homework)) {
             $this->error("作业不存在");
         }
+        
+        $class = M('weiba')->where(array('weiba_id'=>$classid))->find();
+        
+        if (empty($class)) {
+            $this->error("班级不存在");
+        }
     
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
-        $this->assign('filename', $homework['name'].'.xls');
+        $this->assign('filename', $homework['name'].'--'.$class['weiba_name'].'.xls');
         $this->display();
     }
     
@@ -82,6 +104,7 @@ class DownloadAction extends Action {
     public function course() {
     
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
     
         $course = M('course')->where(array('id'=>$id))->find();
 
@@ -89,12 +112,22 @@ class DownloadAction extends Action {
             $this->error("课程不存在");
         }
     
+        $class = M('weiba')->where(array('weiba_id'=>$classid))->find();
+        
+        if (empty($class)) {
+            $this->error("班级不存在");
+        }
+        
         $sql = "SELECT cl.course_id, cl.percent, cl.ctime, u.uname, u.location,u.phone";
         $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND cl.class_id=".$classid;
+        }
 
         $records = M('course')->query($sql);
         $this->assign('records', $records);
-        $this->assign('filename', $course['title'].'.xls');
+        $this->assign('filename', $course['title'].'--'.$class['weiba_name'].'.xls');
         $this->display();
     }
     

@@ -18,6 +18,11 @@
                         		<option value="{$homework['id']}" <php>if ($homework['id'] == $hw_id) echo 'selected="selected"';</php>>{$homework['name']}</option>
                         	</volist>
                         </select>
+                        <select style="font-size:14px;height:26px;" id="classes">
+                        	<volist name="classes" id="class">
+                        		<option value="{$class['weiba_id']}" <php>if ($class['weiba_id'] == $classid) echo 'selected="selected"';</php>>{$class['weiba_name']}</option>
+                        	</volist>
+                        </select>
                     </div>
                     <div class="id-table">
                         <table>
@@ -55,7 +60,7 @@
 		                </div>
                     </div>
                     <div class="clearfix mt10">
-                        <a href="{:U('stat/Download/homework', array('id'=>$hw_id))}" class="btn-green fr"><span class="fl">下载</span></a>
+                        <a href="{:U('stat/Download/homework', array('id'=>$hw_id, 'classid'=>$classid))}" class="btn-green fr"><span class="fl">下载</span></a>
                     </div>
                 </div>
             </div>
@@ -65,8 +70,18 @@
 	    $(document).ready(function(){
 	        //选中课程
 	        $("#homeworks").change(function(){
-	        	var id = $(this).children('option:selected').val();
+	        	var id = $("#homeworks").children('option:selected').val();
 	        	window.location.href = "{:U('stat/Index/homework')}&id=" + id;
+	        });
+	        
+	        //选中班级
+	        $("#classes").change(function(){
+	        	var id = $("#homeworks").children('option:selected').val();
+	        	var classid = 0;
+	        	if ($("#classes").children().length > 0) {
+	        		classid = $("#classes").children('option:selected').val();
+	        	}
+	        	window.location.href = "{:U('stat/Index/homework')}&id=" + id + "&classid=" + classid;
 	        });
 	        
 	    });
