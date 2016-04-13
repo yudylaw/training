@@ -41,6 +41,7 @@ class DownloadAction extends Action {
      */
     public function test() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
         
         $homework = M('homework')->where(array('id'=>$id, 'type'=>0, 'is_del'=>0))->find();
     
@@ -48,12 +49,18 @@ class DownloadAction extends Action {
             $this->error("考试不存在");
         }
         
+        $class = M('weiba')->where(array('weiba_id'=>$classid))->find();
+        
+        if (empty($class)) {
+            $this->error("班级不存在");
+        }
+        
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id." AND hr.class_id=".$classid;
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
-        $this->assign('filename', $homework['name'].'.xls');
+        $this->assign('filename', $homework['name'].'--'.$class['weiba_name'].'.xls');
         $this->display();
     }
     
@@ -62,19 +69,26 @@ class DownloadAction extends Action {
      */
     public function homework() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
     
         $homework = M('homework')->where(array('id'=>$id, 'type'=>1, 'is_del'=>0))->find();
     
         if (empty($homework)) {
             $this->error("作业不存在");
         }
+        
+        $class = M('weiba')->where(array('weiba_id'=>$classid))->find();
+        
+        if (empty($class)) {
+            $this->error("班级不存在");
+        }
     
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
-        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id." AND hr.class_id=".$classid;
     
         $records = M('homework')->query($sql);
         $this->assign('records', $records);
-        $this->assign('filename', $homework['name'].'.xls');
+        $this->assign('filename', $homework['name'].'--'.$class['weiba_name'].'.xls');
         $this->display();
     }
     
