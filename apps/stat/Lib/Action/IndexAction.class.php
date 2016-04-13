@@ -49,6 +49,7 @@ class IndexAction extends Action {
     public function course() {
         
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
         
         if ($id > 0) {
             $course = M('course')->where(array('id'=>$id))->find();
@@ -67,13 +68,32 @@ class IndexAction extends Action {
         
         if ($id > 0) {
             
+            $classSql = "SELECT DISTINCT w.weiba_id, w.weiba_name from ts_course_assign ca
+            LEFT JOIN ts_weiba w ON ca.classid = w.weiba_id
+            WHERE ca.courseid=".$id;
+            
+            $classes = M('course_assign')->query($classSql);
+            if ($classid < 1 && !empty($classes)) {
+                $classid = $classes[0]['weiba_id'];//取第一个
+            }
+            
+            $this->assign('classes', $classes);
+            
             $countSql = "SELECT count(1) as total from ts_course_learning where course_id=".$id;
+            
+            if ($classid > 0) {
+                $countSql .=" AND class_id=".$classid;
+            }
             
             $data = M('course_learning')->query($countSql);
             $count = $data[0]['total'];
             
             $sql = "SELECT cl.course_id, cl.percent, cl.ctime, u.uname, u.location,u.phone";
             $sql .=" FROM ts_course_learning cl LEFT JOIN ts_user u ON cl.uid = u.uid WHERE cl.course_id=".$id;
+            
+            if ($classid > 0) {
+                $countSql .=" AND cl.class_id=".$classid;
+            }
             
             $result = M('course')->findPageBySql($sql, $count, 20);
             
@@ -84,6 +104,7 @@ class IndexAction extends Action {
         
         $this->assign('courses', $courses);
         $this->assign('course_id', $id);
+        $this->assign('classid', $classid);
         
         $this->display();
     }
