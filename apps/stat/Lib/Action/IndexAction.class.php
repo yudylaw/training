@@ -91,6 +91,7 @@ class IndexAction extends Action {
     //作业统计
     public function homework() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
         
         if ($id > 0) {
             $homework = M('homework')->where(array('id'=>$id, 'type'=>1, 'is_del'=>0))->find();
@@ -107,12 +108,31 @@ class IndexAction extends Action {
             $id = $homeworks[0]['id'];//取第一个
         }
 
+        $classSql = "SELECT DISTINCT w.weiba_id, w.weiba_name from ts_homework_schedule hs 
+            LEFT JOIN ts_weiba w ON hs.class_id = w.weiba_id
+            WHERE hs.hw_id=".$id;
+        
+        $classes = M('homework_record')->query($classSql);
+        if ($classid < 1 && !empty($classes)) {
+            $classid = $classes[0]['weiba_id'];//取第一个
+        }
+        
+        $this->assign('classes', $classes);
+        
         $countSql = "SELECT count(1) as total from ts_homework_record where hw_id=".$id;
+        if ($classid > 0) {
+            $countSql .=" AND class_id=".$classid;
+        }
+        
         $data = M('homework_record')->query($countSql);
         $count = $data[0]['total'];
         
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $result = M('homework')->findPageBySql($sql, $count, 20);
         
@@ -121,6 +141,7 @@ class IndexAction extends Action {
         $this->assign("page", $result['html']);
         
         $this->assign('homeworks', $homeworks);
+        $this->assign('classid', $classid);
         $this->assign('hw_id', $id);
         $this->display();
     }
@@ -128,6 +149,7 @@ class IndexAction extends Action {
     //考试统计
     public function test() {
         $id = intval($_REQUEST['id']);
+        $classid = intval($_REQUEST['classid']);
         
         if ($id > 0) {
             $homework = M('homework')->where(array('id'=>$id, 'type'=>0, 'is_del'=>0))->find();
@@ -144,12 +166,31 @@ class IndexAction extends Action {
             $id = $homeworks[0]['id'];//取第一个
         }
         
+        $classSql = "SELECT DISTINCT w.weiba_id, w.weiba_name from ts_homework_schedule hs
+            LEFT JOIN ts_weiba w ON hs.class_id = w.weiba_id
+            WHERE hs.hw_id=".$id;
+        
+        $classes = M('homework_record')->query($classSql);
+        if ($classid < 1 && !empty($classes)) {
+            $classid = $classes[0]['weiba_id'];//取第一个
+        }
+        
+        $this->assign('classes', $classes);
+        
         $countSql = "SELECT count(1) as total from ts_homework_record where hw_id=".$id;
+        if ($classid > 0) {
+            $countSql .=" AND class_id=".$classid;
+        }
+        
         $data = M('homework_record')->query($countSql);
         $count = $data[0]['total'];
         
         $sql = "SELECT u.uname, u.location,u.phone,hr.score,hr.is_grade,hr.ctime from ts_homework_record hr";
         $sql .=" LEFT JOIN ts_user u ON hr.uid = u.uid WHERE hr.hw_id=".$id;
+        
+        if ($classid > 0) {
+            $sql .=" AND hr.class_id=".$classid;
+        }
     
         $result = M('homework')->findPageBySql($sql, $count, 20);
         
@@ -159,6 +200,7 @@ class IndexAction extends Action {
         
         $this->assign('homeworks', $homeworks);
         $this->assign('hw_id', $id);
+        $this->assign('classid', $classid);
         $this->display();
     }
     
