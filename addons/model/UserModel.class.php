@@ -985,12 +985,12 @@ class UserModel extends Model {
 			//$user ['auth_icon'] = implode ( ' ', $authIcon );
 			$user ['credit_info'] = model ( 'Credit' )->getUserCredit ( $uid );
 			//获取用户加入的班级
-			$class = array();
-			$classes = $this->table ( "{$this->tablePrefix}weiba_follow" )->where(array('follower_uid'=>$user['uid']))->findAll();
-			foreach ($classes as $val){
+			//$class = array();
+			$classes = $this->table ( "{$this->tablePrefix}weiba_follow" )->where(array('follower_uid'=>$user['uid']))->order('id DESC')->findAll();
+			/* foreach ($classes as $val){
 			    array_push($class,$val['weiba_id']);
-			}
-			$user['class'] = $class;
+			} */
+			$user['class_id'] = $classes[0]['weiba_id'];//以最后加入的班级为准,作为用户的班级
 			model ( 'Cache' )->set ( 'ui_' . $uid, $user, 600 );
 			static_cache ( 'user_info_' . $uid, $user );
 			return $user;
