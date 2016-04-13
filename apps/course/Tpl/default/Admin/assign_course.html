@@ -1,0 +1,115 @@
+<include file="__THEME__/public_header_new" />
+<style>
+.ct_line {
+    width: 300px;
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.style3 {
+    float: left;
+    display: inline;
+    margin-left: 7px;
+}
+.ct_line select {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+<script>
+$(document).ready(function() {
+	$("#create").click(function() {
+		var cid = {$cid};
+		var class_id = $('#classes').val();
+		jQuery.ajax({
+			url : "{:U('course/Admin/assignCourse')}",
+			type : 'get',
+			data : {'cid':cid, 'class_ids':class_id},
+			dataType : 'json',
+			success : function(result){
+			  if(result.status == 1){
+				  alert(result.info);
+				  window.location.reload();
+			  } else {
+				  alert(result.info);
+			  }
+			}
+		});
+	});
+	
+	$(".del_schedule").click(function() {
+		var sid = $(this).attr('sid');
+		  if(confirm("是否确认删除考试安排")){
+			  jQuery.ajax({
+					url : "{:U('course/Admin/delAssign')}",
+					type : 'get',
+					data : {'sid':sid},
+					dataType : 'json',
+					success : function(result){
+					  if(result.status == 1){
+						  alert(result.msg);
+						  window.location.reload();
+					  } else {
+						  alert(result.msg);
+					  }
+					}
+				});
+		  }
+	});
+	
+});
+</script>
+<div id="main-body" class="mt20">
+	<div class="content clearfix">
+		<include file="__THEME__/public_left_new" />
+		<div class="fr id-section">
+			<div class="location">
+				<span>当前位置：</span><a href="{:U('weiba/Index/notice_list')}">首页</a>&gt;
+				<a href="{:U('course/Index/index')}">课程学习</a>&gt;<span class="color-gre">{$current_course['title']}</span>
+			</div>
+			<div class="clearfix lesson-add">
+                    <ul class="ul-form">
+                        <li class="clearfix">
+                            <span class="clearfix fl item-name">班级：</span>
+                           	<select style="font-size:14px;height:26px;" id="classes">
+                           		<volist name = "classes" id="class">
+                           			<option value="{$class['weiba_id']}">{$class['weiba_name']}</option>
+                           		</volist>
+                           	</select>
+                        </li>
+                    </ul>
+                    <div class="fr mt10"><a href="javascript:;" class="btn-green fl"><span class="fl" id="create">安排课程</span></a></div>
+                </div>
+                <!-- schedules begin -->
+				<div class="id-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                        	<th width="35%">课程</th>
+                            <th width="25%">班级</th>
+                            <th width="15%">操作</th>
+                            <th width="25%">安排时间</th>
+                        </tr>
+                        <volist name='assigns' id='assign'>
+	                        <tr <php>if($key%2==0) echo 'class="special"';</php> >
+	                        	<td><span>{$assign['name']}</span></td>
+	                            <td><span>{$assign['class_name']}</span></td>
+	                            <td><span><a class="color-gre del_schedule" href="javascript:;" sid="{$assign['id']}">删除</a></span></td>
+	                            <td><span><php>echo date("Y-m-d", $assign['ctime']);</php></span></td>
+	                        </tr>
+                        </volist>
+                    </tbody>
+                    </table>
+                </div>
+                <div class="comment-page tc">
+					{$page}
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="__THEME__/public_footer_new" />

@@ -103,7 +103,7 @@
 							<th width="5%">删除</th>
 						<php> } </php>
 						<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN))) {</php>
-							<!-- <th width="5%">分配</th> -->
+							<th width="5%">安排</th>
 							<th width="10%">学习记录</th>
 						<php>} else {</php>
 							<th width="15%">学习记录</th>
@@ -170,13 +170,13 @@
 									  </span>
 									</td>
 									<php>if(in_array($user['group_id'],array(Role::SUPER_ADMIN))) {</php>
-										<!-- 
+										
 										<td>
 									  		<span class="color-roseo">
-									  			<a href="javascript:assignCourse({$res['id']});" class="color-gre">分配</a>
+									  			<a href="{:U('course/Admin/assign_course',array('cid'=>$res['id']))}" class="color-gre">安排</a>
 									  		</span>
 										</td>
-										 -->
+										
 									<php> } </php>
 								<php> } </php>
 								<td>

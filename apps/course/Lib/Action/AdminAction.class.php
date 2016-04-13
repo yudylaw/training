@@ -220,7 +220,7 @@ class AdminAction extends Action {
         $resid = $_REQUEST['resource_id'];//资源id
         $duration = $_REQUEST['duration'];//视频总进度
         $time = $_REQUEST['time'];//播放进度
-        $data['class_id'] = $this->class_id;
+        $data['class_id'] = $this->user['class_id'];
         $data['uid'] = $this->uid;
         $data['percent'] =  round(($time / $duration) * 100) > 100 ? 100 : round(($time / $duration) * 100);
         $data['resourceid'] = $resid;
@@ -483,25 +483,101 @@ class AdminAction extends Action {
         $this->display();
     }
     /**
-     * 课程分配
+     * ajax课程安排
      */
     public function assignCourse(){
-        $course_id = intval($_POST['cid']);
-        $class_ids = $_POST['class_ids'];
+        $course_id = intval($_GET['cid']);
+        $class_ids = $_GET['class_ids'];
         $courseassign = D('CourseAssign');
-        foreach ($class_ids as $val){
-            $class_id = intval($val);
-            if($courseassign->where(array('classid'=>$class_id,'courseid'=>$course_id))->count() == 0){
-                $courseassign->add(array('classid'=>$class_id,'courseid'=>$course_id,'ctime'=>time()));
-                //获取该班级所有的人员同时产生课程记录
-                $users_inclass =  D('Weiba')->table ( "ts_weiba_follow" )->where(array('weiba_id'=>$class_id))->findAll();
-                $courselearning = D('CourseLearning');
+        $class_id = intval($class_ids);
+        //判断是否已安排
+        if($courseassign->where(array('classid'=>$class_id,'courseid'=>$course_id))->count() == 0){
+            $courseassign->add(array('classid'=>$class_id,'courseid'=>$course_id,'ctime'=>time()));
+            //获取该班级所有的人员同时产生课程记录
+            $users_inclass =  D('Weiba')->table ( "ts_weiba_follow" )->where(array('weiba_id'=>$class_id))->findAll();
+            $courselearning = D('CourseLearning');
+            foreach ($users_inclass as $val){
+                $courselearning->addCourseLearning(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0));
+            }
+            echo json_encode(array("status"=>1,"info"=>'安排成功'));
+        }else{
+            echo json_encode(array("status"=>0,"info"=>'该课程已安排给此班级!'));
+        }
+   
+    }
+    /**
+     * 安排课程
+     * @author sjzhao
+     */
+    public function assign_course() {
+        $cid = $_REQUEST['cid'];
+        if(empty($cid)){
+            $this->error("课程id不能为空");
+        }
+        //最近20个班级
+        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba WHERE is_del=0 ORDER BY ctime desc limit 0,20");
+        $this->assign("classes",$classes);
+        $assigns = D('CourseAssign')->where(array('is_del'=>0))->order('ctime desc')->findPage(20);
+        $this->assign('cid',$cid);
+        $data = $assigns['data'];
+        $course = D('Course');
+        $current_course = $course->where(array('id'=>$cid))->find();
+        $this->assign("current_course",$current_course);
+        $weiba = D('Weiba','weiba');
+        foreach ($data as &$val){
+            $val['name'] = $course->where(array('id'=>$val['courseid']))->getField('title');
+            $val['class_name'] = $weiba->where(array('weiba_id'=>$val['classid']))->getField('weiba_name');
+        }
+        $totalRows = $assigns['totalRows'];
+        $this->assign("assigns",$data);
+        $p = new Page($totalRows,20);
+        $page = $p->show();
+        $this->page = $page;
+        $this->display();
+    }
+    /**
+     * 删除课程安排
+     */
+    public function delAssign() {
+        $sid = $_GET['sid'];
+        $assgin = model('CourseAssign')->where(array('id'=>$sid))->find();
+        $weiba_id = $assgin['classid'];//分配的班级id
+        $course_id = $assgin['courseid'];//分配的课程id
+        $conditon['class_id'] = $weiba_id;
+        $conditon['course_id'] = $course_id;
+        $conditon['percent'] = array('gt',0);
+        if(model('CourseLearning')->where($conditon)->count() > 0){
+            echo json_encode(array("status"=>0,"msg"=>"该课程已存在学习记录,禁止删除!"));
+        }else{
+            $users_inclass =  D('Weiba')->table ( "ts_weiba_follow" )->where(array('weiba_id'=>$weiba_id))->findAll();//查询该班级所有的人
+            //查询该课程包含哪些资源,这些资源的学习记录全部需要删除掉
+            $resource_ids = array();
+            $resources = model('CourseResource')->where(array('course_id'=>$course_id))->findAll();
+            foreach ($resources as $val){
+                array_push($resource_ids,$val['id']);
+            }
+            $result = model('CourseAssign')->where(array('id'=>$sid))->save(array('is_del'=>1));//删除安排表记录
+            if($result){
+                //删除所有该课程学习记录
                 foreach ($users_inclass as $val){
-                    $courselearning->addCourseLearning(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0));
+                    //删除所有的课程学习记录
+                    $uid = $val['follower_uid'];
+                    $map['class_id'] = $weiba_id;
+                    $map['uid'] = $uid;
+                    $map['course_id'] = $assgin['courseid'];
+                    $result2 = model('CourseLearning')->where($map)->save(array('is_del'=>1));
+                    //同时删除所有该课程的资源学习记录
+                    $map2['classid'] = $weiba_id;
+                    $map2['uid'] = $uid;
+                    $map2['resourceid'] = array('IN',$resource_ids);
+                    $result3= model('CourseResourceLearning')->where($map2)->save(array('is_del'=>1));
                 }
+                echo json_encode(array("status"=>1,"msg"=>"删除成功"));
+            }else{
+                echo json_encode(array("status"=>1,"msg"=>"删除失败"));
             }
         }
-        echo json_encode(array("status"=>1));
+        
     }
     
 }
