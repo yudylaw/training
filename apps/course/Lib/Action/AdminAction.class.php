@@ -497,11 +497,13 @@ class AdminAction extends Action {
             $users_inclass =  D('Weiba')->table ( "ts_weiba_follow" )->where(array('weiba_id'=>$class_id))->findAll();
             $courselearning = D('CourseLearning');
             foreach ($users_inclass as $val){
-                $courselearning->addCourseLearning(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0));
+                if ($val['level'] == 1) { //成员
+                    $courselearning->add(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0));
+                }
             }
-            echo json_encode(array("status"=>1,"info"=>'安排成功'));
+            $this->ajaxReturn(null, '安排成功',1);
         }else{
-            echo json_encode(array("status"=>0,"info"=>'该课程已安排给此班级!'));
+            $this->ajaxReturn(null, '不能重复安排!',0);
         }
    
     }
