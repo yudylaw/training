@@ -517,7 +517,7 @@ class AdminAction extends Action {
         //最近20个班级
         $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba WHERE is_del=0 ORDER BY ctime desc limit 0,20");
         $this->assign("classes",$classes);
-        $assigns = D('CourseAssign')->where(array('is_del'=>0))->order('ctime desc')->findPage(20);
+        $assigns = D('CourseAssign')->where(array('is_del'=>0,'courseid'=>$cid))->order('ctime desc')->findPage(20);
         $this->assign('cid',$cid);
         $data = $assigns['data'];
         $course = D('Course');
