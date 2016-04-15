@@ -85,7 +85,7 @@ class CourseModel extends Model {
         if(isset($param['group_id']) && $param['group_id'] ==Role::TEACHER){
             $map['status'] = 1;
         }
-        if($param['group_id'] !=Role::SUPER_ADMIN){//非超级管理员只展示分配到本班级的课程
+        if(!in_array($param['group_id'],array(Role::SUPER_ADMIN,Role::REGIN_ADMIN))){//非超级管理员和区域管理员只展示分配到本班级的课程
             //$where['classid'] = array('IN',$param['class']);
             $where['classid'] = $param['class_id'];
             $course_assign = D('CourseAssign')->where($where)->findAll();
