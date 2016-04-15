@@ -8,7 +8,7 @@
     <!--最新帖子--> 
     {:W('LatestPost',array('uid'=>$mid,'title'=>'最新帖子','weiba_id'=>$weiba_id,'max'=>4))} 
     <!--班级推荐-->
-    <div class="mb20 mt10"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'班级推荐','max'=>3))} </div>
+    <div class="mb20 mt20"> {:W('RelatedGroup',array('uid'=>$mid,'title'=>'班级推荐','max'=>3))} </div>
     <!--班级右下广告-->
     <div class="right-box mb10 clearfix ad_space_right">
       {:Addons::hook('show_ad_space', array('place'=>'weiba_right'))}
