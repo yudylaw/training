@@ -81,7 +81,7 @@ class IndexAction extends Action {
             $this->previewurl = SITE_URL.'/data/upload/'.$resource['save_path'].$resource['save_name'];
             $this->resource = $resource;
             //获取视频学习进度，实现记忆播放
-            $percent = $courseresourcelearning->where(array('resourceid'=>$resid,'uid'=>$this->uid))->getField('percent');
+            $percent = $courseresourcelearning->where(array('resourceid'=>$resid,'uid'=>$this->uid,'classid'=>$this->user['class_id']))->getField('percent');
             $this->percent = $percent;
             $this->cid = $cid;
             $this->coursetitle = $coursetitle;
