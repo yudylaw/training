@@ -5,6 +5,47 @@
  *
  */
 class IndexAction extends Action {
+    
+    //数据修复脚本 by liuyu
+    private function update_course_learning() {
+        
+        $course_id = 9;//分课程更新学习进度
+        
+        //指定课程的资源学习统计
+        $sql = "SELECT trl.uid, tcr.course_id, count(trl.resourceid) cnt from ts_course_resource_learning trl 
+                LEFT JOIN ts_course_resource tcr ON trl.resourceid = tcr.id
+                WHERE trl.percent = 100 and tcr.course_id = $course_id and tcr.is_del = 0
+                GROUP BY trl.uid";
+        
+        //课程的资源数统计
+        $courseSql = "SELECT tc.id, count(tcr.id) cnt from ts_course tc 
+                LEFT JOIN ts_course_resource tcr 
+                ON tc.id = tcr.course_id 
+                where tc.is_del = 0 AND tcr.is_del = 0 GROUP BY tc.id";
+        
+        $courses = M('course_learning')->query($courseSql);
+        
+        $reuslt = M('course_learning')->query($sql);
+        
+        foreach ($reuslt as $value) {
+            foreach ($courses as $course) {
+                if ($value['course_id'] == $course['id']) {
+                    //课程进度 = 已经学完的资源数 / 课程资源总数
+                    $percent = round(($value['cnt'] / $course['cnt']) * 100);
+                    
+                    $learning = M('course_learning')->where(array('uid'=>$value['uid'], 'course_id'=>$value['course_id']))->find();
+                    
+                    if ($learning['percent'] < $percent) {
+                        $row = M('course_learning')->where(array('uid'=>$value['uid'], 'course_id'=>$value['course_id']))->save(array('percent'=>$percent));
+                        echo 'uid='.$value['uid'].',course_id='.$value['course_id'].',new_percent='.$percent.',old_percent='.$learning['percent'].',success='.$row;
+                        echo '<br/>';
+                    }
+                }
+            }
+        }
+        
+    }
+    
     /**
      * 课程学习首页
      */
