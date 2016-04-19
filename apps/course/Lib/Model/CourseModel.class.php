@@ -99,14 +99,16 @@ class CourseModel extends Model {
         $resdata = $result['data'];
         $courselearningmodel = model('CourseLearning');
         foreach ($resdata as &$value){
-            $courselearning = $courselearningmodel->getCourseLearning(array('course_id'=>$value['id'],'uid'=>$param['uid'],'class_id'=>$param['class_id']));
-            if(!empty($courselearning)){
-                //$result['data'][$key]['start_date'] = $courselearning['start_date'];
-                //$result['data'][$key]['end_date'] = $courselearning['end_date'];
-                $value['percent'] = $courselearning[0]['percent'];
-            }else{
-                $value['percent'] = 0;
-            }
+//             $courselearning = $courselearningmodel->getCourseLearning(array('course_id'=>$value['id'],'uid'=>$param['uid'],'class_id'=>$param['class_id']));
+//             if(!empty($courselearning)){
+//                 //$result['data'][$key]['start_date'] = $courselearning['start_date'];
+//                 //$result['data'][$key]['end_date'] = $courselearning['end_date'];
+//                 //$value['percent'] = $courselearning[0]['percent'];
+//             }else{
+//                 $value['percent'] = 0;
+//             }
+               //采用动态获取学习记录的方法
+               $value['percent'] = $courselearningmodel->dynamicGetCourseLearning(array('course_id'=>$value['id'],'uid'=>$param['uid'],'class_id'=>$param['class_id']));
         }
         $result['data'] = $resdata;
         return $result;

@@ -84,5 +84,31 @@ class CourseLearningModel extends Model {
         $result = $this->where($map)->order('ctime desc')->select();
         return $result;
     }
+    /**
+     * 动态获取课程学习记录
+     */
+    public function dynamicGetCourseLearning($param){
+        $course_id = $param['course_id'];
+        $uid = $param['uid'];
+        $class_id = $param['class_id'];
+        //指定课程学完的资源数
+        $sql = "SELECT count(trl.resourceid) cnt from ts_course_resource_learning trl 
+                LEFT JOIN ts_course_resource tcr ON trl.resourceid = tcr.id
+                WHERE trl.percent = 100 and tcr.course_id = $course_id and tcr.is_del = 0
+                and trl.uid = $uid and trl.classid = $class_id";
+        
+        //课程的资源数统计
+        $courseSql = "SELECT count(tcr.id) cnt from ts_course tc 
+                LEFT JOIN ts_course_resource tcr 
+                ON tc.id = tcr.course_id 
+                where tc.is_del = 0 AND tcr.is_del = 0 and tc.id = $course_id";
+        $complete = $this->query($sql);
+        $complete = $complete[0]['cnt'];
+        $total = $this->query($courseSql);
+        $total = $total[0]['cnt'];
+        //课程进度 = 已经学完的资源数 / 课程资源总数
+        $percent = round(($complete / $total) * 100);
+        return $percent;
+    }
     
 }
