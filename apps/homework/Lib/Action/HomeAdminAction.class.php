@@ -275,7 +275,7 @@ class HomeAdminAction extends Action {
         $query = array('hw_id'=>$id);
         
         $sql = "SELECT hr.uid, u.uname, u.location,u.phone, hr.ctime, hr.score, hr.is_grade FROM ts_homework_record hr LEFT JOIN ts_user u ON hr.uid = u.uid";
-        $sql .=" WHERE hr.hw_id=" . $id;
+        $sql .=" WHERE hr.hw_id=" . $id . " ORDER BY hr.ctime DESC";
         
         $records = M('')->query($sql);
         //TODO 无分页
