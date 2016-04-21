@@ -27,6 +27,7 @@ class CourseLearningModel extends Model {
         if(empty($is_exist)){
             $data['ctime'] = time();
             $data['start_date'] = time();
+            $data['percent'] = 0;
             return $this->add($data);
         }else{
             if($param['percent'] == 100){
