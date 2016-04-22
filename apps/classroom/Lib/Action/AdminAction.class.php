@@ -211,7 +211,7 @@ class AdminAction extends Action {
     public function classroom_list() {
         //参数 p=currentPage
         $pageSize = 20;
-        $result = M("weiba")->where(array('is_del'=>0))->order('weiba_id desc')->findPage($pageSize);
+        $result = M("weiba")->where(array('is_del'=>0, 'weiba_id'=>array("GT", 1)))->order('weiba_id desc')->findPage($pageSize);
     
         $adminIds = array();
     
