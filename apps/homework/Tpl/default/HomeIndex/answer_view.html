@@ -28,10 +28,10 @@
 	                            </dd>
 	                            <dd>
 	                                <ul class="answer clearfix">
-	                                    <li class="fl"><a href="javascript:;">A</a></li>
-	                                    <li class="fl"><a href="javascript:;">B</a></li>
-	                                    <li class="fl"><a href="javascript:;">C</a></li>
-	                                    <li class="fl"><a href="javascript:;">D</a></li>
+	                                    <li class="fl <if condition="strpos($question['y_answer'], 'A') !== false">active</if>"><a href="javascript:;">A</a></li>
+	                                    <li class="fl <if condition="strpos($question['y_answer'], 'B') !== false">active</if>"><a href="javascript:;">B</a></li>
+	                                    <li class="fl <if condition="strpos($question['y_answer'], 'C') !== false">active</if>"><a href="javascript:;">C</a></li>
+	                                    <li class="fl <if condition="strpos($question['y_answer'], 'D') !== false">active</if>"><a href="javascript:;">D</a></li>
 	                                </ul>
 	                            </dd>
 		                        <div class="grade-box clearfix mt10">
@@ -45,7 +45,7 @@
 		                        <dl>
 		                            <dt>{$question['num']}、{$question['name']} （{$question['score']}分）</dt>
 		                            <dd class="clearfix">
-		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr"></textarea>
+		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
 		                            </dd>
 			                        <div class="grade-box clearfix mt10">
 			                            <span class="fl sure ml10 answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}"><input type="submit" value="确认"/></span>

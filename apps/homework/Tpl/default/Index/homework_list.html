@@ -21,15 +21,13 @@
                             <td><span>{$homework['pass_score']}</span></td>
                             <td><span><php>echo date("Y-m-d H:i", $homework['ctime']);</php></span></td>
                             <td><span>
-                            <php>
-                            if($homework['is_grade']==0) {
-                            	echo "未开始";
-                            } else if($homework['is_grade']==1) {
-	                            echo "待批阅";
-                            } else {
-	                            echo $homework['score'];
-                            }
-                            </php>
+                            <if condition="$homework['is_grade'] eq 0">
+                            	未开始
+                            	<elseif condition="$homework['is_grade'] eq 1" />
+	                            <span><a class="color-gre redo" href="javascript:;" tag="{$homework['id']}">撤回重做</a></span>
+	                            <else />
+	                            $homework['score]
+                            </if>
                              </span></td>
                         </tr>
                         </volist>
@@ -58,4 +56,22 @@
             </div>
         </div>
     </div>
+<script type="text/javascript">
+$(document).ready(function(){
+  //撤回重做
+  $(".redo").click(function(){
+	  var hw_id = $(this).attr("tag");
+	  if(confirm("是否确认撤回重做")){
+		  $.get("{:U('homework/HomeIndex/redo')}", {'hw_id': hw_id}, function(data) {
+			  var obj = $.parseJSON(data);
+			  if (obj.status == 1) {
+				  alert(obj.info);
+				  window.location.reload();
+			  }
+		  });
+	  }
+  });
+  
+});
+</script>
 <include file="__THEME__/public_footer_new" />

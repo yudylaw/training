@@ -105,4 +105,14 @@ class HomeIndexAction extends Action {
         $this->ajaxReturn(null, "提交成功，等待批阅！");
     }
     
+    /**
+     * 撤回
+     */
+    public function redo() {
+        $hw_id = intval($_REQUEST['hw_id']);
+        $data = array('ctime'=>time(), 'is_grade'=>0, 'score'=>0);
+        M('homework_record')->where(array('hw_id'=>$hw_id, 'uid'=>$this->mid))->save($data);
+        $this->ajaxReturn(null, "撤回成功！");
+    }
+    
 }
