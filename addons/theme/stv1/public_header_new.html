@@ -57,20 +57,50 @@
                 	</if>
                 </nosession>
                 <session name="mid">
-                	<!-- <a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a> -->
-                	<!-- <a href="javascript:;" class="user-msg fl">消息<em class="two">12</em></a>
-                	<a href="javascript:;" class="user-msg fl">消息<em class="three">123</em></a> -->
+                	<span id="message_span">
+                		<!-- <a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a>
+                		<a href="javascript:;" class="user-msg fl">消息<em class="two">12</em></a>
+                		<a href="javascript:;" class="user-msg fl">消息<em class="three">123</em></a> -->
+                	</span>
                 	<a href="{:U('public/Account/index')}" class="user-nick fl">{$user['uname']}</a>
                 	<a href="{:U('public/Passport/logout')}" class="user-nick fl">退出</a>
                 	<script type="text/javascript">
-						core.plugFunc('dropnotify',function(){
-					        setTimeout(function(){
-					            core.dropnotify.init('message_list_container','message_container');
-					        },320);   
-					    });
-						function showNotice(){
-							//ui.box.load(U('public/Index/messageBox'),null);							
-						}
+                				var loopCount = '';
+                				var getCount = function() {
+                					$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
+                						if ('undefined' == typeof msg.data || msg.status != 1) {
+                							return false;
+                						} else {
+                							var txt = msg.data;
+
+                							var unread_notify = parseInt(txt.unread_notify);
+                							var unread_atme = parseInt(txt.unread_atme);
+                							var unread_digg = parseInt(txt.unread_digg);
+                							var unread_comment = parseInt(txt.unread_comment);
+                							var unread_message = parseInt(txt.unread_message);
+                							var new_folower_count = parseInt(txt.new_folower_count);
+                							
+                							var unread_total = unread_notify+unread_atme+unread_digg+unread_comment+unread_message;
+                							
+                							document.cookie=_CP+'unread_message='+parseInt(unread_total);
+
+                							var $unread_total = $('#message_span');
+                							$unread_total.find('a.user-msg').remove('a.user-msg');
+                							var class_num = "";
+                							if(unread_total >99){
+                								class_num = 'three';
+                							}else if(unread_total < 100 && unread_total > 9){
+                								class_num = 'two';
+                							}else{
+                								class_num = 'one';
+                							}
+                							unread_total > 0 && $unread_total.html('<a class="user-msg fl" href="javascript:void(0);">消息<em class="'+class_num+'">'+unread_total+'</em></a>');
+                						}
+                					},'json');
+                			
+                				};
+                				loopCount = setInterval( getCount, 30000 );
+                				getCount();
 					</script>
                 </session>
 				<a href="{:U('public/Index/help')}" class="user-nick fl help-icon">使用帮助</a>
