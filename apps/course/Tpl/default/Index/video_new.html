@@ -1,4 +1,5 @@
 <include file="__THEME__/public_header_new" />
+<script src="__THEME__/js/layer/layer.js"></script>
 <div id="main-body" class="mt20">
 	<div class="content clearfix">
 		<include file="__THEME__/public_left_new" />
@@ -20,6 +21,7 @@
 	var timer = null;//此定时器用于定时弹出验证码
 	var timer2 = null;//此定时器用于定时记录播放进度
 	var player = null;//创建视频播放对象
+	var layer_index = null;//用于记录layer弹出层的索引
 	jQuery(document).ready(function(){
 				player = new qcVideo.Player("previewArea", 
 				{
@@ -59,8 +61,12 @@
 							   timer = setInterval(function(){
 									  player.pause();//暂停播放
 									  clearInterval(timer);//清除计时器
-									  $("#login_popup_new").css("display","block");//验证码输入正确继续播放
-									  $("#cover_id").css("display","block");
+									  layer_index = layer.open({
+										   type: 1,
+										   content: $('#login_popup_new') //弹出框的id,位于pop.html
+									  });
+									  /* $("#login_popup_new").css("display","block");//验证码输入正确继续播放,废弃老的弹出层,使用新的layer弹出方式
+									  $("#cover_id").css("display","block"); */
 							   },600000);//十分钟弹出一次验证码
 							   //重新播放
 							   //定时保存播放进度,10s一次
@@ -100,8 +106,9 @@
 				   }
 				   //关闭弹出框
 				   function close_this(){
-				   		$("#login_popup_new").css("display","none");
-				   		$("#cover_id").css("display","none");
+				   		/* $("#login_popup_new").css("display","none");废弃旧的弹出层
+				   		$("#cover_id").css("display","none"); */
+					   layer.close(layer_index);//关闭layer弹出层
 				   }
 				   //提交验证码
 				   $("#submit_login_new").click(function(){
@@ -111,8 +118,9 @@
 					   		$.post('index.php?app=course&mod=Admin&act=verify',{verify:verify},function(txt){
 					   			txt = eval( '(' + txt + ')' );
 					   		    if(txt.status == 1){
-					   		    	$("#login_popup_new").css("display","none");//验证码输入正确继续播放
-					   				$("#cover_id").css("display","none");
+					   		    	/* $("#login_popup_new").css("display","none");//验证码输入正确继续播放,废弃旧的弹出层
+					   				$("#cover_id").css("display","none"); */
+					   				layer.close(layer_index);//关闭layer弹出层
 					   				player.resume();
 					   		    }else{
 					   		    	alert("验证码错误");
