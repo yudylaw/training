@@ -269,17 +269,32 @@ class AdminAction extends Action {
     
     public function recordList() {
         $id = intval($_REQUEST['hw_id']);
+        $classid = intval($_REQUEST['classid']);
+        
+        $classSql = "SELECT DISTINCT w.weiba_id, w.weiba_name from ts_homework_schedule hs
+            LEFT JOIN ts_weiba w ON hs.class_id = w.weiba_id
+            WHERE hs.hw_id=".$id;
+        
+        $classes = M('homework_record')->query($classSql);
+        if ($classid < 1 && !empty($classes)) {
+            $classid = $classes[0]['weiba_id'];//取第一个
+        }
+        
+        $this->assign('classes', $classes);
         
         $homework = M('homework')->where(array('id'=>$id))->find();
         
         $query = array('hw_id'=>$id);
         
         $sql = "SELECT hr.uid, u.uname, u.location,u.phone, hr.ctime, hr.score, hr.is_grade FROM ts_homework_record hr LEFT JOIN ts_user u ON hr.uid = u.uid";
-        $sql .=" WHERE hr.hw_id=" . $id . " ORDER BY hr.ctime DESC";
+        $sql .=" WHERE hr.hw_id=" . $id . " and hr.class_id=$classid ORDER BY hr.ctime DESC";
         
         $records = M('')->query($sql);
+        
         //TODO 无分页
         $this->assign('homework', $homework);
+        $this->assign('hw_id', $id);
+        $this->assign('classid', $classid);
         $this->assign('records', $records);
         $this->display("record_list");
     }
