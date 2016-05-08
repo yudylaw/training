@@ -15,7 +15,7 @@ $font='../addons/library/font/ariali.ttf';
 if(file_exists($font) && isset($_GET['type']) && $_GET['type']=='chinese'){
 	Image::GBVerify(3,'png',140,50,$font,$name);
 }else{
-	Image::buildImageVerify(5, 5, 'png', 112, 42, $name);
+	Image::buildImageVerify(4, 5, 'png', 112, 42, $name);
 }
 
 class Image
