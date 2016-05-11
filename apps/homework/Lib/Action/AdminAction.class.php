@@ -385,8 +385,8 @@ class AdminAction extends Action {
     public function schedule() {
         $hw_id = intval($_REQUEST['hw_id']);
         
-        //最近20个班级
-        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba WHERE is_del=0 ORDER BY ctime desc limit 0,20");
+        //TODO 最近50个班级
+        $classes = M('weiba')->query("SELECT weiba_id, weiba_name, ctime FROM ts_weiba WHERE is_del=0 ORDER BY ctime desc limit 0,50");
         
         $homework = M('homework')->where(array('id'=>$hw_id, 'is_del'=>0))->find();
         
