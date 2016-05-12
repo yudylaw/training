@@ -534,7 +534,7 @@ class IndexAction extends Action {
 	public function messageBox(){
 		$count = model('UserCount')->getUnreadCount($GLOBALS['ts']['mid']);
 		$this->assign('count', $count);
-		$this->display();
+		$this->display("messageBox_new");
 	}
 
 	/**

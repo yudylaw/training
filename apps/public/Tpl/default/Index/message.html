@@ -31,13 +31,13 @@
                 <dl class="feed_list clearfix" id="message_{$vo['list_id']}" model-node='gotoDetail' model-args="id={$vo['list_id']}&type={$vo['type']}">
                     <dt class="face">
                       <php> if($vo['last_message']['to_uid'][0] == $mid){</php>
-                        <a href="{$vo['last_message']['user_info']['space_url']}"><img src="{$vo['last_message']['user_info']['avatar_middle']}" width="50" height="50" event-node="face_card" uid="{$vo['last_message']['user_info']['uid']}"></a>
+                        <a href="javascript:void(0);"><img src="{$vo['last_message']['user_info']['avatar_middle']}" width="50" height="50" event-node="face_card" uid="{$vo['last_message']['user_info']['uid']}"></a>
                       <php>}else{</php>
-                        <a href="{$vo['to_user_info'][$vo['last_message']['to_uid'][0]]['space_url']}"><img src="{$vo['to_user_info'][$vo['last_message']['to_uid'][0]]['avatar_middle']}" width="50" height="50" event-node="face_card" uid="{$vo['to_user_info'][$vo['last_message']['to_uid'][0]]['uid']}"></a>
+                        <a href="javascript:void(0);"><img src="{$vo['to_user_info'][$vo['last_message']['to_uid'][0]]['avatar_middle']}" width="50" height="50" event-node="face_card" uid="{$vo['to_user_info'][$vo['last_message']['to_uid'][0]]['uid']}"></a>
                       <php>}</php>
                     </dt>
                     
-                    <dd class="content message_block">
+                    <dd class="content message_block" style="width:auto;">
                       <p class="hd notitle">
 
                       <php> if($vo['last_message']['user_info']['uid'] == $mid){</php>

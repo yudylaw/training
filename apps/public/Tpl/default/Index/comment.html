@@ -41,8 +41,8 @@
           <neq name='list.data' value=''>
           <volist name='list.data' id='vo'>
           <dl class="feed_list clearfix" model-node='comment_list'>
-            <dt class="face"><a href="{$vo.user_info.space_url}"><img src="{$vo.user_info.avatar_middle}" width="50" height="50"></a><php>if($vo['user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['user_info']['group_icon_only']['user_group_name']}" src="{$vo['user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php></dt>
-            <dd class="content">
+            <dt class="face"><a href="javascript:void(0);"><img src="{$vo.user_info.avatar_middle}" width="50" height="50"></a><php>if($vo['user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['user_info']['group_icon_only']['user_group_name']}" src="{$vo['user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php></dt>
+            <dd class="content" style="width:auto;">
               <?php $source_user_at = '@{uid='.$vo['sourceInfo']['source_user_info']['uid'].'|uname='.$vo['sourceInfo']['source_user_info']['uname'].'}：';?>
               <php>if($vo['sourceInfo']['feedtype'] == 'post' || $vo['sourceInfo']['feedtype'] == 'weiba_post'):</php>
               <p class="hd notitle">{$vo.user_info.space_link}评论了<php>if($i<=$unread_comment_count){</php>
@@ -126,11 +126,11 @@
           <neq name='list.data' value=''>
           <volist name='list.data' id='vo'>
           <dl class="feed_list"  model-node='comment_list'>
-            <dt class="face"><a href="{$vo.user_info.space_url}"><img src="{$vo.user_info.avatar_small}"></a><php>if($vo['user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['user_info']['group_icon_only']['user_group_name']}" src="{$vo['user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php></dt>
-            <dd class="content">
+            <dt class="face"><a href="javascript:void(0);"><img src="{$vo.user_info.avatar_small}"></a><php>if($vo['user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['user_info']['group_icon_only']['user_group_name']}" src="{$vo['user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php></dt>
+            <dd class="content" style="width:auto;">
               <?php $source_user_at = '@{uid='.$vo['sourceInfo']['source_user_info']['uid'].'|uname='.$vo['sourceInfo']['source_user_info']['uname'].'}：';?>
               <php>if($vo['sourceInfo']['feedtype'] == 'post' || $vo['sourceInfo']['feedtype'] == 'weiba_post'):</php>
-              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="{$vo.user_info.space_url}">我</a>评论了</p>
+              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="javascript:void(0);">我</a>评论了</p>
               <p class="hd notitle">{$vo.content}{$vo.replyInfo|parse_html}</p>
               <dl class="comment comment-mes">
                 <!-- <dt class="arrow bgcolor_arrow"><em class="arrline">◆</em><span class="downline">◆</span></dt> -->
@@ -142,10 +142,10 @@
                 <?php endif; ?>
               </dl>
               <php>elseif($vo['sourceInfo']['feedtype'] == 'repost'):</php>
-              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="{$vo.user_info.space_url}">我</a>评论了</p>
+              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="javascript:void(0);">我</a>评论了</p>
               <p class="hd notitle">{$vo.content}//{$source_user_at|parse_html}{$vo.sourceInfo.source_body|format=true}</p>
               <php>else:</php>
-              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="{$vo.user_info.space_url}">我</a>评论了</p>
+              <p class="hd notitle"><a event-node="face_card" uid="{$vo.user_info.uid}" href="javascript:void(0);">我</a>评论了</p>
               <p class="hd notitle">{$vo.content}</p>
               <php>if($vo['hasComment']):</php>
               <dl class="comment comment-mes">

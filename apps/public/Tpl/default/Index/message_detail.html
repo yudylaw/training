@@ -2,7 +2,7 @@
 <!--tab菜单-->
 <div class="feed-nav">
   <div class="nset-hd">
-    <h3>我的私信　<span style="font-size:12px;">与<volist name="message.to" id="mb"><php>if ($i > 1) echo '、';</php>&nbsp;<a style="margin:0;color:#0096e6" href="{$mb['user_info']['space_url']}">{$mb['user_info']['uname']}</a>&nbsp;</volist>{:L('PUBLIC_PRIVATE_MESSAGE')}<!--({$message['message_num']})--></span>
+    <h3>我的私信　<span style="font-size:12px;">与<volist name="message.to" id="mb"><php>if ($i > 1) echo '、';</php>&nbsp;<a style="margin:0;color:#0096e6" href="javascript:void(0);">{$mb['user_info']['uname']}</a>&nbsp;</volist>{:L('PUBLIC_PRIVATE_MESSAGE')}<!--({$message['message_num']})--></span>
       <span class="close-ico right">
         <img onclick="ui.box.close()" src="__THEME__/image/exit.png"/>
       </span>
@@ -22,7 +22,7 @@
       <dt style="display:none">{:L('PUBLIC_SENTNOTIFY_MAIL_TO')}：
         <volist name="message.to" id="mb">
         <php>if ($i > 1) echo '、';</php>
-        <a href="{$mb['user_info']['space_url']}">{$mb['user_info']['uname']}</a>
+        <a href="javascript:void(0);">{$mb['user_info']['uname']}</a>
         </volist>
       </dt>
       <dd class="info">

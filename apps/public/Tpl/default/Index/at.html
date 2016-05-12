@@ -34,14 +34,14 @@
             <dl class="feed_list clearfix" model-node="feed_list">
               <dt class="face">
                 <php>if($vo['source_table'] == 'comment'):</php>
-                <a href="{$vo.comment_user_info.space_url}"> <img src="{$vo.comment_user_info.avatar_middle}"  event-node="face_card" uid="{$vo.comment_user_info.uid}" width="50" height="50"></a>
+                <a href="javascript:void(0);"> <img src="{$vo.comment_user_info.avatar_middle}"  event-node="face_card" uid="{$vo.comment_user_info.uid}" width="50" height="50"></a>
                 <php>if($vo['comment_user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['comment_user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['comment_user_info']['group_icon_only']['user_group_name']}" src="{$vo['comment_user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php>
                 <php>else:</php>
-                <a href="{$vo.source_user_info.space_url}"> <img src="{$vo.source_user_info.avatar_middle}"  event-node="face_card" uid="{$vo.source_user_info.uid}" width="50" height="50"></a>
+                <a href="javascript:void(0);"> <img src="{$vo.source_user_info.avatar_middle}"  event-node="face_card" uid="{$vo.source_user_info.uid}" width="50" height="50"></a>
                 <php>if($vo['source_user_info']['group_icon_only']):</php><a href="javascript:;" title="{$vo['source_user_info']['group_icon_only']['user_group_name']}" class="group_icon_only"><img alt="{$vo['source_user_info']['group_icon_only']['user_group_name']}" src="{$vo['source_user_info']['group_icon_only']['user_group_icon_url']}" ></a><php>endif;</php>
                 <php>endif;</php>
               </dt>
-              <dd class="content">
+              <dd class="content" style="width:auto;">
                 <p class="hd notitle {$unread_atme_count}">
                   <php>if($vo['source_table'] == 'comment'):</php>
                   <!-- 评论模板开始 -->

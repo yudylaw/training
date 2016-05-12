@@ -43,7 +43,7 @@ class CourseResourceLearningModel extends Model {
             $data['classid'] = $param['class_id'];
             $data['uid'] = $param['uid'];
             $data['resourceid'] = $param['resourceid'];
-            $data['percent'] = $percent;
+            $data['percent'] = !empty($percent) ? $percent : 0;//假如未获取到进度则初始化为0
             $data['ctime'] = time();
             $data['start_date'] = time();
             $data['end_date'] = time();//记录最近一次学习时间

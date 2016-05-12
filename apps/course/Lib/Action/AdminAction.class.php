@@ -334,6 +334,8 @@ class AdminAction extends Action {
        $resids = array();
        foreach ($totalresources as $val) {
            array_push($resids, $val['id']);
+           //删除腾讯云视频
+           $this->DeleteVodFile($val['video_id']);
        }
        $con['resourceid'] = array('IN',$resids);
        model('CourseResourceLearning')->where($con)->delete();//删除课程中所有资源学习记录
@@ -350,8 +352,16 @@ class AdminAction extends Action {
         $res_id = $_POST['resid'];
         $map['id'] = $res_id;
         $courseresource = model('CourseResource');
-        $res = $courseresource->where($map)->save(array('is_del'=>1));
+        //腾讯云对应的视频id
+        $video_id = $courseresource->where($map)->getField('video_id');
         //删除资源需要删除关于此资源的学习记录，并同时更新此资源所属课程的学习记录,资源记录为真删除
+        //删除腾讯云视频
+        if($this->DeleteVodFile($video_id)){
+            $res = $courseresource->where($map)->save(array('is_del'=>1));
+        }else{
+            echo '{"status":0,"msg":"视频可能在转码,请稍后删除"}';
+            die;
+        }
         //删除所有此资源的学习记录
         $map2['resourceid'] = $res_id;
         //删除之前,记录原来学习记录
@@ -581,5 +591,33 @@ class AdminAction extends Action {
         }
         
     }
-    
+    /**
+     * 删除腾讯云视频
+     * param string $fileId 视频id 
+     */
+    public function DeleteVodFile($fileId){
+        require_once 'addons/library/qcloudapi-sdk-php-master/src/QcloudApi/QcloudApi.php';
+        $config = array('SecretId'=> C('SECRET_ID'),
+            'SecretKey'      => C('SECRET_KEY'),
+            'RequestMethod'  => 'GET');
+        $service = QcloudApi::load(QcloudApi::MODULE_VOD, $config);
+        $package = array('fileId' => $fileId,//文件id
+            'priority' => 1,//可填0；优先级0:中 1：高 2：低
+            // 'Region' => 'gz' // 当Region不是上面配置的DefaultRegion值时，可以重新指定请求的Region
+        );
+        // 生成请求的URL，不发起请求
+        //$a = $service->generateUrl('DeleteVodFile', $package);
+        $a = $service->DeleteVodFile($package);
+        return $a;
+        /* if ($a === false) {
+            // 请求失败，解析错误信息
+            $error = $service->getError();
+            echo "Error code:" . $error->getCode() . ' message:' . $error->getMessage();
+            // 对于异步任务接口，可以通过下面的方法获取对应任务执行的信息
+            //$detail = $error->getExt();
+        } else {
+            // 请求成功
+            echo ($a);
+        } */
+    }
 }
