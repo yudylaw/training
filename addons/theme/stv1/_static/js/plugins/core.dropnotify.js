@@ -80,7 +80,7 @@ core.dropnotify = {
 				}
 			},'json');*/
 
-			/*$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
+			$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
 				if ('undefined' == typeof msg.data || msg.status != 1) {
 					return false;
 				} else {
@@ -108,12 +108,12 @@ core.dropnotify = {
 					}
 
 				}
-			},'json');*/
+			},'json');
 	
 		};
-		//loopCount = setInterval( getCount, 30000 );
+		loopCount = setInterval( getCount, 30000 );
 		
-		//getCount();
+		getCount();
 
        
 	},

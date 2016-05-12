@@ -56,14 +56,14 @@
                 	</if>
                 </nosession>
                 <session name="mid">
-                	<span id="message_span">
+                	<span id="message_span" onclick="ui.box.load(U('public/Index/messageBox'),null);">
                 		<!-- <a href="javascript:;" onclick="showNotice();" class="user-msg fl">消息<em class="one">1</em></a>
                 		<a href="javascript:;" class="user-msg fl">消息<em class="two">12</em></a>
                 		<a href="javascript:;" class="user-msg fl">消息<em class="three">123</em></a> -->
                 	</span>
                 	<a href="{:U('public/Account/index')}" class="user-nick fl">{$user['uname']}</a>
                 	<a href="{:U('public/Passport/logout')}" class="user-nick fl">退出</a>
-                	<!-- <script type="text/javascript">
+                	<script type="text/javascript">
                 				var loopCount = '';
                 				var getCount = function() {
                 					$.get(U('widget/UserCount/getUnreadCount'), function(msg) {	
@@ -100,7 +100,7 @@
                 				};
                 				loopCount = setInterval( getCount, 30000 );
                 				getCount();
-					</script> -->
+					</script>
                 </session>
 				<a href="{:U('public/Index/help')}" class="user-nick fl help-icon">使用帮助</a>
             </div>

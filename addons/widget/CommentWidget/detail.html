@@ -55,7 +55,7 @@
   <div class="comment_lists" id="commentlist_{$row_id}">
     <volist name='list.data' id='vo'>
       <dl class="comment_list" id="comment_list" model-node="comment_list">
-        <dt><a href="{$vo.user_info.space_url}"><img width="20" height="20" src="{$vo.user_info.avatar_middle}"></a></dt>
+        <dt><a href="javascript:void(0);"><img width="20" height="20" src="{$vo.user_info.avatar_middle}"></a></dt>
         <dd>
           <p class="cont"> {$vo.user_info.space_link}：<em>
             <php>if($vo['is_audit'] || $vo['uid'] == $GLOBALS['ts']['mid']){</php>
