@@ -93,6 +93,7 @@
                 							}else{
                 								class_num = 'one';
                 							}
+                							unread_total == 0 && $unread_total.html('<a class="user-msg fl" href="javascript:void(0);">消息</a>');
                 							unread_total > 0 && $unread_total.html('<a class="user-msg fl" href="javascript:void(0);">消息<em class="'+class_num+'">'+unread_total+'</em></a>');
                 						}
                 					},'json');
