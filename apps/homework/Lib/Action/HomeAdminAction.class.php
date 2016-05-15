@@ -258,7 +258,7 @@ class HomeAdminAction extends Action {
         if(!isManageGroup()) {
             $this->display("preview_view");
         } else {
-            $this->assign('score', $record['score']);//得分
+            $this->assign('record', $record);
             $this->display("pending_view");//待打分页面
         }
     }

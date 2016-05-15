@@ -9,8 +9,16 @@
                 <div class="paper-info tc">
                     <span>考生姓名：<em class="color-78">{$user['uname']}</em></span>
                     <span>所属学校：<em class="color-78">{$user['location']}</em></span>
-                    <span>得分：<em class="color-red">{$score|default=0}</em></span>
-                    <span>试卷状态：<em class="color-org">等待批改</em></span>
+                    <span>得分：<em class="color-red">{$record['score']|default=0}</em></span>
+                    <if condition="$record['is_grade'] eq 0">
+                    	<span>作业状态：<em class="color-org">学员未提交</em></span>
+                    </if>
+                    <if condition="$record['is_grade'] eq 1">
+                    	<span>作业状态：<em class="color-org">等待批改</em></span>
+                    </if>
+                    <if condition="$record['is_grade'] eq 2">
+                    	<span>作业状态：<em class="color-gre">已经批改</em></span>
+                    </if>
                 </div>
                 <php>}</php>
                 <div class="question-types">
