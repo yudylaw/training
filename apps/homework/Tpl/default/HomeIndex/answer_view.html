@@ -35,7 +35,7 @@
 	                                </ul>
 	                            </dd>
 		                        <dd class="grade-box clearfix mt10">
-		                            <span class="fl sure ml10 answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}"><input type="submit" value="确认"/></span>
+		                            <span class="fl sure ml10 answer-btn-1" qnum="{$question['num']}" qid="{$question['id']}" qtype="{$question['type']}"><input type="submit" value="确认"/></span>
 		                        </dd>
 	                        </dl>
 	                    </div>
@@ -48,7 +48,7 @@
 		                                <textarea class="jd_answer" tag="{$question['id']}" rows="" cols="" class="fr">{$question['y_answer']}</textarea>
 		                            </dd>
 			                        <dd class="grade-box clearfix mt10">
-			                            <span class="fl sure ml10 answer-btn-1" qid="{$question['id']}" qtype="{$question['type']}"><input type="submit" value="确认"/></span>
+			                            <span class="fl sure ml10 answer-btn-1" qnum="{$question['num']}" qid="{$question['id']}" qtype="{$question['type']}"><input type="submit" value="确认"/></span>
 			                        </dd>
 		                        </dl>
 		                    </div>
@@ -101,11 +101,22 @@
 				  alert(obj.info);
 			  }
 		  });
+		  $(this).attr("answered", "1");
       });
       
 	  //提交试卷
 	  $(".sub-btn").click(function(){
-		  if(confirm("是否确认作业")){
+		  var all = true;
+		  $(".answer-btn-1").each(function() {
+			  var answered = $(this).attr("answered");
+			  if(typeof(answered) == "undefined") {
+				  var tips = "无法提交，请先确认第[" + $(this).attr("qnum") + "]题";
+				  alert(tips);
+				  all = false;
+				  return false;
+			  }
+		  });
+		  if(all && confirm("是否确认作业")){
 			  $.get("{:U('homework/HomeIndex/submit', array('hw_id'=>$homework['id']))}", function(data) {
 				  var obj = $.parseJSON(data);
 				  if (obj.status == 1) {
