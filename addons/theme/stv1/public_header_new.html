@@ -79,8 +79,8 @@
                 							var unread_message = parseInt(txt.unread_message);
                 							var new_folower_count = parseInt(txt.new_folower_count);
                 							
-                							var unread_total = unread_notify+unread_atme+unread_digg+unread_comment+unread_message;
-                							
+                							//var unread_total = unread_notify+unread_atme+unread_digg+unread_comment+unread_message;
+                							var unread_total = unread_comment;//暂时只展示评论
                 							document.cookie=_CP+'unread_message='+parseInt(unread_total);
 
                 							var $unread_total = $('#message_span');

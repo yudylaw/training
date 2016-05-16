@@ -6,9 +6,9 @@
     </span>
     <volist name='tab' id='t'>
       <php>if($tabHash[$key]){</php>
-        <span <eq name='tt' value='$key'>class="current"</eq>>
+        <!-- <span <eq name='tt' value='$key'>class="current"</eq>>
           <a href="javascript:;" onclick="message.comment('comment','{$key}','{$stype}' )">{$tabHash[$key]}</a>
-        </span>
+        </span> -->
       <php>}</php>
     </volist>      
     <span class="close-ico right" style="margin-left:10px;">
@@ -95,7 +95,7 @@
                       <a event-args="comment_id={$vo.comment_id}" event-node="comment_del" href="javascript:void(0);">{:L('PUBLIC_STREAM_DELETE')}</a>
                     </em>
                     <php>}</php>
-                    &nbsp;&nbsp;<a href="{$vo.sourceInfo.source_url}">{:L('PUBLIC_VIEW')}</a>
+                    &nbsp;&nbsp;<a href="{$vo.sourceInfo.api_source.source_url}">{:L('PUBLIC_VIEW')}</a>
                     <php>if(in_array('comment',$weibo_premission)):</php>
                       <!-- 回复 -->
                       &nbsp;&nbsp; <a event-node="messasge_reply_comment" href="javascript:void(0)" event-args="row_id={$vo['row_id']}&app_uid={$vo['app_uid']}&to_comment_id={$vo['comment_id']}&to_uid={$vo['to_uid']}&to_comment_uname={$vo['user_info']['uname']}&table={$vo['table']}&app_row_id={$vo['row_id']}&app_name={$vo['app']}">回复</a>
@@ -165,7 +165,7 @@
                   </em>
                   <php>}</php>
                   <!-- 查看 -->
-                  &nbsp;&nbsp;<a href="{$vo.sourceInfo.source_url}">{:L('PUBLIC_VIEW')}</a>
+                  &nbsp;&nbsp;<a href="{$vo.sourceInfo.api_source.source_url}">{:L('PUBLIC_VIEW')}</a>
                   <php>if(in_array('comment',$weibo_premission)):</php>
                       <!-- 回复 -->
                       &nbsp;&nbsp; <a href="javascript:void(0)"  event-node="messasge_reply_comment" event-args="row_id={$vo['row_id']}&app_uid={$vo['app_uid']}&to_comment_id={$vo['comment_id']}&to_uid={$vo['to_uid']}&to_comment_uname={$vo['user_info']['uname']}&table={$vo['table']}&app_row_id={$vo['row_id']}&app_name={$vo['app']}">回复</a>
