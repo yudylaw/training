@@ -59,7 +59,7 @@ class IndexAction extends Action {
             }
         }
         
-        $sql = "select * from ts_course where is_del = 0 order by id desc limit 0,10";//最近10个课程
+        $sql = "select * from ts_course where is_del = 0 order by id desc limit 0,50";//最近50个课程
         $courses = M('course')->query($sql);
         
         if ($id < 1 && !empty($courses)) {
