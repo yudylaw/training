@@ -2151,7 +2151,7 @@ class IndexAction extends Action {
 	    $map = array();
 	    $map['group_id'] = $this->user['group_id'];
 	    $map['weiba_id'] = $this->user['weiba_id'];
-	    $limit = 5;//分页大小
+	    $limit = 10;//分页大小
 	    $map['limit'] = $limit;
 	    $result = M('Notice')->getList($map);
 	    $data = $result['data'];
