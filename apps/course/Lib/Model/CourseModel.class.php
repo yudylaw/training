@@ -88,6 +88,7 @@ class CourseModel extends Model {
         if(in_array($param['group_id'],array(Role::TEACHER))){//教师只展示分配到本班级的课程
             //$where['classid'] = array('IN',$param['class']);
             $where['classid'] = $param['class_id'];
+            $where['is_del'] = 0;//只查询未删除课程安排
             $course_assign = D('CourseAssign')->where($where)->findAll();
             $course_ids = array();
             foreach ($course_assign as $val){
