@@ -33,6 +33,9 @@ class CourseLearningModel extends Model {
                 $toupdate['end_date'] = time();//学习完成记录完成时间
             }
             $toupdate['percent'] = $param['percent'];
+            if($param['finishednum'] == 1){
+                $toupdate['start_date'] = time();//第一个资源学习完记录开始时间
+            }
             return $this->where($map)->save($toupdate);
         }
     }

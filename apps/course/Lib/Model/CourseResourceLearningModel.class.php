@@ -84,6 +84,7 @@ class CourseResourceLearningModel extends Model {
             if($percent == 100){//完成学习记录结束时间
                 $data2['end_date'] = time(); 
             }
+            $data2['finishednum'] = $finishednum;
             model('CourseLearning')->addCourseLearning($data2);//保存课程学习进度
         }
         return $res;

@@ -508,7 +508,7 @@ class AdminAction extends Action {
             $courselearning = D('CourseLearning');
             foreach ($users_inclass as $val){
                 if ($val['level'] == 1) { //成员
-                    $courselearning->add(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0,'ctime'=>time()));
+                    $courselearning->add(array('class_id'=>$class_id,'uid'=>$val['follower_uid'],'course_id'=>$course_id,'percent'=>0,'ctime'=>time(),'start_date'=>time()));
                 }
             }
             $this->ajaxReturn(null, '安排成功',1);
