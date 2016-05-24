@@ -59,14 +59,14 @@
                 <?php endif; ?>
               </dl>
               <php>elseif($vo['sourceInfo']['feedtype'] == 'repost'):</php>
-              <p class="hd notitle">{$vo.user_info.space_link}评论了<php>if($i<=$unread_comment_count){</php>
+              <p class="hd notitle">{$vo.user_info.uname}评论了<php>if($i<=$unread_comment_count){</php>
                     <i class="ico-new"></i> 
                   <php>}</php>
               </p>
               <p class="hd notitle">{$vo.content}//{$source_user_at|parse_html}{$vo.sourceInfo.source_body|format=true}
               </p>
               <php>else:</php>
-              <p class="hd notitle">{$vo.user_info.space_link}评论了<php>if($i<=$unread_comment_count){</php>
+              <p class="hd notitle">{$vo.user_info.uname}评论了<php>if($i<=$unread_comment_count){</php>
                     <i class="ico-new"></i> 
                   <php>}</php>
               </p>
