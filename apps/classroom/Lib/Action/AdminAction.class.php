@@ -259,7 +259,7 @@ class AdminAction extends Action {
     
     public function batch() {
         
-        $myfile = fopen(SITE_PATH."/user5.log", "r") or die("Unable to open file!");
+        $myfile = fopen(SITE_PATH."/user_shuxue.log", "r") or die("Unable to open file!");
         
         while($line = fgets($myfile)) {
             $line = trim($line);
@@ -310,6 +310,8 @@ class AdminAction extends Action {
                     'is_audit'=>1, 'is_active'=>1, 'is_init'=>1, 'identity'=>1,
                     'area'=>0, 'province'=>3308, 'city'=>$region,
                     'location'=>$area['title']);
+                
+                $setuser['invite_code'] = 'batch_add';//批量添加标志
                 //初始化密码
                 $setuser['login_salt'] = rand(10000, 99999);
                 $setuser['password'] = md5(md5("12345678").$setuser['login_salt']);//密码默认是12345678
