@@ -168,7 +168,7 @@ class IndexAction extends Action {
 	 * 班级列表
 	 * @return void
 	 */
-	public function weibaList(){
+	public function weibaList_old(){
 		$list = M('weiba_category')->order('id')->findpage(20);
 		$map['is_del'] = 0;
 		$map['status'] = 1;
@@ -206,6 +206,34 @@ class IndexAction extends Action {
 		$this->setTitle( '班级列表' );
 		$this->setKeywords( '全站班级列表' );
 		$this->display("weibaList_new");
+	}
+	
+	/**
+	 * 班级列表
+	 * @return void
+	 */
+	public function weibaList(){
+	    $map['is_del'] = 0;
+        $list = D('weiba')->where($map)->order('new_day desc, new_count desc ,recommend desc,follower_count desc,thread_count desc')->findPage(20);
+        if($list){
+            $weiba_ids = getSubByKey($list['data'],'weiba_id');
+            $followStatus = D('weiba')->getFollowStateByWeibaids($this->mid,$weiba_ids);
+            foreach($list['data'] as $i=>$v){
+                $list['data'][$i]['logo'] = getImageUrlByAttachId($v['logo'],100,100);
+                $list['data'][$i]['following'] = $followStatus[$v['weiba_id']]['following'];
+                if($v['new_day']!= date("Y-m-d",time())){
+                    $list['data'][$i]['new_count'] = 0;
+                    D('Weiba')->setNewcount($v['weiba_id'],0);
+                }
+                $list['data'][$i]['total_post'] = D('WeibaPost')->where(array('weiba_id'=>$v['weiba_id']))->count();
+            }
+        }
+	    $this->assign('nav','weibalist');
+	    $this->assign('mid', $this->mid);
+	    $this->assign( 'list' , $list );
+	    $this->setTitle( '班级列表' );
+	    $this->setKeywords( '全站班级列表' );
+	    $this->display("weibaList_new");
 	}
 
 	/**
