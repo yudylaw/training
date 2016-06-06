@@ -214,7 +214,7 @@ class IndexAction extends Action {
 	 */
 	public function weibaList(){
 	    $map['is_del'] = 0;
-        $list = D('weiba')->where($map)->order('new_day desc, new_count desc ,recommend desc,follower_count desc,thread_count desc')->findPage(20);
+        $list = D('weiba')->where($map)->order('recommend desc,new_day desc, new_count desc ,follower_count desc,thread_count desc')->findPage(20);
         if($list){
             $weiba_ids = getSubByKey($list['data'],'weiba_id');
             $followStatus = D('weiba')->getFollowStateByWeibaids($this->mid,$weiba_ids);
