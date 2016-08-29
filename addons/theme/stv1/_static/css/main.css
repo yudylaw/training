@@ -700,6 +700,7 @@ a.color-aa:hover,
 /*btn 160123*/
 .comment-page a{
     cursor: pointer;
+    margin: 0 2px;
 }
 .tea-recommend dl dd span.txt-ell{
     width: 53px;
