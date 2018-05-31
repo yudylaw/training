@@ -178,7 +178,7 @@ class PassportModel {
 
 		// # 默认userName方式查询用户
 		} else {
-			$map = '`uname` LIKE "' . $login . '" AND `is_del` = 0';
+			$map = '`phone` LIKE "' . $login . '" AND `is_del` = 0';
 		}
 
 		$user = model('User')->where($map)->find();
