@@ -13,6 +13,28 @@
 </div>
 <script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8"></script>
 <script>
+    //限制手机观看
+	if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent) || (detectOS() == 'Linux')) {
+              alert("请使用电脑观看");
+			  window.location.href="index.php?app=course&mod=Index&act=index";//redirect
+    }else { 
+              //alert('this is PC');
+    };
+	function detectOS() {
+		  var sUserAgent = navigator.userAgent;
+		  var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
+		  var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
+		  if (isMac) return "Mac";
+		  var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
+		  if (isUnix) return "Unix";
+		  var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
+		  if (isLinux) return "Linux";
+		  if (isWin) {
+			return "Win";
+		  }
+		  return "other";
+    }
+	//限制手机观看
 	var video_id = "{$resource['video_id']}";//视频id,根据此id播放id对应的资源
 	var previewurl = '{$previewurl}';//播放地址
 	var ext = '{$resource["ext"]}';//扩展名
@@ -75,7 +97,7 @@
 								   $.post('index.php?app=course&mod=Admin&act=saveProgress',{resource_id:resid,duration:player.getDuration(),time:player.getCurrentTime()},function(txt){
 										
 									});	  
-							   },30000);
+							   },60000);
 								break;
 							case 'playEnd':
 								//alert("播放结束");
