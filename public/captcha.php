@@ -93,10 +93,10 @@ class Image
         @imagerectangle($im, 0, 0, $width-1, $height-1, $borderColor);
         $stringColor = imagecolorallocate($im,mt_rand(0,200),mt_rand(0,120),mt_rand(0,120));
 		// 干扰
-		for($i=0;$i<10;$i++){
+		/*for($i=0;$i<10;$i++){
 			$fontcolor=imagecolorallocate($im,mt_rand(0,255),mt_rand(0,255),mt_rand(0,255));
 			imagearc($im,mt_rand(-10,$width),mt_rand(-10,$height),mt_rand(30,300),mt_rand(20,200),55,44,$fontcolor);
-		}
+		}*/
 		for($i=0;$i<25;$i++){
 			$fontcolor=imagecolorallocate($im,mt_rand(0,255),mt_rand(0,255),mt_rand(0,255));
 			imagesetpixel($im,mt_rand(0,$width),mt_rand(0,$height),$pointColor);
