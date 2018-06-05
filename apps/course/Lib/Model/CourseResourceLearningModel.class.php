@@ -33,11 +33,11 @@ class CourseResourceLearningModel extends Model {
      */
     public function addResLearning($param){
         $map = array();
-        $map['is_del'] = 0;
-        !empty($param['class_id']) && $map['classid'] = $param['class_id'];//班级id
         !empty($param['uid']) ? $map['uid'] = $param['uid'] : $map['uid'] = $this->uid;//用户id
         !empty($param['resourceid']) && $map['resourceid'] = $param['resourceid'];//资源id
+        !empty($param['class_id']) && $map['classid'] = $param['class_id'];//班级id
         !empty($param['percent']) && $percent = $param['percent'];//学习进度
+        $map['is_del'] = 0;
         $result = $this->where($map)->find();//判断有无学习记录
         if(empty($result)){
             $data['classid'] = $param['class_id'];
